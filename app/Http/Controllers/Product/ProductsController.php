@@ -7,14 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Products\product;
 use App\Service\Products\ProductService;
 
-
-
 // use App\brand;
 // use App\category;
 // use App\custom_field;
-
-
-
 
 // use App\product_image;
 use Illuminate\Http\Request;
