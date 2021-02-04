@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-//use App\Http\Controllers\Product;
-
 
 
 /*
@@ -21,13 +19,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::prefix('Products')->name('Products/')->group(function () {
+Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],function(){
+        Route::GET('/get/{id?}','ProductsController@get');
+        Route::POST('/create','ProductsController@create');
+        Route::PUT('/update','ProductsController@update');
+        Route::GET('/search/{name}','ProductsController@search');
+        Route::DELETE('/delete/{id}','ProductsController@delete');
 
-    // Route::get('/Products/getAllProducts', 'App\Http\Controllers\Product\ProductsController@getAllProducts');
-    
-//    Route::get('/Products/getAllProducts',App/Http/Controllers/Product/ProductsController::class)->getAllProducts();
-//  });
-Route::GET('/products/getAllProducts','App\Http\Controllers\Product\ProductsController@getAllProducts');
+});
+
+
+Route::group(['middleware' =>'api','prefix'=>'categories','namespace'=>'Category'],function(){
+        Route::GET('/get/{id?}','CategoriesController@getCategories');
+        Route::POST('/create','CategoriesController@createNewCategory');
+        Route::PUT('/update','CategoriesController@update');
+        Route::GET('/search/{name}','CategoriesController@search');
+        Route::DELETE('/delete/{id}','CategoriesController@delete');
+
+});
 
 
 
