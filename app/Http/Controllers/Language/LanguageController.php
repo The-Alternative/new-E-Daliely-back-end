@@ -55,11 +55,11 @@ class LanguageController extends Controller
 
     }
 //
-//    public function deleteLanguage(Request $request ,$id)
-//    {
-//        $response=$this->LanguagesService->deleteLanguage($request,$id);
-//        return  response($response,200)
-//            ->header('Access-control-Allow-Origin','*')
-//            ->header('Access-control-Allow-Methods','*');
-//    }
+    public function deleteLanguage(Request $request ,$id)
+    {
+        $response=$this->LanguagesService->deleteLanguage($request,$id);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+    }
 }
