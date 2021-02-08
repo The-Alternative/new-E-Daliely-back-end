@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->integer('brand_id');
             $table->string('barcode');
-            $table->string('productcol');
+            $table->string('short_des');
             $table->boolean('is_active');
             $table->boolean('is_appear');
             $table->string('meta');

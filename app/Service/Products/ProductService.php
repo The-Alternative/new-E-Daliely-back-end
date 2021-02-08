@@ -45,7 +45,7 @@ class ProductService
     }
     
     
-    public function create(Request $request)
+    public function create(ProductRequest $request)
     {
 
         if ($request->is_active)
@@ -61,16 +61,17 @@ class ProductService
         }else{
             $is_appear=false;
         }
-
+        $validated = $request->ProductRequest::rules()->with(ProductRequest::message());
         $product= new Product;
         $product->title= $request->title;
+        $product->slug= $request->slug;
         $product->barcode= $request->barcode;
         $product->is_active= $is_active;
         $product->is_appear= $is_appear;
-        $product->meta= $brand_id->brand_id;
+        $product->brand_id= $request->brand_id;
         $product->meta= $request->meta;
+        $product->short_des= $request->short_des;
         $product->description= $request->description;
-        $product->meta= $request->meta;
         $result=$product->save();
         if ($result)
         {

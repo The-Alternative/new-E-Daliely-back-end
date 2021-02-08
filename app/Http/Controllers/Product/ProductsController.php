@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Product;
 
 use App\Traits\GeneralTrait;
 use App\Http\Controllers\Controller;
-use App\Models\Products\product;
 use App\Service\Products\ProductService;
 // use App\brand;
 // use App\category;
@@ -38,7 +37,7 @@ class ProductsController extends Controller
         }
 
 
-        public function create(Request $request)
+        public function create(ProductRequest $request)
         {
             $response= $this->ProductService->create($request);
             return response($response, 200)

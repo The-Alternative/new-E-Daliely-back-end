@@ -42,7 +42,7 @@ class CategoryService
           ->header('Access-Control-Allow-Methods', '*');
         
     }
-    public function create(Request $request)
+    public function create(ProductRequest $request)
     {
        
         if ($request->is_active)
