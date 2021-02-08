@@ -4,15 +4,16 @@
 namespace App\Service\Brands;
 
 use App\Models\Brands\Brands;
-
+ use  App\Http\Controllers\LangController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\Types\This;
-
+use Illuminate\Support\Facades\App;
 class BrandsService
 {
     private $BrandModel;
+    private $lang;
 
     public function __construct(Brands $brand)
     {
@@ -22,8 +23,13 @@ class BrandsService
 
     public function getAllBrands()
     {
-        $brand= DB ::table('brands')
-            ->where('is_active','=',1)
+//        $brand = DB ::table('brands')
+//            ->where('is_active','=',1 )
+//            ->get();
+
+        $brand= DB ::table('brands_language')
+            ->select('name','description')
+            ->where ('lang_code','=',getlocale())
             ->get();
 
         return response()->json($brand);

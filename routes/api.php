@@ -28,6 +28,14 @@ Route::GET('/products/getAllProducts','App\Http\Controllers\Product\ProductsCont
 
 
 ///BrandController
+
+//Route::group(['prefix'=>'brands','as'=>'brands.'], function(){
+//
+//    Route::get('/', 'BrandController@getAllBrands')->name('getAllBrands');
+//
+//    Route::get('brands', 'BrandController@getAllBrands')->name('BrandController@getAllBrands');
+//});
+
 Route::get('/brands',  'Brand\BrandController@getAllBrands');
 
 Route::get('/brand/{id}',  'Brand\BrandController@getBrandsById');
