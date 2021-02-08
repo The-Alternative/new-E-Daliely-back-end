@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->integer('brand_id');
             $table->string('barcode');
             $table->string('short_des');
-            $table->boolean('is_active');
-            $table->boolean('is_appear');
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_appear')->default(true);
             $table->string('meta');
             $table->string('description');
             $table->timestamps();

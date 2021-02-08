@@ -25,11 +25,11 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-                'name'          => $request->name,
-                'slug'          => $request->slug,
-                'is_active'     => $is_active,
-                'parent_id'     => (int)$request->parent,
-                'image'         => $request->image->store('images','public')
+            
+                // 'slug'       
+                // 'is_active'  
+                // 'parent_id'     
+                // 'image'     
         ];
     }
 }

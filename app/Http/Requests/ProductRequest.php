@@ -29,31 +29,31 @@ class ProductRequest extends FormRequest
             'slug' => 'required|min:3|max:50:products',
             'brand_id' => 'required:products',
             'barcode' => 'required|unique:products',
-            'short_des' => 'required:products',
+            'short_des' => 'required|min:5|max:250:products',
             'meta' => 'required|min:3|max:50:products',
-            'description' => 'required|min:5|max:250:products',
+            'description' => 'required|min:5|max:500:products',
         ];
     }
-    public function message()
+    public function messages()
     {
         return [
-            'title.required'=>'Please Enter Your Product Title',
-            'title.min'=>'Your Product Title Is Too Short',
-            'title.max'=>'Your Product Title Is Too Long',
-            'title.unique'=>'This Title Is Used By Another Product',
-            'slug.required'=>'Please Enter Your Product Slug',
-            'slug.min'=>'Your Products Slug Is Too Short',
-            'slug.max'=>'Your Products Slug Is Too Long',
+            'title.required'=>'Please Enter Your Product\'s Title',
+            'title.min'=>'Your Product\'s Title Is Too Short',
+            'title.max'=>'Your Product\'s Title Is Too Long',
+            'title.unique'=>'This Title\'s Is Used By Another Product',
+            'slug.required'=>'Please Enter Your Product\'s Slug',
+            'slug.min'=>'Your Product\'s Slug Is Too Short ',
+            'slug.max'=>'Your Product\'s Slug Is Too Long',
             'brand_id.required'=>'Please Secify The Brand',
-            'barcode.required'=>'Please..Enter Your Product Barcode',
-            'barcode.unique'=>'This Barcode Is Used By Another Product',
-            'short_des.required'=>'Please..Enter Your Product Short Description',
-            'meta.required'=>'Please Enter Your Product Meta',
-            'meta.min'=>'Your Product Meta Is Too Short',
-            'meta.max'=>'Your Product Meta Is Too Long',
-            'description.required'=>'Please Enter Your Product Description',
-            'Description.min'=>'Your Product Description Is Too Short',
-            'description.max'=>'Your Product Description Is Too Long',
+            'barcode.required'=>'Please Enter Your Product\'s Barcode',
+            'barcode.unique'=>'This Barcode\'s Is Used By Another Product',
+            'short_des.required'=>'Please..Enter Your Product\'s Short Description',
+            'meta.required'=>'Please Enter Your Product\'s Meta',
+            'meta.min'=>'Your Product\'s Meta Is Too Short',
+            'meta.max'=>'Your Product\'s Meta Is Too Long',
+            'description.required'=>'Please Enter Your Product\'s Description',
+            'Description.min'=>'Your Product Description\'s Is Too Short',
+            'description.max'=>'Your Product Description\'s Is Too Long',
         ];
     }
 }

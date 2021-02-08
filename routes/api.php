@@ -22,10 +22,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],function(){
         Route::GET('/get/{id?}','ProductsController@get');
         Route::POST('/create','ProductsController@create');
-        Route::PUT('/update','ProductsController@update');
-        Route::GET('/search/{name}','ProductsController@search');
+        Route::PUT('/update/{id}','ProductsController@update');
+        Route::GET('/search/{title}','ProductsController@search');
+        Route::PUT('/trash/{id}','ProductsController@trash');
+        Route::PUT('/restoreTrashed/{id}','ProductsController@restoreTrashed');
+        Route::GET('/showTrashed/{id?}','ProductsController@showTrashed');
         Route::DELETE('/delete/{id}','ProductsController@delete');
-
 });
 
 
