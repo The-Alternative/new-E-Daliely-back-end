@@ -22,12 +22,10 @@ class ProductsController extends Controller
         $this->ProductService=$ProductService;
         $this->response=$response;
     }
-        public function get()
+        public function get($id=null)
         {
          $response= $this->ProductService->get($id=null);
-         return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+         return $response;
         }
         public function showTrashed()
         {
@@ -43,16 +41,16 @@ class ProductsController extends Controller
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
-        public function update(Request $request)
+        public function update(Request $request,$id)
         {
-            $response= $this->ProductService->update( $request);
+            $response= $this->ProductService->update( $request,$id);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
-        public function search(Request $request)
+        public function search($title)
         {
-            $response= $this->ProductService->search($request);
+            $response= $this->ProductService->search($title);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');

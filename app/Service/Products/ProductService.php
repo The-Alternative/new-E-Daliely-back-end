@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\Types\This;
+use App\Exceptions\GeneralHandler;
+use Exception;
 
 class ProductService
 {
@@ -27,10 +29,22 @@ class ProductService
     /****Get All Active Products Or By ID  ****/
 
     public function get($id=null)
-    {
-        $response= ($id?Product::find($id):Product::all())->where('is_active',true);
-          return $this  ->returnData('Product',$response,'done');
+    {   
+        $response= ($id?Product::find($id)->where('is_active',true)->first():Product::all()->where('is_active',true));
+            return $this->returnData('Product',$response,'done'); 
+    //     try{
+    //     $response= ($id?Product::find($id)->firstOrFail()->where('is_active',true):Product::all()->where('is_active',true));
+    //         return $this->returnData('Product',$response,'done');
+    // }
+    // catch (\Exception $exception){
+    //     throw new QueryException();
+    // }
+    // catch (\Exception $exception){
+    //     throw new BadMethodCallException();
+    // }
+
     }
+
 
         /****ــــــThis Functions For Trashed Productsــــــ  ****/
         
@@ -66,22 +80,8 @@ class ProductService
 
     public function create(ProductRequest $request)
     {
-        if ($request->is_active)
-            {
-                $is_active=true;
-            }
-            else
-                {
-                    $is_active=false;
-                }
-        if ($request->is_appear)
-            {
-                $is_appear=true;
-            }
-            else
-                {
-                    $is_appear=false;
-                }
+        $request->is_active?$is_active=true:$is_active=false;
+        $request->is_appear?$is_appear=true:$is_appear=false;
         $validated = $request->validated();
         $product= new Product;
         $product->title= $request->title;
@@ -106,14 +106,12 @@ class ProductService
 
             /****  Update Product   ****/
 
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
         $product=Product::find($request->id);
         $product->title= $request->title;
         $product->slug= $request->slug;
         $product->barcode= $request->barcode;
-        // $product->is_active= $request->$is_active;
-        // $product->is_appear= $request->$is_appear;
         $product->brand_id= $request->brand_id;
         $product->meta= $request->meta;
         $product->short_des= $request->short_des;
@@ -130,14 +128,21 @@ class ProductService
     }
                 /****  ٍsearch for Product   ****/
 
-    public function search($name)
+    public function search($title)
     {
-        $result= Product::where("name","like","%".$name."%")->get();
-        if (!$result)
+        $product = DB::table('products')
+                ->where("title","like","%".$title."%")
+                ->get();
+        if (!$product)
         {
             return $this->returnError('400', 'not found this Product');
+
         }
-                return $this->returnData('Product', $result,'done');
+          else 
+            {
+                return $this->returnData('products', $product,'done');
+
+            }
     }
                 /****  Delete Product   ****/
 
@@ -151,5 +156,5 @@ class ProductService
             }
     }
 
-    
+
 }

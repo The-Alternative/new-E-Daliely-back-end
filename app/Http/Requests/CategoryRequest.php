@@ -14,7 +14,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,10 +26,23 @@ class CategoryRequest extends FormRequest
     {
         return [
             
-                // 'slug'       
-                // 'is_active'  
-                // 'parent_id'     
-                // 'image'     
+            'name' => 'required|min:3|max:50|unique:categories',
+            'slug' => 'required|min:3|max:50:categories',
+            'parent_id' => 'required:categories',
+            'image' => 'required:categories'    
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required'=>'Please Enter Your Category\'s name',
+            'name.min'=>'Your Category\'s name Is Too Short',
+            'name.max'=>'Your Category\'s name Is Too Long',
+            'name.unique'=>'This name\'s Is Used By Another Category',
+            'slug.required'=>'Please Enter Your Product\'s Slug',
+            'slug.min'=>'Your Category\'s Slug Is Too Short ',
+            'slug.max'=>'Your Category\'s Slug Is Too Long',
+            'parent.required'=>'Please Specify The parent'
         ];
     }
 }

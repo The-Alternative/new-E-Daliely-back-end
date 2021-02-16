@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+/*_____________ Product routes _____________*/
 
 Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],function(){
         Route::GET('/get/{id?}','ProductsController@get');
@@ -30,14 +31,16 @@ Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],
         Route::DELETE('/delete/{id}','ProductsController@delete');
 });
 
-
+/*_____________Category routes_____________*/
 Route::group(['middleware' =>'api','prefix'=>'categories','namespace'=>'Category'],function(){
-        Route::GET('/get/{id?}','CategoriesController@getCategories');
-        Route::POST('/create','CategoriesController@createNewCategory');
+        Route::GET('/get/{id?}','CategoriesController@get');
+        Route::POST('/create','CategoriesController@create');
         Route::PUT('/update','CategoriesController@update');
+        Route::PUT('/trash/{id}','CategoriesController@trash');
+        Route::PUT('/restoreTrashed/{id}','CategoriesController@restoreTrashed');
         Route::GET('/search/{name}','CategoriesController@search');
+        Route::GET('/showTrashed/{id?}','CategoriesController@showTrashed');
         Route::DELETE('/delete/{id}','CategoriesController@delete');
-
 });
 
 
