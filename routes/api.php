@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 
 Route::GET('/products/getAllProducts','App\Http\Controllers\Product\ProductsController@getAllProducts');
@@ -28,24 +29,55 @@ Route::GET('/products/getAllProducts','App\Http\Controllers\Product\ProductsCont
 
 
 ///BrandController
-Route::get('/brands',  'Brand\BrandController@getAllBrands');
 
-Route::get('/brand/{id}',  'Brand\BrandController@getBrandsById');
+Route::group(['prefix'=> 'brands'] ,function () {
 
-Route::post('/brand/createNewBrand',  'Brand\BrandController@createNewBrands');
 
-Route::put('/brand/updateBrand/{id}',  'Brand\BrandController@updateBrand');
+    Route::get('/',  'Brand\BrandController@getAllBrands');
 
-Route::put('/brand/deleteBrand/{id}',  'Brand\BrandController@deleteBrand');
+    Route::get('/{id}',  'Brand\BrandController@getBrandsById');
+
+    Route::post('createNewBrand',  'Brand\BrandController@createNewBrands');
+
+    Route::put('/updateBrand/{id}',  'Brand\BrandController@updateBrand');
+
+    Route::put('/deleteBrand/{id}',  'Brand\BrandController@deleteBrand');
+
+
+});
+
+
+
+
 
 ///LanguageController
-///
-Route::get('/languages',  'Language\LanguageController@getAllLanguage');
+//Route::group(['prefix'=> 'languages'] ,function () {
+//
+//    Route::get('/', 'Language\LanguageController@getAllLanguage');
+//
+//    Route::get('{id}', 'Language\LanguageController@getLanguageById');
+//
+//    Route::post('createNewLanguage', 'Language\LanguageController@createNewLanguage');
+//
+//    Route::put('updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
+//
+//    Route::put('deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
+//});
 
-Route::get('/language/{id}',  'Language\LanguageController@getLanguageById');
 
-Route::post('/language/createNewLanguage',  'Language\LanguageController@createNewLanguage');
 
-Route::put('/language/updateLanguage/{id}',  'Language\LanguageController@updateLanguage');
+//Route::get('/stores','Store\StoreController@getAllStore');
 
-Route::put('/language/deleteLanguage/{id}',  'Language\LanguageController@deleteLanguage');
+//// StoreController
+//Route::group(['prefix'=>'stores'],function (){
+
+//    Route::get('/stores','Store\StoreController@getAllStore');
+//
+//    Route::get('{id}','Store\StoreController@getStoreById');
+//
+//    Route::post('createNewStores', 'Store\StoreController@createNewStores');
+//
+//    Route::put('updateStore/{id}', 'Store\StoreController@updateStore');
+//
+//    Route::put('deleteStore/{id}', 'Store\StoreController@deleteStore');
+//});
