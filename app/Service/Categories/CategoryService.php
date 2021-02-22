@@ -60,7 +60,7 @@ class CategoryService
 
     public function restoreTrashed( $id)
     {
-        $category=Category::find($id);
+        $category=$this->Category::find($id);
             $category->is_active=true; 
             $category->save(); 
             return $this->returnData('Category', $category,'This Product Is trashed Now');
@@ -69,7 +69,7 @@ class CategoryService
 
     public function trash( $id)
     {
-        $category=Category::find($id);
+        $category=$this->Category::find($id);
             $category->is_active=false; 
             $category->save(); 
             return $this->returnData('Product', $category,'This Product Is trashed Now');
@@ -105,7 +105,7 @@ class CategoryService
 
     public function update(CategoryRequest $request)
     {
-        $category=Category::find($request->id);
+        $category=$this->Category::find($request->id);
         $validated = $request->validated();
         $category->name= $request->name;
         $category->slug= $request->slug;
@@ -143,7 +143,7 @@ class CategoryService
 
     public function delete($id)
     {
-        $category=Category::find($id);
+        $category=$this->Category::find($id);
         if ($procategoryduct->$is_active=0)
             {
                 $category=Category::destroy($id);

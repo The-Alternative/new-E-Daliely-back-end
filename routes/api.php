@@ -21,7 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /*_____________ Product routes _____________*/
 
 Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],function(){
-        Route::GET('/get/{id?}','ProductsController@get');
+        Route::GET('/get','ProductsController@get');
+        Route::GET('/getById/{id}','ProductsController@getById');
         Route::POST('/create','ProductsController@create');
         Route::PUT('/update/{id}','ProductsController@update');
         Route::GET('/search/{title}','ProductsController@search');

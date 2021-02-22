@@ -28,9 +28,9 @@ class ProductService
 
     /****Get All Active Products Or By ID  ****/
 
-    public function get($id=null)
+    public function get()
     {   
-        $response= ($id?Product::find($id)->where('is_active',true)->first():Product::all()->where('is_active',true));
+        $response= Product::all()->where('is_active',true);
             return $this->returnData('Product',$response,'done'); 
     //     try{
     //     $response= ($id?Product::find($id)->firstOrFail()->where('is_active',true):Product::all()->where('is_active',true));
@@ -43,6 +43,11 @@ class ProductService
     //     throw new BadMethodCallException();
     // }
 
+    }
+    public function getById($id )
+    {
+        $response= Product::find($id)->where('is_active', '=', 1)->firstOrFail();
+        return $this->returnData('Product',$response,'done'); 
     }
 
 
@@ -68,7 +73,7 @@ class ProductService
 
     public function trash( $id)
     {
-        $product=Product::find($id);
+        $product= Product::find($id);
             $product->is_active=false; 
             $product->save(); 
             return $this->returnData('Product', $product,'This Product Is trashed Now');

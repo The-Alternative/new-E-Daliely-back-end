@@ -22,9 +22,14 @@ class ProductsController extends Controller
         $this->ProductService=$ProductService;
         $this->response=$response;
     }
-        public function get($id=null)
+        public function get()
         {
-         $response= $this->ProductService->get($id=null);
+         $response= $this->ProductService->get();
+         return $response;
+        }
+        public function getById( $id )
+        {
+         $response= $this->ProductService->getById($id);
          return $response;
         }
         public function showTrashed()
