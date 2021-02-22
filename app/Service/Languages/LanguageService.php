@@ -71,13 +71,13 @@ class LanguageService
 
     }
 //
-//    public function deleteLanguage(Request $request,$id)
-//    {
-//        $language=Language::find($id);
-//
-//        $language->active           =$request->active;
-//
-//        $language->save();
-//        return response()->json($language);
-//    }
+    public function deleteLanguage(Request $request,$id)
+    {
+        $language=Language::find($id);
+
+        $language->active           =$request->active;
+
+        $language->save();
+        return response()->json($language);
+    }
 }

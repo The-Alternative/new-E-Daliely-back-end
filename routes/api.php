@@ -30,6 +30,7 @@ Route::GET('/products/getAllProducts','App\Http\Controllers\Product\ProductsCont
 
 ///BrandController
 
+
 Route::group(['prefix'=> 'brands'] ,function () {
 
 
@@ -50,34 +51,34 @@ Route::group(['prefix'=> 'brands'] ,function () {
 
 
 
-///LanguageController
-//Route::group(['prefix'=> 'languages'] ,function () {
-//
-//    Route::get('/', 'Language\LanguageController@getAllLanguage');
-//
-//    Route::get('{id}', 'Language\LanguageController@getLanguageById');
-//
-//    Route::post('createNewLanguage', 'Language\LanguageController@createNewLanguage');
-//
-//    Route::put('updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
-//
-//    Route::put('deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
-//});
+/LanguageController
+Route::group(['prefix'=> 'languages'] ,function () {
+
+    Route::get('/', 'Language\LanguageController@getAllLanguage');
+
+    Route::get('{id}', 'Language\LanguageController@getLanguageById');
+
+    Route::post('createNewLanguage', 'Language\LanguageController@createNewLanguage');
+
+    Route::put('updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
+
+    Route::put('deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
+});
 
 
 
-//Route::get('/stores','Store\StoreController@getAllStore');
 
-//// StoreController
-//Route::group(['prefix'=>'stores'],function (){
 
-//    Route::get('/stores','Store\StoreController@getAllStore');
-//
-//    Route::get('{id}','Store\StoreController@getStoreById');
-//
-//    Route::post('createNewStores', 'Store\StoreController@createNewStores');
-//
-//    Route::put('updateStore/{id}', 'Store\StoreController@updateStore');
-//
-//    Route::put('deleteStore/{id}', 'Store\StoreController@deleteStore');
-//});
+// StoreController
+Route::group(['prefix'=>'stores'],function (){
+
+    Route::get('/stores','Store\StoreController@getAllStore');
+
+    Route::get('{id}','Store\StoreController@getStoreById');
+
+    Route::post('createNewStores', 'Store\StoreController@createNewStores');
+
+    Route::put('updateStore/{id}', 'Store\StoreController@updateStore');
+
+    Route::put('deleteStore/{id}', 'Store\StoreController@deleteStore');
+});
