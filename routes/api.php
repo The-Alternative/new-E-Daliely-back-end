@@ -19,7 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 /*_____________ Product routes _____________*/
-
 Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],function(){
         Route::GET('/get','ProductsController@get');
         Route::GET('/getById/{id}','ProductsController@getById');
@@ -28,7 +27,7 @@ Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],
         Route::GET('/search/{title}','ProductsController@search');
         Route::PUT('/trash/{id}','ProductsController@trash');
         Route::PUT('/restoreTrashed/{id}','ProductsController@restoreTrashed');
-        Route::GET('/showTrashed/{id?}','ProductsController@showTrashed');
+        Route::GET('/getTrashed','ProductsController@getTrashed');
         Route::DELETE('/delete/{id}','ProductsController@delete');
 });
 

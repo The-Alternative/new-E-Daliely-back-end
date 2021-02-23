@@ -30,8 +30,8 @@ class ProductService
 
     public function get()
     {   
-        $response= Product::all()->where('is_active',true);
-            return $this->returnData('Product',$response,'done'); 
+        $product= Product::all()->where('is_active',1);
+            return $this->returnData('Product',$product,'done'); 
     //     try{
     //     $response= ($id?Product::find($id)->firstOrFail()->where('is_active',true):Product::all()->where('is_active',true));
     //         return $this->returnData('Product',$response,'done');
@@ -46,8 +46,10 @@ class ProductService
     }
     public function getById($id )
     {
-        $response= Product::find($id)->where('is_active', '=', 1)->firstOrFail();
-        return $this->returnData('Product',$response,'done'); 
+       // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
+
+        $product= Product::find($id);
+        return $this->returnData('Product',$product,'done'); 
     }
 
 
@@ -55,9 +57,9 @@ class ProductService
         
     /****Get All Trashed Products Or By ID  ****/
 
-    public function showTrashed($id=null)
+    public function getTrashed()
     {
-        $product=($id?Product::find($id):Product::all())->where('is_active',false);
+        $product= Product::all()->where('is_active',0);
           return $this -> returnData('Product',$product,'done');
     }
     /****Restore Products Fore Active status  ****/

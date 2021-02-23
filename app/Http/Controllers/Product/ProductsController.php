@@ -27,14 +27,14 @@ class ProductsController extends Controller
          $response= $this->ProductService->get();
          return $response;
         }
-        public function getById( $id )
+        public function getById($id )
         {
          $response= $this->ProductService->getById($id);
          return $response;
         }
-        public function showTrashed()
+        public function getTrashed()
         {
-         $response= $this->ProductService->showTrashed($id=null);
+         $response= $this->ProductService->getTrashed();
          return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
