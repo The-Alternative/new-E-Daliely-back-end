@@ -51,7 +51,7 @@ Route::group(['prefix'=> 'brands'] ,function () {
 
 
 
-/LanguageController
+/////LanguageController
 Route::group(['prefix'=> 'languages'] ,function () {
 
     Route::get('/', 'Language\LanguageController@getAllLanguage');
