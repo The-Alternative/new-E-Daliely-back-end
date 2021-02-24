@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,6 +45,61 @@ Route::group(['middleware' =>'api','prefix'=>'categories','namespace'=>'Category
         Route::DELETE('/delete/{id}','CategoriesController@delete');
 });
 
+///BrandController
+
+
+Route::group(['prefix'=> 'brands'] ,function () {
+
+
+    Route::get('/',  'Brand\BrandController@getAllBrands');
+
+    Route::get('/{id}',  'Brand\BrandController@getBrandsById');
+
+    Route::post('createNewBrand',  'Brand\BrandController@createNewBrands');
+
+    Route::put('/updateBrand/{id}',  'Brand\BrandController@updateBrand');
+
+    Route::put('/deleteBrand/{id}',  'Brand\BrandController@deleteBrand');
+
+
+});
+
+
+
+
+
+/LanguageController
+Route::group(['prefix'=> 'languages'] ,function () {
+
+    Route::get('/', 'Language\LanguageController@getAllLanguage');
+
+    Route::get('{id}', 'Language\LanguageController@getLanguageById');
+
+    Route::post('createNewLanguage', 'Language\LanguageController@createNewLanguage');
+
+    Route::put('updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
+
+    Route::put('deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
+});
+
+
+
+
+
+// StoreController
+Route::group(['prefix'=>'stores'],function (){
+
+    Route::get('/stores','Store\StoreController@getAllStore');
+
+    Route::get('{id}','Store\StoreController@getStoreById');
+
+    Route::post('createNewStores', 'Store\StoreController@createNewStores');
+
+    Route::put('updateStore/{id}', 'Store\StoreController@updateStore');
+
+    Route::put('deleteStore/{id}', 'Store\StoreController@deleteStore');
+});
+=======
 
 
 

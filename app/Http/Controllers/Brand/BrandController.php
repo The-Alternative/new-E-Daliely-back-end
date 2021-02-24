@@ -31,8 +31,9 @@ class BrandController extends Controller
 
     }
 
-    public function getBrandsById($id)
+    public function  getBrandsById($id)
     {
+
         $response=$this->BrandsService->getBrandsById($id);
         return  response($response,200)
             ->header('Access-control-Allow-Origin','*')
