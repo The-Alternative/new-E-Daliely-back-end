@@ -1,241 +1,167 @@
 <?php
 namespace App\Service\Products;
 
-// use App\Models\brand;
-// use App\Models\category;
+
+use App\Traits\GeneralTrait;
 use App\Models\Custom_Fildes\Custom_Field;
 use App\Http\Requests\ProductRequest;
 use App\Models\Products\Product;
-// use App\Store;
-
-// use App\product_image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\Types\This;
+use App\Exceptions\GeneralHandler;
+use Exception;
 
 class ProductService
 {
-private $productModel;
-// private $custom;
-// private $pimage;
-//     private $category;
+    use GeneralTrait;
+    private $productModel;
     /**
      * ProductService constructor.
      */
-    public function __construct(Product $product/*,custom_field  $custom,category $category,product_image $pimage*/)
+
+    public function __construct(Product $product)
     {
         $this->productModel=$product;
-        //$this->product=$product;
-        // $this->custom=$custom;
-        // $this->category=$category;
-        // $this->pimage=$pimage;
     }
-        public function getAllProducts()
+
+    /****Get All Active Products Or By ID  ****/
+
+    public function get()
+    {   
+        $product= Product::all()->where('is_active',1);
+            return $this->returnData('Product',$product,'done'); 
+    //     try{
+    //     $response= ($id?Product::find($id)->firstOrFail()->where('is_active',true):Product::all()->where('is_active',true));
+    //         return $this->returnData('Product',$response,'done');
+    // }
+    // catch (\Exception $exception){
+    //     throw new QueryException();
+    // }
+    // catch (\Exception $exception){
+    //     throw new BadMethodCallException();
+    // }
+
+    }
+    public function getById($id )
+    {
+       // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
+
+        $product= Product::find($id);
+        return $this->returnData('Product',$product,'done'); 
+    }
+
+
+        /****ــــــThis Functions For Trashed Productsــــــ  ****/
+        
+    /****Get All Trashed Products Or By ID  ****/
+
+    public function getTrashed()
+    {
+        $product= Product::all()->where('is_active',0);
+          return $this -> returnData('Product',$product,'done');
+    }
+    /****Restore Products Fore Active status  ****/
+
+    public function restoreTrashed( $id)
+    {
+        $product=Product::find($id);
+            $product->is_active=true; 
+            $product->save(); 
+            return $this->returnData('Product', $product,'This Product Is trashed Now');
+    }
+        /****   Product's Soft Delete   ****/
+
+    public function trash( $id)
+    {
+        $product= Product::find($id);
+            $product->is_active=false; 
+            $product->save(); 
+            return $this->returnData('Product', $product,'This Product Is trashed Now');
+    }
+
+    /*ـــــــــــــــــــــــــــــــــــــــــــــــ*/
+
+        /****  Create Products   ****/
+
+    public function create(ProductRequest $request)
+    {
+        $request->is_active?$is_active=true:$is_active=false;
+        $request->is_appear?$is_appear=true:$is_appear=false;
+        $validated = $request->validated();
+        $product= new Product;
+        $product->title= $request->title;
+        $product->slug= $request->slug;
+        $product->barcode= $request->barcode;
+        $product->is_active= $is_active;
+        $product->is_appear= $is_appear;
+        $product->brand_id= $request->brand_id;
+        $product->meta= $request->meta;
+        $product->short_des= $request->short_des;
+        $product->description= $request->description;
+        $result=$product->save();
+        if ($result)
+            {
+                return $this->returnData('product', $product,'done');
+            }
+            else
+                {
+                    return $this->returnError('400', 'saving failed');
+                }
+    }
+
+            /****  Update Product   ****/
+
+    public function update(Request $request,$id)
+    {
+        $product=Product::find($request->id);
+        $product->title= $request->title;
+        $product->slug= $request->slug;
+        $product->barcode= $request->barcode;
+        $product->brand_id= $request->brand_id;
+        $product->meta= $request->meta;
+        $product->short_des= $request->short_des;
+        $product->description= $request->description;
+        $result=$product->save();
+        if ($result)
+            {
+               return $this->returnData('Product', $product,'done');
+            }
+            else
+                {
+                    return $this->returnError('400', 'updating failed');
+                }
+    }
+                /****  ٍsearch for Product   ****/
+
+    public function search($title)
+    {
+        $product = DB::table('products')
+                ->where("title","like","%".$title."%")
+                ->get();
+        if (!$product)
         {
-            return $this->productModel::all();        
+            return $this->returnError('400', 'not found this Product');
+
         }
+          else 
+            {
+                return $this->returnData('products', $product,'done');
 
-    
+            }
+    }
+                /****  Delete Product   ****/
 
-//     public function store(Request $request)
-//     {
-//         $request['brand_id']=(int)$request['brand_id'];
-//                 $request->validate([
-//             "title"          => "required:products",
-//             "slug"           => "required:products",
-//             "barcode"        => "required:products",
-//             "productcol"     => "required:products",
-//             "meta"           => "required:products",
-//             "description"    => "required:products",
-//         ]);
-//         if ($request->is_active){
-//             $is_active=true;
-//         }else{
-//             $is_active=false;
-//         }
-//         if ($request->is_appear){
-//             $is_appear=true;
-//         }else{
-//             $is_appear=false;
-//         }
+    public function delete( $id)
+    {
+        $product=Product::find($id);
+        if ($product->$is_active=0)
+            {
+                $product=Product::destroy($id);
+                 return $this->returnData('Product', $product,'This Product Is deleted Now');
+            }
+    }
 
-//         //var_dump($request);
-//         $response=$this->productModel::create([
-//             'title'         => $request->title,
-//             'slug'          => $request->slug,
-//             'brand_id'      => $request->brand_id,
-//             'barcode'       => $request->barcode,
-//             'productcol'    => $request->productcol,
-//             'meta'          => $request->meta,
-//             'is_active'     => $is_active,
-//             'is_appear'     => $is_appear,
-//             'description'   => $request->description,
-//         ]);
-//         for ($i=0;$i<(int)$request->counter;$i++){
-//             $response->customfields()->attach($request->custom_field[$i],[
-//                 'value' => $request->value[$i],
-//                 'description' => "sssssss",
-//             ]);
-//         }
-//         for ($i=0;$i<(int)$request->ccounter;$i++){
-//             $response->categories()->attach($request->category[$i],['description'=>$request->cdescription[$i]]);
-//         }
-
-
-
-//         for ($i = 0;$i< (int)$request->icounter;$i++){
-//             $e =$i + 1;
-//             if ( (int)$request->iscover == $e ){
-//                 $xx[$i]=true;
-//             }else{
-//                 $xx[$i]=false;
-//             }
-//         }
-//         for ($i = 0;$i< (int)$request->icounter;$i++) {
-
-//                 $this->pimage::create([
-//                     'product_id' => $response->id,
-//                     'image'      =>$request->image[$i]->store('images','public'),
-//                     'is_cover'   =>$xx[$i]
-//                 ]);
-
-
-
-//         }
-
-//         session()->flash('success','product created successfuly');
-
-//         return $request;
-
-//     }
-//     public function update(Request $request, Product $product)
-//     {
-// //        return $request->image[2]->store();
-//         $request['brand_id']=(int)$request['brand_id'];
-//         $product->brand_id=(int)$request['brand_id'];
-//         $links=[];
-//         for($i=0;$i<$request->counter;$i++){
-//             $links[$request->custom_field[$i]] = ['value'=>$request->value[$i],'description'=>'ttttt'];
-//         }
-//             $product->customfields()->sync($links);
-//         $clinks=[];
-//         for($i=0;$i<$request->ccounter;$i++){
-//             $clinks[$request->category[$i]] = ['description'=>$request->cdescription[$i]];
-//         }
-//         $product->categories()->sync($clinks);
-
-// //        for ($i = 0;$i< (int)$request->icounter;$i++){
-// //            $e =$i + 1;
-// //            if ( (int)$request->iscover == $e ){
-// //                $xx[$i]=true;
-// //            }else{
-// //                $xx[$i]=false;
-// //            }
-// //        }
-// //        for ($i = 0;$i< (int)$request->icounter;$i++) {
-// //
-// //                $this->pimage::create([
-// //                    'product_id' => $product->id,
-// //                    'image'      =>$request->image[$i]->store('images','public'),
-// //                    'is_cover'   =>$xx[$i]
-// //                ]);
-// //                Storage::disk('public')->delete($this->pimage->image);
-// //
-// //
-// //
-// //
-// //
-// //        }
-
-//         if ($request->is_active){
-//             $is_active=true;
-//         }else{
-//             $is_active=false;
-//         }
-//         if ($request->is_appear){
-//             $is_appear=true;
-//         }else{
-//             $is_appear=false;
-//         }
-//         $response=$product->update([
-//             'title'             => $request->title,
-//             'slug'              => $request->slug,
-//             'brand_id'          => $request->brand_id,
-//             'barcode'           => $request->barcode,
-//             'productcol'        => $request->productcol,
-//             'meta'              => $request->meta,
-//             'is_active'         => $is_active,
-//             'is_appear'         => $is_appear,
-//             'description'       => $request->description,
-//         ]);
-//         if($response=true){
-//             return "success";
-//         }else{
-//             return "faild";
-//         }
-//     }
-
-//     public function index(){
-//         return view('products.index')->with('products',product::all()->where('is_active',true));
-
-//     }
-
-//     public function create(){
-//         return view('products.create')->with('brands',brand::all())->with('custom_fields',custom_field::all()->where('is_active',true))->with('categories',category::all()->where('is_active',true));
-
-//     }
-
-//     public function edit($product){
-//         return view('products.edit',[
-//             'product' => $product,
-//             'brands'  => brand::all(),
-//             'custom_fields' => custom_field::all(),
-//             'categories' => category::all(),
-//             'pimages' => product_image::all()->where('product_id',$product->id)
-//         ]);
-//     }
-
-//     public function delete(Product $product){
-//         session()->flash('success','product deleted successfuly');
-//         $response=$product->update([
-//             'is_appear' => false,
-//             'is_active' => false
-//         ]);
-//         return redirect(route('products.index'));
-//     }
-// //    public function storeProductCustomField(int $productId,Request $request)
-// //    {
-// //        $this->customField->product=product::find($productId);
-// //        return $this->customField;
-// //    }
-//     public function Products()
-//         {
-//             $response=$this->productModel::all();
-//             return $response;
-//         }
-//     public function appearProducts()
-//         {
-//             $res=$this->productModel::all()->where('is_appear',1);
-//             return $res;
-//         }
-//     public function productsByCategory($category_id)
-//     {
-//       //  $product_ids=DB::table('product_categories')->select('product_id')->where('category_id',$category_id)->get();
-//         $product_ids= $this->pcategory->ById($category_id);
-//         $i=0;
-//         foreach ($product_ids as $product_id){
-//             $ids[$i]=$product_id->product_id;
-//             $i++;
-
-//         }
-
-//         $res1=$this->productModel::all()->whereIn('id',$ids)->where('is_appear',1);
-//         return $res1;
-//     }
-//     public function productDetails($id){
-//         $response=$this->productModel::all()->where('id',$id);
-//         return $response;
-//     }
 
 }

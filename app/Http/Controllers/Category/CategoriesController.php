@@ -1,82 +1,82 @@
 <?php
 
-namespace App\Http\Controllers\Product;
+namespace App\Http\Controllers\Category;
 
 use App\Traits\GeneralTrait;
 use App\Http\Controllers\Controller;
-use App\Service\Products\ProductService;
+use App\Service\Categories\CategoryService;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\Response;
 
-class ProductsController extends Controller
+class CategoriesController extends Controller
 {
     use GeneralTrait;
-    private $ProductService;
+    private $CategoryService;
     private $response;
 
      /* ProductsController constructor.
      */
-    public function __construct(ProductService $ProductService,Response  $response)
+    public function __construct(CategoryService $CategoryService,Response  $response)
     {
-        $this->ProductService=$ProductService;
+        $this->CategoryService=$CategoryService;
         $this->response=$response;
     }
-        public function get()
+    public function get()
+    {
+     $response= $this->CategoryService->get();
+     return $response;
+    }
+    public function getById($id )
+    {
+     $response= $this->CategoryService->getById($id);
+     return $response;
+    }
+    public function getTrashed()
+    {
+     $response= $this->CategoryService->getTrashed();
+     return response($response, 200)
+                 ->header('Access-Control-Allow-Origin', '*')
+                 ->header('Access-Control-Allow-Methods', '*');
+    }
+        public function create(CategoryRequest $request)
         {
-         $response= $this->ProductService->get();
-         return $response;
-        }
-        public function getById($id )
-        {
-         $response= $this->ProductService->getById($id);
-         return $response;
-        }
-        public function getTrashed()
-        {
-         $response= $this->ProductService->getTrashed();
-         return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
-        }
-        public function create(ProductRequest $request)
-        {
-            $response= $this->ProductService->create($request);
+            $response= $this->CategoryService->create($request);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
-        public function update(Request $request,$id)
+        public function update(CategoryRequest $request)
         {
-            $response= $this->ProductService->update( $request,$id);
+            $response= $this->CategoryService->update( $request);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
-        public function search($title)
+        public function search($name)
         {
-            $response= $this->ProductService->search($title);
+            $response= $this->CategoryService->search($name);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
         public function trash($id)
         {
-            $response= $this->ProductService->trash($id);
+            $response= $this->CategoryService->trash($id);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
         public function restoreTrashed($id)
         {
-            $response= $this->ProductService->restoreTrashed($id);
+            $response= $this->CategoryService->restoreTrashed($id);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
         public function delete($id)
         {
-            $response= $this->ProductService->delete($id);
+            $response= $this->CategoryService->delete($id);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
