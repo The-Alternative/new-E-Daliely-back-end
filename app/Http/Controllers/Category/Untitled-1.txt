@@ -1,0 +1,8 @@
+
+    "title":"asddsa",
+    "barcode":"asasaddsa",
+    "meta":"meta",
+    "description":"description",
+    "short_des":"short_des",
+    "brand_id":"1",
+    "slug":"slug"
