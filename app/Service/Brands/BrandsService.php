@@ -31,7 +31,7 @@ class BrandsService
             ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
             ->join('brands_language','brands_id','=','brands.id')
             ->join('languages','languages.lang_id','=','brands_language.lang_id')
-            ->where('languages.lang_code','=','ar-SY')
+            ->where('languages.lang_code','=','ar-SY');
 
         return response()->json($brand);
     }

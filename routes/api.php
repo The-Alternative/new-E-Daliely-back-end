@@ -55,7 +55,7 @@ Route::group(['prefix'=> 'brands'] ,function () {
 
     Route::get('/{id}',  'Brand\BrandController@getBrandsById');
 
-    Route::post('createNewBrand',  'Brand\BrandController@createNewBrands');
+    Route::post('/createNewBrand',  'Brand\BrandController@createNewBrands');
 
     Route::put('/updateBrand/{id}',  'Brand\BrandController@updateBrand');
 
@@ -68,18 +68,18 @@ Route::group(['prefix'=> 'brands'] ,function () {
 
 
 
-/LanguageController
+//LanguageController
 Route::group(['prefix'=> 'languages'] ,function () {
 
     Route::get('/', 'Language\LanguageController@getAllLanguage');
 
-    Route::get('{id}', 'Language\LanguageController@getLanguageById');
+    Route::get('/{id}', 'Language\LanguageController@getLanguageById');
 
-    Route::post('createNewLanguage', 'Language\LanguageController@createNewLanguage');
+    Route::post('/createNewLanguage', 'Language\LanguageController@createNewLanguage');
 
-    Route::put('updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
+    Route::put('/updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
 
-    Route::put('deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
+    Route::put('/deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
 });
 
 
@@ -91,15 +91,15 @@ Route::group(['prefix'=>'stores'],function (){
 
     Route::get('/stores','Store\StoreController@getAllStore');
 
-    Route::get('{id}','Store\StoreController@getStoreById');
+    Route::get('/{id}','Store\StoreController@getStoreById');
 
-    Route::post('createNewStores', 'Store\StoreController@createNewStores');
+    Route::post('/createNewStores', 'Store\StoreController@createNewStores');
 
-    Route::put('updateStore/{id}', 'Store\StoreController@updateStore');
+    Route::put('/updateStore/{id}', 'Store\StoreController@updateStore');
 
-    Route::put('deleteStore/{id}', 'Store\StoreController@deleteStore');
+    Route::put('/deleteStore/{id}', 'Store\StoreController@deleteStore');
 });
-=======
+
 
 
 
