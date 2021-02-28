@@ -65,10 +65,10 @@ Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'
     Route::post('/create', 'LanguageController@create');
     Route::put('/update/{id}', 'LanguageController@update');
     Route::delete('/delete/{id}', 'LanguageController@delete');
-    Route::get('/getTrashed','LanguageController@getTrashed');
-    Route::PUT('/restoreTrashed/{id}','LanguageController@restoreTrashed');
-    Route::PUT('/trash/{id}','LanguageController@trash');
-    Route::GET('/search/{name}','LanguageController@search');
+    Route::get('/getTrashed', 'LanguageController@getTrashed');
+    Route::PUT('/restoreTrashed/{id}', 'LanguageController@restoreTrashed');
+    Route::PUT('/trash/{id}', 'LanguageController@trash');
+    Route::GET('/search/{name}', 'LanguageController@search');
 });
 /*----------------Store Routes---------------*/
 Route::group(['middleware'=>'api','prefix'=>'stores','namespace'=>'Store'],function (){

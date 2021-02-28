@@ -30,21 +30,31 @@ class BrandsService
     public function get()
     {
 
+<<<<<<< HEAD
        $brand=$this->BrandModel::all()->where('is_active','=',1);
         return $this->returnData('brand',$brand,'done');
+=======
+        return $this->BrandModel::all();
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
 
 //        $brand=DB::table('brands')
 //            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
 //            ->join('brands_language','brands_id','=','brands.id')
 //            ->join('languages','languages.lang_id','=','brands_language.lang_id')
 //            ->where('languages.lang_code','=','ar-SY');
+<<<<<<< HEAD
 
         //return response()->json($brand);
 
+=======
+//
+//        return response()->json($brand);
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
     }
 
     public function getById($id)
     {
+<<<<<<< HEAD
         $brand= $this->BrandModel::find($id);
         return $this->returnData('brand',$brand,'done');
 
@@ -60,6 +70,24 @@ class BrandsService
     {
         $request->is_active?$is_active=true:$is_active=false;
        // $validated = $request->validated();
+=======
+        return $this->BrandModel::find($id);
+
+//         Brands::find($id);
+//
+//        $brand=DB::table('brands')
+//            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
+//            ->join('brands_language','brands_id','=','brands.id')
+//            ->join('languages','languages.lang_id','=','brands_language.lang_id')
+//            ->where('languages.lang_code','=','ar-SY')
+//            ->get();
+//
+//        return response()->json($brand);
+    }
+//
+    public function createNewBrands( BrandRequest )
+    {
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
 
         $brand=new Brands();
 
@@ -82,7 +110,11 @@ class BrandsService
 ////
     public function update(BrandRequest $request,$id)
     {
+<<<<<<< HEAD
         $brand= Brands::find($request->id);
+=======
+        $brand= Brands::find($id);
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
 
         $brand->name            =$request->name;
         $brand->slug            =$request->slug;
@@ -111,10 +143,14 @@ class BrandsService
         {
             return $this->returnError('400', 'not found this brand');
 
+<<<<<<< HEAD
         }
         else
         {
             return $this->returnData('brand', $brand,'done');
+=======
+        $brand->is_active    =$request->is_active;
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
 
         }
     }
@@ -133,6 +169,7 @@ class BrandsService
         $brand=Product::find($id);
         $brand->is_active=true;
         $brand->save();
+<<<<<<< HEAD
         return $this->returnData('Product', $brand,'This brand is trashed Now');
     }
 ////
@@ -146,5 +183,9 @@ class BrandsService
 
 
 
+=======
+
+        return response()->json($brand);
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
     }
 }

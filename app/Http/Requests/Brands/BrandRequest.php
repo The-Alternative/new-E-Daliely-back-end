@@ -13,7 +13,11 @@ class BrandRequest extends FormRequest
      */
     public function authorize()
     {
+<<<<<<< HEAD
         return true;
+=======
+        return false;
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
     }
 
     /**
