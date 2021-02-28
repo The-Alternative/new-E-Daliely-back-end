@@ -58,6 +58,7 @@ Route::group(['middleware' =>'api','prefix'=> 'brands','namespace'=>'Brand'] ,fu
     Route::delete('/delete{id}',  'BrandController@delete');
 });
 
+
 /*--------------------Language Routes----------------*/
 Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'] ,function () {
     Route::get('/get', 'LanguageController@get');

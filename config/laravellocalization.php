@@ -51,11 +51,14 @@ return [
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
        // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
 
 
+=======
+>>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
 =======
 >>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
         //'eo'          => ['name' => 'Esperanto',              'script' => 'Latn', 'native' => 'esperanto', 'regional' => ''],
