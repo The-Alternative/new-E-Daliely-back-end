@@ -5,9 +5,12 @@ namespace App\Service\Brands;
 
 use App\Models\Brands\Brands;
  use  App\Http\Controllers\LangController;
+use App\Models\Products\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\GeneralTrait;
+use App\Http\Requests\Brands\BrandRequest;
 use phpDocumentor\Reflection\Types\This;
 
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes;
@@ -16,6 +19,7 @@ class BrandsService
 {
     private $BrandModel;
     private $lang;
+    use GeneralTrait;
 
     public function __construct(Brands $brand)
     {
@@ -23,44 +27,39 @@ class BrandsService
         $this->BrandModel=$brand;
     }
 
-    public function getAllBrands()
+    public function get()
     {
 
+       $brand=$this->BrandModel::all()->where('is_active','=',1);
+        return $this->returnData('brand',$brand,'done');
 
-        $brand=DB::table('brands')
-            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
-            ->join('brands_language','brands_id','=','brands.id')
-            ->join('languages','languages.lang_id','=','brands_language.lang_id')
-            ->where('languages.lang_code','=','ar-SY');
+//        $brand=DB::table('brands')
+//            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
+//            ->join('brands_language','brands_id','=','brands.id')
+//            ->join('languages','languages.lang_id','=','brands_language.lang_id')
+//            ->where('languages.lang_code','=','ar-SY');
 
-        return response()->json($brand);
+        //return response()->json($brand);
+
     }
 
-    public function getBrandsById($id)
+    public function getById($id)
     {
-         Brands::find($id);
+        $brand= $this->BrandModel::find($id);
+        return $this->returnData('brand',$brand,'done');
 
-        $brand=DB::table('brands')
-            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
-            ->join('brands_language','brands_id','=','brands.id')
-            ->join('languages','languages.lang_id','=','brands_language.lang_id')
-            ->where('languages.lang_code','=','ar-SY')
-            ->get();
+    }
 
-        return response()->json($brand);
+    public function getTrashed()
+    {
+        $brand= $this->BrandModel::all()->where('is_active',0);
+        return $this -> returnData('brand',$brand,'done');
     }
 //
-    public function createNewBrands($request)
+    public function create( BrandRequest $request )
     {
-        $request->validate([
-
-            'name'=>'required|min:5|max:255|unique:brands,name',
-            'slug'=>'required',
-            'description'=>'required|min:20|max:255',
-            'image'=>'required',
-            'is_active'=>'required',
-
-        ]);
+        $request->is_active?$is_active=true:$is_active=false;
+       // $validated = $request->validated();
 
         $brand=new Brands();
 
@@ -70,22 +69,20 @@ class BrandsService
         $brand->image           =$request->image;
         $brand->is_active       =$request->is_active;
 
-        $brand->save();
-        return response()->json($brand);
+        $result=$brand->save();
+        if ($result)
+        {
+            return $this->returnData('brand', $brand,'done');
+        }
+        else
+        {
+            return $this->returnError('400', 'saving failed');
+        }
     }
-//
-    public function updateBrand(Request $request,$id)
+////
+    public function update(BrandRequest $request,$id)
     {
-        $request->validate([
-
-        'name'=>'required|min:5|max:255|unique:brands,name',
-        'slug'=>'required',
-        'description'=>'required|min:20|max:255',
-        'image'=>'required',
-        'is_active'=>'required',
-
-    ]);
-        $brand= Brands::find($id);
+        $brand= Brands::find($request->id);
 
         $brand->name            =$request->name;
         $brand->slug            =$request->slug;
@@ -93,18 +90,61 @@ class BrandsService
         $brand->image           =$request->image;
         $brand->is_active       =$request->is_active;
 
-        $brand->save();
-        return response()->json($brand);
+        $result=$brand->save();
+        if ($result)
+        {
+            return $this->returnData('brand', $brand,'done');
+        }
+        else
+        {
+            return $this->returnError('400', 'updating failed');
+        }
 
     }
-//
-    public function deleteBrand(Request $request,$id)
+
+    public function search($name)
     {
-        $brand=Brands::find($id);
+        $brand = DB::table('brands')
+            ->where("name","like","%".$name."%")
+            ->get();
+        if (!$brand)
+        {
+            return $this->returnError('400', 'not found this brand');
 
-        $brand->is_active           =$request->is_active;
+        }
+        else
+        {
+            return $this->returnData('brand', $brand,'done');
 
+        }
+    }
+
+
+    public function trash( $id)
+    {
+        $brand= $this->BrandModel::find($id);
+        $brand->is_active=false;
         $brand->save();
-        return response()->json($brand);
+        return $this->returnData('brand', $brand,'This brand is trashed Now');
+    }
+
+    public function restoreTrashed( $id)
+    {
+        $brand=Product::find($id);
+        $brand->is_active=true;
+        $brand->save();
+        return $this->returnData('Product', $brand,'This brand is trashed Now');
+    }
+////
+    public function delet($id)
+    {
+        $brand = Brands::find($id);
+
+        $brand->is_active = false;
+        $brand->save();
+        return $this->returnData('brand', $brand, 'This brand is deleted Now');
+
+
+
     }
 }

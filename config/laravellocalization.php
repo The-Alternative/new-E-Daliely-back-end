@@ -50,7 +50,10 @@ return [
 
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
+
        // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
+
+
 
         //'eo'          => ['name' => 'Esperanto',              'script' => 'Latn', 'native' => 'esperanto', 'regional' => ''],
         //'eu'          => ['name' => 'Basque',                 'script' => 'Latn', 'native' => 'euskara', 'regional' => 'eu_ES'],
@@ -110,8 +113,7 @@ return [
         //'dav'         => ['name' => 'Dawida',                 'script' => 'Latn', 'native' => 'Kitaita', 'regional' => ''],
         //'teo'         => ['name' => 'Teso',                   'script' => 'Latn', 'native' => 'Kiteso', 'regional' => ''],
         //'khq'         => ['name' => 'Koyra Chiini',           'script' => 'Latn', 'native' => 'Koyra ciini', 'regional' => ''],
-        //'ses'         => ['name' => 'Songhay',                'script' => 'Latn', 'native' => 'Koyraboro senni', 'regional' => ''],
-        //'mfe'         => ['name' => 'Morisyen',               'script' => 'Latn', 'native' => 'kreol morisien', 'regional' => ''],
+        //'ses'         => ['name' => 'Songhay',                'script' => 'Latn', 'native' => 'Koyraboro senni', 'regional' => ''],        //'mfe'         => ['name' => 'Morisyen',               'script' => 'Latn', 'native' => 'kreol morisien', 'regional' => ''],
         //'ht'          => ['name' => 'Haitian',                'script' => 'Latn', 'native' => 'Kreyòl ayisyen', 'regional' => 'ht_HT'],
         //'kj'          => ['name' => 'Kuanyama',               'script' => 'Latn', 'native' => 'Kwanyama', 'regional' => ''],
         //'ksh'         => ['name' => 'Kölsch',                 'script' => 'Latn', 'native' => 'Kölsch', 'regional' => ''],

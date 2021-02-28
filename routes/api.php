@@ -45,59 +45,42 @@ Route::group(['middleware' =>'api','prefix'=>'categories','namespace'=>'Category
         Route::DELETE('/delete/{id}','CategoriesController@delete');
 });
 
-///BrandController
-
-
-Route::group(['prefix'=> 'brands'] ,function () {
-
-
-    Route::get('/',  'Brand\BrandController@getAllBrands');
-
-    Route::get('/{id}',  'Brand\BrandController@getBrandsById');
-
-    Route::post('/createNewBrand',  'Brand\BrandController@createNewBrands');
-
-    Route::put('/updateBrand/{id}',  'Brand\BrandController@updateBrand');
-
-    Route::put('/deleteBrand/{id}',  'Brand\BrandController@deleteBrand');
-
-
+/*------------------Brand Routes-------------------*/
+Route::group(['middleware' =>'api','prefix'=> 'brands','namespace'=>'Brand'] ,function () {
+    Route::get('/get',  'BrandController@get');
+    Route::get('/getById/{id}',  'BrandController@getById');
+    Route::get('/getTrashed','BrandController@getTrashed');
+    Route::post('/create',  'BrandController@create');
+    Route::put('/update/{id}',  'BrandController@update');
+    Route::GET('/search/{name}','BrandController@search');
+    Route::PUT('/trash/{id}','BrandController@trash');
+    Route::PUT('/restoreTrashed/{id}','BrandController@restoreTrashed');
+    Route::delete('/delete{id}',  'BrandController@delete');
 });
 
-
-
-
-
-//LanguageController
-Route::group(['prefix'=> 'languages'] ,function () {
-
-    Route::get('/', 'Language\LanguageController@getAllLanguage');
-
-    Route::get('/{id}', 'Language\LanguageController@getLanguageById');
-
-    Route::post('/createNewLanguage', 'Language\LanguageController@createNewLanguage');
-
-    Route::put('/updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
-
-    Route::put('/deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
+/*--------------------Language Routes----------------*/
+Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'] ,function () {
+    Route::get('/get', 'LanguageController@get');
+    Route::get('getById/{id}', 'LanguageController@getById');
+    Route::post('/create', 'LanguageController@create');
+    Route::put('/update/{id}', 'LanguageController@update');
+    Route::delete('/delete/{id}', 'LanguageController@delete');
+    Route::get('/getTrashed','LanguageController@getTrashed');
+    Route::PUT('/restoreTrashed/{id}','LanguageController@restoreTrashed');
+    Route::PUT('/trash/{id}','LanguageController@trash');
+    Route::GET('/search/{name}','LanguageController@search');
 });
-
-
-
-
-
-// StoreController
-Route::group(['prefix'=>'stores'],function (){
-
-    Route::get('/stores','Store\StoreController@getAllStore');
-
-    Route::get('/{id}','Store\StoreController@getStoreById');
-
-    Route::post('/createNewStores', 'Store\StoreController@createNewStores');
-
-    Route::put('/updateStore/{id}', 'Store\StoreController@updateStore');
-
-    Route::put('/deleteStore/{id}', 'Store\StoreController@deleteStore');
+/*----------------Store Routes---------------*/
+Route::group(['middleware'=>'api','prefix'=>'stores','namespace'=>'Store'],function (){
+    Route::get('/get','StoreController@get');
+    Route::get('/getById/{id}','StoreController@getById');
+    Route::post('/create', 'StoreController@create');
+    Route::put('/update/{id}', 'StoreController@update');
+    Route::delete('/delete/{id}', 'StoreController@delete');
+    Route::get('/getTrashed','StoreController@getTrashed');
+    Route::PUT('/restoreTrashed/{id}','StoreController@restoreTrashed');
+    Route::PUT('/trash/{id}','StoreController@trash');
+    Route::GET('/search/{name}','StoreController@search');
 });
 
 

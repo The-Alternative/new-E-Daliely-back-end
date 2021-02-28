@@ -4,15 +4,20 @@
 namespace App\Service\Languages;
 
 use App\Models\Language\Language;
+use App\Models\Products\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\Types\This;
+use App\Traits\GeneralTrait;
+use App\Http\Requests\Language\LanguageRequest;
+
 
 class LanguageService
 {
-
+    use GeneralTrait;
     private $LanguageModel;
+
 
     public function __construct(Language $language)
     {
@@ -20,21 +25,21 @@ class LanguageService
         $this->LanguageModel=$language;
     }
 
-    public function getAllLanguage()
+    public function get()
     {
-        $language= DB ::table('Languages')->get();
+      $language=$this->LanguageModel::all()->where('is_active','=',1);
 
-        return response()->json($language);
+      return $this->returnData('Language',$language,'done');
     }
 
-    public function getLanguageById($id)
+    public function getById($id)
     {
-        $language= Language::find($id);
+        $language= $this->LanguageModel::find($id);
 
-        return response()->json($language);
+        return $this->returnData('Language',$language,'done');
     }
 
-    public function createNewLanguage($request)
+    public function create($request)
     {
         $language=new Language();
 
@@ -48,11 +53,18 @@ class LanguageService
         $language->date_format_full         =$request->date_format_full  ;
         $language->is_rtl                   =$request->is_rtl;
 
-        $language->save();
-        return response()->json($language);
+        $result=$language->save();
+        if ($result)
+        {
+            return $this->returnData('language', $language,'done');
+        }
+        else
+        {
+            return $this->returnError('400', 'saving failed');
+        }
     }
 
-    public function updateLanguage(Request $request,$id)
+    public function update(LanguageRequest $request,$id)
     {
         $language= Language::find($id);
 
@@ -66,12 +78,19 @@ class LanguageService
         $language->date_format_full         =$request->date_format_full  ;
         $language->is_rtl                   =$request->is_rtl;
 
-        $language->save();
-        return response()->json($language);
+        $result=$language->save();
+        if ($result)
+        {
+            return $this->returnData('language', $language,'done');
+        }
+        else
+        {
+            return $this->returnError('400', 'saving failed');
+        }
 
     }
-//
-    public function deleteLanguage(Request $request,$id)
+////
+    public function delete(Request $request,$id)
     {
         $language=Language::find($id);
 
@@ -79,5 +98,46 @@ class LanguageService
 
         $language->save();
         return response()->json($language);
+    }
+
+
+    public function getTrashed()
+    {
+        $language=$this->LanguageModel::all()->where('is_active',0);
+        return $this -> returnData('Language',$language,'done');
+    }
+
+
+    public function restoreTrashed( $id)
+    {
+        $language=$this->LanguageModel::find($id);
+        $language->is_active=true;
+        $language->save();
+        return $this->returnData('language', $language,'This language Is trashed Now');
+    }
+
+    public function trash( $id)
+    {
+        $language= $this->LanguageModel::find($id);
+        $language->is_active=false;
+        $language->save();
+        return $this->returnData('language', $language,'This language Is trashed Now');
+    }
+
+    public function search($name)
+    {
+        $language = DB::table('languages')
+            ->where("name","like","%".$name."%")
+            ->get();
+        if (!$language)
+        {
+            return $this->returnError('400', 'not found this language');
+
+        }
+        else
+        {
+            return $this->returnData('language', $language,'done');
+
+        }
     }
 }
