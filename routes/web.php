@@ -18,15 +18,10 @@ Route::get('/', function ($locale) {
     return view('welcome');
 });
 
-Route::get('/lang/{lang}','LangController@index');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/lang/{lang}',function($lang){
-    app()->setLocale($lang);
-    echo __('message.Hello');
-});
 
 

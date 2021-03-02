@@ -69,16 +69,13 @@ class BrandsService
         {
             return $this->returnError('400', 'saving failed');
         }
+
     }
-////
+
     public function update(BrandRequest $request,$id)
     {
 
-        $brand= Brands::find($request->id);
-
-
-        $brand= Brands::find($id);
-
+        $brand= $this->BrandModel::find($id);
 
         $brand->name            =$request->name;
         $brand->slug            =$request->slug;

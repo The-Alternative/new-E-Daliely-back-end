@@ -24,14 +24,18 @@ class LanguageRequest extends FormRequest
     public function rules()
     {
         return [
-//            'name'                =>'require:languages',
-//            'active'              =>'require:languages',
-//            'iso_code'            =>'require:languages',
-//            'lang_code '          =>'require:languages',
-//            'locale'              =>'require:languages',
-//            'date_format_lite'    =>'require:languages',
-//            'date_format_full'    =>'require:languages',
-//            'is_rtl'              =>'require:languages'
+            'name'                =>'require:languages',
+            'iso_code'            =>'require:languages',
+            'lang_code '          =>'require:languages',
+
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Please Enter  Language\'s Name',
+            'iso_code.required'=>'Please Enter Iso_code',
+            'lang_code '=>'Please Enter language code',
         ];
     }
 }
