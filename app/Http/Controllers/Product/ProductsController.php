@@ -46,9 +46,9 @@ class ProductsController extends Controller
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
-        public function update(Request $request,$id)
+        public function update(ProductRequest $request,$pro_id)
         {
-            $response= $this->ProductService->update( $request,$id);
+            $response= $this->ProductService->update($request,$pro_id);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');

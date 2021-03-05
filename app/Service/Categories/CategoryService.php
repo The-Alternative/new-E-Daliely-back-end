@@ -32,14 +32,14 @@ class CategoryService
     public function get()
     {   
         $category= Category::all();
-            return $this->returnData('Product',$category,'done'); 
+            return $this->returnData('Category',$category,'done'); 
     }
     public function getById($id )
     {
        // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
 
         $category= Category::find($id);
-        return $this->returnData('Product',$category,'done'); 
+        return $this->returnData('Category',$category,'done'); 
     }
         /****ــــــThis Functions For Trashed Productsــــــ  ****/
         
@@ -48,7 +48,7 @@ class CategoryService
     public function getTrashed()
     {
         $category= Category::all()->where('is_active',0);
-          return $this -> returnData('Product',$category,'done');
+          return $this -> returnData('Category',$category,'done');
     }
     /****Restore Products Fore Active status  ****/
 
@@ -66,7 +66,7 @@ class CategoryService
         $category=$this->Category::find($id);
             $category->is_active=false; 
             $category->save(); 
-            return $this->returnData('Product', $category,'This Product Is trashed Now');
+            return $this->returnData('Category', $category,'This Product Is trashed Now');
     }
 
     /*ـــــــــــــــــــــــــــــــــــــــــــــــ*/

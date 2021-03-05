@@ -14,15 +14,15 @@ class CreateLanguagesTable extends Migration
     public function up()
     {
         Schema::create('languages', function (Blueprint $table) {
-            $table->id('lang_id');
+            $table->id('id');
             $table->string('name');
-            $table->boolean('active');
-            $table->string('iso_code');
-            $table->string('lang_code');
+            $table->string('abbr');
+            $table->string('native');
+            $table->boolean('is_active');
+            $table->integer('iso_code');
             $table->string('locale');
-            $table->date('date_format_lite');
-            $table->date('date_format_full');
-            $table->boolean('is_rtl');
+            $table->string('flag');
+            $table->boolean('rtl');
             $table->timestamps();
         });
     }
