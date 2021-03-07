@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Store;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Stores\Stores;
 
 class StoreRequest extends FormRequest
 {

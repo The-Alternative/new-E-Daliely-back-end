@@ -18,6 +18,7 @@ use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes;
 class BrandsService
 {
     private $BrandModel;
+    private $lang;
 
     use GeneralTrait;
 
@@ -30,6 +31,8 @@ class BrandsService
     public function get()
     {
 
+        return $this->BrandModel::all();
+
 
        $brand=$this->BrandModel::all()->where('is_active','=',1);
         return $this->returnData('brand',$brand,'done');
@@ -38,6 +41,7 @@ class BrandsService
 
     public function getById($id)
     {
+
 
         $brand= $this->BrandModel::find($id);
         return $this->returnData('brand',$brand,'done');
@@ -49,9 +53,18 @@ class BrandsService
         $brand= $this->BrandModel::all()->where('is_active',0);
         return $this -> returnData('brand',$brand,'done');
     }
-//
-    public function create( BrandRequest $request )
+
+    public function create( BrandRequest $request ,$id)
     {
+
+        return $this->BrandModel::find($id);
+
+    }
+
+    public function createNewBrands( BrandRequest $request)
+    {
+
+
         $brand=new Brands();
 
         $brand->name            =$request->name;
@@ -71,6 +84,7 @@ class BrandsService
         }
 
     }
+
 
     public function update(BrandRequest $request,$id)
     {
@@ -103,7 +117,6 @@ class BrandsService
         if (!$brand)
         {
             return $this->returnError('400', 'not found this brand');
-
         }
         else
         {
@@ -130,13 +143,12 @@ class BrandsService
 
         return $this->returnData('Product', $brand,'This brand is trashed Now');
     }
-////
+
     public function delet($id)
     {
         $brand = Brands::find($id);
         $brand->is_active = false;
         $brand->save();
-
         return $this->returnData('brand', $brand, 'This brand is deleted Now');
 
 

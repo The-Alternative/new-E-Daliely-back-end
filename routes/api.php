@@ -57,6 +57,7 @@ Route::group(['middleware' =>'api','prefix'=> 'brands','namespace'=>'Brand'] ,fu
     Route::PUT('/restoreTrashed/{id}','BrandController@restoreTrashed');
     Route::delete('/delete{id}',  'BrandController@delete');
 });
+
 /*--------------------Language Routes----------------*/
 Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'] ,function () {
     Route::get('/get', 'LanguageController@get');
@@ -68,7 +69,9 @@ Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'
     Route::PUT('/restoreTrashed/{id}', 'LanguageController@restoreTrashed');
     Route::PUT('/trash/{id}', 'LanguageController@trash');
     Route::GET('/search/{name}', 'LanguageController@search');
+
 });
+
 /*----------------Store Routes---------------*/
 Route::group(['middleware'=>'api','prefix'=>'stores','namespace'=>'Store'],function (){
     Route::get('/get','StoreController@get');

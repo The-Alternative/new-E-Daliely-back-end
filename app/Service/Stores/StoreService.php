@@ -3,7 +3,6 @@
 
 namespace App\Service\Stores;
 
-use App\Models\Brands\Brands;
 use App\Models\Stores\Stores;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
@@ -32,8 +31,10 @@ class StoreService
         return $this->returnData('Store',$store,'done');
     }
 
-    public function create(StoreRequest $request)
+    public function create(StoreRequest $request): \Illuminate\Http\JsonResponse
     {
+        $validated = $request->validated();
+//        $store=Store::create($request->all());
         $store=new Stores();
 
        $store->title             =$request ->title;
@@ -56,7 +57,7 @@ class StoreService
         }
         else
         {
-            return $this->returnError('400', 'saving failed');
+            return $this->returnError('400','saving failed');
         }
 
     }

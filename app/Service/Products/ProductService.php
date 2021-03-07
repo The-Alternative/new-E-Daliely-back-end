@@ -29,9 +29,9 @@ class ProductService
     /****Get All Active Products Or By ID  ****/
 
     public function get()
-    {   
+    {
         $product= Product::all()->where('is_active',1);
-            return $this->returnData('Product',$product,'done'); 
+            return $this->returnData('Product',$product,'done');
     //     try{
     //     $response= ($id?Product::find($id)->firstOrFail()->where('is_active',true):Product::all()->where('is_active',true));
     //         return $this->returnData('Product',$response,'done');
@@ -49,12 +49,12 @@ class ProductService
        // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
 
         $product= Product::find($id);
-        return $this->returnData('Product',$product,'done'); 
+        return $this->returnData('Product',$product,'done');
     }
 
 
         /****ــــــThis Functions For Trashed Productsــــــ  ****/
-        
+
     /****Get All Trashed Products Or By ID  ****/
 
     public function getTrashed()
@@ -67,8 +67,8 @@ class ProductService
     public function restoreTrashed( $id)
     {
         $product=Product::find($id);
-            $product->is_active=true; 
-            $product->save(); 
+            $product->is_active=true;
+            $product->save();
             return $this->returnData('Product', $product,'This Product Is trashed Now');
     }
         /****   Product's Soft Delete   ****/
@@ -76,14 +76,17 @@ class ProductService
     public function trash( $id)
     {
         $product= Product::find($id);
-            $product->is_active=false; 
-            $product->save(); 
+            $product->is_active=false;
+            $product->save();
             return $this->returnData('Product', $product,'This Product Is trashed Now');
     }
 
     /*ـــــــــــــــــــــــــــــــــــــــــــــــ*/
 
-        /****  Create Products   ****/
+    /****  Create Products   ***
+     * @param ProductRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 
     public function create(ProductRequest $request)
     {
@@ -145,7 +148,7 @@ class ProductService
             return $this->returnError('400', 'not found this Product');
 
         }
-          else 
+          else
             {
                 return $this->returnData('products', $product,'done');
 
