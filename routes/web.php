@@ -13,15 +13,21 @@ use Illuminate\Support\Facades\App;
 |
 */
 
-Route::get('/', function ($locale) {
+Route::get('/', function (Request $request) {
 
     return view('welcome');
 });
+
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 

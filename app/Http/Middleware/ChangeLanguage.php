@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use LaravelLocalization;
 
 class ChangeLanguage
 {
@@ -16,10 +17,10 @@ class ChangeLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-//        app()->setLocale('ar');
-//        if(isset($request -> lang )&& $request -> lang == 'en')
-//            app()->setLocale('en');
+        LaravelLocalization::setLocale('ar');
+        if(isset($request->lang)&&$request->lang=='en')
+        LaravelLocalization::setLocale('en');
 
-        return $next($request);
+            return $next($request);
     }
 }

@@ -1,10 +1,15 @@
 <?php
 
-
 namespace App\Service\Languages;
 
+use App\Traits\GeneralTrait;
+use App\Http\Requests\LanguageRequest;
 use App\Models\Language\Language;
+<<<<<<< HEAD
 use App\Models\Products\Product;
+=======
+use Illuminate\Http\JsonResponse;
+>>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -22,9 +27,10 @@ class LanguageService
     public function __construct(Language $language)
     {
 
-        $this->LanguageModel=$language;
+        $this->LanguageModel = $language;
     }
 
+<<<<<<< HEAD
     public function get()
     {
       $language=$this->LanguageModel::all()->where('is_active','=',1);
@@ -40,19 +46,60 @@ class LanguageService
     }
 
     public function create($request)
+=======
+        /*__________________________________________________________________*/
+    /**** Get All Active Language   ****/
+    public function get()
     {
-        $language=new Language();
+        $language = Language::selectActiveValue()->selection();
+        return $this->returnData('language',$language,'done');
+    }
+        /*__________________________________________________________________*/
+    /**** Get Active Language By ID  ****/
+    public function getById(/*Request $request,*/ $id)
+    {
+        $language = Language::selectActiveValue()->find($id);
+        return $this->returnData('language',$language,'done');
+    }
 
-        $language->lang_id                  =$request->lang_id ;
-        $language->name                     =$request->name;
-        $language->active                   =$request->active;
-        $language->iso_code                 =$request->iso_code ;
-        $language->lang_code                =$request->lang_code ;
-        $language->locale                   =$request->locale ;
-        $language->date_format_lite         =$request->date_format_lite  ;
-        $language->date_format_full         =$request->date_format_full  ;
-        $language->is_rtl                   =$request->is_rtl;
+        /*__________________________________________________________________*/
+    /****  Create Language   ***/
+    public function create(LanguageRequest $request)
+    {
+        try {
+            $request->is_active ? $is_active = true : $is_active = false;
+            $validated = $request->validated();
+            $language = Language::create($request->except(['__token']));
+            return $this->returnData('Language', $language, 'done');
+        } catch (\Exception $ex) {
+            return $this->returnError('400', 'saving failed');
+        }
+    }
 
+        /*__________________________________________________________________*/
+    /****  Update Product   ***
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function update(LanguageRequest $request, $id)
+>>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+    {
+        try {
+            $validated = $request->validated();
+            $language = Language::selectActiveValue()->find($id);
+            $language->update($request->all());
+            return $this->returnData('Language', $language, 'done');
+        } catch (\Exception $ex) {
+            return $this->returnError('400', 'updated failed');
+        }
+    }
+
+        /*__________________________________________________________________*/
+    /****ــــــThis Functions For Trashed Productsــــــ  ****/
+    /****Get All Trashed Products Or By ID  ****/
+
+<<<<<<< HEAD
         $result=$language->save();
         if ($result)
         {
@@ -65,19 +112,25 @@ class LanguageService
     }
 
     public function update(LanguageRequest $request,$id)
+=======
+    public function getTrashed()
     {
-        $language= Language::find($id);
+        $language = Language::where('is_active',0)->get();
+        return $this->returnData('Language',$language,'done');
+    }
 
-        $language->lang_id                  =$request->lang_id ;
-        $language->name                     =$request->name;
-        $language->active                   =$request->active;
-        $language->iso_code                 =$request->iso_code ;
-        $language->lang_code                =$request->lang_code ;
-        $language->locale                   =$request->locale ;
-        $language->date_format_lite         =$request->date_format_lite  ;
-        $language->date_format_full         =$request->date_format_full  ;
-        $language->is_rtl                   =$request->is_rtl;
+        /*__________________________________________________________________*/
+    /****Restore Products Fore Active status  ****/
+    public function restoreTrashed($id)
+>>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+    {
+        $language = Language::where('is_active',0)->find($id);
+        $language->is_active = true;
+        $language->save();
+        return $this->returnData('language',$language,'This language Is trashed Now');
+    }
 
+<<<<<<< HEAD
         $result=$language->save();
         if ($result)
         {
@@ -87,17 +140,45 @@ class LanguageService
         {
             return $this->returnError('400', 'saving failed');
         }
-
+=======
+    /****   Product's Soft Delete   ***/
+    public function trash($id)
+    {
+        $language = Language::where('is_active',1)->find($id);
+        $language->is_active = false;
+        $language->save();
+        return $this->returnData('language',$language,'This language Is trashed Now');
     }
+>>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
+            /*__________________________________________________________________*/
+    /****  ٍsearch for Product   ****/
+    public function search($title)
+    {
+        $language = Language::searchTitle();
+        if (!$language) {
+            return $this->returnError('400', 'not found this Product');
+        } else {
+            return $this->returnData('Language', $language, 'done');
+        }
+    }
+<<<<<<< HEAD
 ////
     public function delete(Request $request,$id)
+=======
+    
+            /*__________________________________________________________________*/
+    /****  Delete Product   ***/
+    public function delete($id)
+>>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
     {
-        $language=Language::find($id);
-
-        $language->active           =$request->active;
-
-        $language->save();
-        return response()->json($language);
+        try {
+            $language = Language::find($id);
+            $language->delete($id);
+            return $this->returnData('Language', $language, 'done');
+        } catch (\Exception $ex) {
+            return $this->returnError('400', 'deleting failed');
+        }
     }
 
 

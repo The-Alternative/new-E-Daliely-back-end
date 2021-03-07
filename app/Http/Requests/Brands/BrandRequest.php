@@ -13,7 +13,9 @@ class BrandRequest extends FormRequest
      */
     public function authorize()
     {
+
         return true;
+
     }
 
     /**
@@ -24,6 +26,7 @@ class BrandRequest extends FormRequest
     public function rules()
     {
         return [
+
 
             'name'=> 'required|min:5|max:255|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)+$/|unique:brands,name',
             'slug'=>'required:brands',
@@ -48,5 +51,6 @@ class BrandRequest extends FormRequest
             'image.required' => 'Please Enter Your Brand\'s Image',
         ];
     }
+
 
 }

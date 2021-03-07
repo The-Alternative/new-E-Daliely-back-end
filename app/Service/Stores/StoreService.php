@@ -3,7 +3,7 @@
 
 namespace App\Service\Stores;
 
-use App\Models\Stores\Stores;
+use App\Models\Stores\Store;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use App\Http\Requests\Store\StoreRequest;
@@ -12,30 +12,30 @@ use Illuminate\Support\Facades\DB;
 class StoreService
 {
     use GeneralTrait;
-    private $StoresModel;
-    public function __construct(Stores $store)
+    private $StoreModel;
+    public function __construct(Store $store)
     {
-        $this-> StoresModel=$store;
+        $this-> StoreModel=$store;
 
     }
     public function get()
     {
-        $store = $this->StoresModel::all()->where('is_active','=',1);
+        $store = $this->StoreModel::all()->where('is_active','=',1);
         return $this->returnData('store',$store,'done');
     }
 
     public function getById($id)
     {
-        $store=$this->StoresModel::find($id);
+        $store=$this->StoreModel::find($id);
 
         return $this->returnData('Store',$store,'done');
     }
 
     public function create(StoreRequest $request): \Illuminate\Http\JsonResponse
     {
-        $validated = $request->validated();
+//        $validated = $request->validated();
 //        $store=Store::create($request->all());
-        $store=new Stores();
+        $store=new Store();
 
        $store->title             =$request ->title;
        $store->user_id           =$request ->user_id;
@@ -62,10 +62,10 @@ class StoreService
 
     }
 
-    public function updateStore(Request $request,$id)
+    public function update(Request $request,$id)
     {
 
-        $store= Stores::find($id);
+        $store= Store::find($id);
 
         $store->title             =$request ->title;
         $store->user_id           =$request ->user_id;
@@ -96,7 +96,7 @@ class StoreService
 
     public function delete(StoreRequest $request ,$id)
     {
-        $store=Stores::find($id);
+        $store=Store::find($id);
 
         $store->is_active           =$request->is_active;
 
@@ -108,14 +108,14 @@ class StoreService
 
     public function getTrashed()
     {
-        $store=$this->StoresModel::all()->where('is_active',0);
+        $store=$this->StoreModel::all()->where('is_active',0);
         return $this -> returnData('Store',$store,'done');
     }
 
 
     public function restoreTrashed( $id)
     {
-        $store=$this->StoresModel::find($id);
+        $store=$this->StoreModel::find($id);
         $store->is_active=true;
         $store->save();
         return $this->returnData('Store', $store,'This Store Is trashed Now');
@@ -123,7 +123,7 @@ class StoreService
 
     public function trash( $id)
     {
-        $store= $this->StoresModel::find($id);
+        $store= $this->StoreModel::find($id);
         $store->is_active=false;
         $store->save();
         return $this->returnData('Store', $store,'This Store Is trashed Now');

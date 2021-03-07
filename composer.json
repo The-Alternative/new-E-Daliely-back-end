@@ -15,6 +15,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "mcamara/laravel-localization": "^1.6",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
@@ -40,7 +41,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "App/Helpers/GeneralHelpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

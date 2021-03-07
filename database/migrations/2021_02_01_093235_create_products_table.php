@@ -15,10 +15,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('trans_lang');
+            $table->unsigned('trans_of');
             $table->string('title');
             $table->string('slug');
             $table->integer('brand_id');
             $table->string('barcode');
+            $table->string('image');
             $table->string('short_des');
             $table->boolean('is_active')->default(true);
             $table->boolean('is_appear')->default(true);

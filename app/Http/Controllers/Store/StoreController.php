@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Store\StoreRequest;
 use Illuminate\Http\Response;
 use App\Service\Stores\StoreService;
-use App\Models\Stores\Stores;
+use App\Models\Stores\Store;
 
 class StoreController extends Controller
 {
    use GeneralTrait;
+//    use Validator;
    private $StoreService;
    private $response;
 
