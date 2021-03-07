@@ -8,6 +8,8 @@ use App\Models\Brands\Brands;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\GeneralTrait;
+use App\Http\Requests\Brands\BrandRequest;
 use phpDocumentor\Reflection\Types\This;
 
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes;
@@ -16,6 +18,7 @@ class BrandsService
 {
     private $BrandModel;
     private $lang;
+    use GeneralTrait;
 
     public function __construct(Brands $brand)
     {
@@ -26,41 +29,35 @@ class BrandsService
     public function getAllBrands()
     {
 
+        return $this->BrandModel::all();
 
-        $brand=DB::table('brands')
-            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
-            ->join('brands_language','brands_id','=','brands.id')
-            ->join('languages','languages.lang_id','=','brands_language.lang_id')
-            ->where('languages.lang_code','=','ar-SY')
-
-        return response()->json($brand);
+//        $brand=DB::table('brands')
+//            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
+//            ->join('brands_language','brands_id','=','brands.id')
+//            ->join('languages','languages.lang_id','=','brands_language.lang_id')
+//            ->where('languages.lang_code','=','ar-SY');
+//
+//        return response()->json($brand);
     }
 
     public function getBrandsById($id)
     {
-         Brands::find($id);
+        return $this->BrandModel::find($id);
 
-        $brand=DB::table('brands')
-            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
-            ->join('brands_language','brands_id','=','brands.id')
-            ->join('languages','languages.lang_id','=','brands_language.lang_id')
-            ->where('languages.lang_code','=','ar-SY')
-            ->get();
-
-        return response()->json($brand);
+//         Brands::find($id);
+//
+//        $brand=DB::table('brands')
+//            ->select('brands.id','brands.slug','brands.image','brands_language.name as name','brands_language.description as description')
+//            ->join('brands_language','brands_id','=','brands.id')
+//            ->join('languages','languages.lang_id','=','brands_language.lang_id')
+//            ->where('languages.lang_code','=','ar-SY')
+//            ->get();
+//
+//        return response()->json($brand);
     }
 //
-    public function createNewBrands($request)
+    public function createNewBrands( BrandRequest )
     {
-        $request->validate([
-
-            'name'=>'required|min:5|max:255|unique:brands,name',
-            'slug'=>'required',
-            'description'=>'required|min:20|max:255',
-            'image'=>'required',
-            'is_active'=>'required',
-
-        ]);
 
         $brand=new Brands();
 
@@ -76,15 +73,6 @@ class BrandsService
 //
     public function updateBrand(Request $request,$id)
     {
-        $request->validate([
-
-        'name'=>'required|min:5|max:255|unique:brands,name',
-        'slug'=>'required',
-        'description'=>'required|min:20|max:255',
-        'image'=>'required',
-        'is_active'=>'required',
-
-    ]);
         $brand= Brands::find($id);
 
         $brand->name            =$request->name;
@@ -102,9 +90,10 @@ class BrandsService
     {
         $brand=Brands::find($id);
 
-        $brand->is_active           =$request->is_active;
+        $brand->is_active    =$request->is_active;
 
         $brand->save();
+
         return response()->json($brand);
     }
 }
