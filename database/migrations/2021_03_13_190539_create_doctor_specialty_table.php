@@ -15,6 +15,8 @@ class CreateDoctorSpecialtyTable extends Migration
     {
         Schema::create('doctorSpecialty', function (Blueprint $table) {
             $table->id();
+            $table->integer('doctor_id');
+            $table->integer('specialties_id');
             $table->timestamps();
         });
     }

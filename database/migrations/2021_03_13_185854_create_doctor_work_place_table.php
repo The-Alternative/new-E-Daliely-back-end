@@ -15,6 +15,8 @@ class CreateDoctorWorkPlaceTable extends Migration
     {
         Schema::create('doctorWorkPlace', function (Blueprint $table) {
             $table->id();
+            $table->integer('doctor_id');
+            $table->integer('work_places_id');
             $table->timestamps();
         });
     }

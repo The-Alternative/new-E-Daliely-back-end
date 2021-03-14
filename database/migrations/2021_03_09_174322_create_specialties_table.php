@@ -15,6 +15,8 @@ class CreateSpecialtiesTable extends Migration
     {
         Schema::create('specialties', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('graduation_year');
             $table->timestamps();
         });
     }

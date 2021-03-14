@@ -15,6 +15,8 @@ class CreateDoctorRatesTable extends Migration
     {
         Schema::create('doctor_rates', function (Blueprint $table) {
             $table->id();
+            $table->integer('doctor_id');
+            $table->integer('rate');
             $table->timestamps();
         });
     }

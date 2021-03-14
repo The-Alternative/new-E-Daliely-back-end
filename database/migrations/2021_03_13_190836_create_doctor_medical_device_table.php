@@ -15,6 +15,8 @@ class CreateDoctorMedicalDeviceTable extends Migration
     {
         Schema::create('doctorMedicalDevice', function (Blueprint $table) {
             $table->id();
+            $table->integer('doctor_id');
+            $table->integer('medical_device_id');
             $table->timestamps();
         });
     }
