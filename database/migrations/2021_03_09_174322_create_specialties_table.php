@@ -17,6 +17,7 @@ class CreateSpecialtiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('graduation_year');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

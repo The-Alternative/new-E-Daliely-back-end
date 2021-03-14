@@ -7,6 +7,7 @@ namespace App\Service\Specialty;
 use App\Http\Requests\Specialty\SpecialtyRequest;
 use App\Models\Specialty\Specialty;
 use App\Traits\GeneralTrait;
+use Illuminate\Support\Facades\DB;
 
 class SpecialtyService
 {
@@ -47,6 +48,7 @@ class SpecialtyService
 
         $Specialty->name                =$request->name;
         $Specialty->graduation_year     =$request->graduation_year ;
+        $Specialty->is_active           =$request->is_active ;
 
 
         $result= $Specialty->save();
@@ -68,6 +70,8 @@ class SpecialtyService
 
         $Specialty->name                =$request->name;
         $Specialty->graduation_year     =$request->graduation_year ;
+        $Specialty->is_active           =$request->is_active ;
+
 
 
         $result= $Specialty->save();

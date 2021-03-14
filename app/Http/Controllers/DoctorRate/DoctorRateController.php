@@ -34,12 +34,12 @@ class DoctorRateController extends Controller
         return $response;
     }
 
-    public function getTrashed()
-    {
-        $response= $this->DoctorRateService->getTrashed();
-        return $response;
-
-    }
+//    public function getTrashed()
+//    {
+//        $response= $this->DoctorRateService->getTrashed();
+//        return $response;
+//
+//    }
 
     public function create(DoctorRateRequest $request)
     {
@@ -57,37 +57,31 @@ class DoctorRateController extends Controller
             ->header('Access-control-Allow-Methods','*');
 
     }
-//    public function search($name)
+
+
+//    public function trash($id)
 //    {
-//        $response= $this->DoctorRateService->search($name);
+//        $response= $this->DoctorRateService->trash($id);
 //        return response($response, 200)
 //            ->header('Access-Control-Allow-Origin', '*')
 //            ->header('Access-Control-Allow-Methods', '*');
 //    }
 
-    public function trash($id)
-    {
-        $response= $this->DoctorRateService->trash($id);
-        return response($response, 200)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', '*');
-    }
-
-    public function restoreTrashed($id)
-    {
-        $response= $this->DoctorRateService->restoreTrashed($id);
-        return response($response, 200)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', '*');
-    }
-//
-    public function delete($id)
-    {
-        $response=$this->DoctorRateService->delete($id);
-        return  response($response,200)
-            ->header('Access-control-Allow-Origin','*')
-            ->header('Access-control-Allow-Methods','*');
-    }
+//    public function restoreTrashed($id)
+//    {
+//        $response= $this->DoctorRateService->restoreTrashed($id);
+//        return response($response, 200)
+//            ->header('Access-Control-Allow-Origin', '*')
+//            ->header('Access-Control-Allow-Methods', '*');
+//    }
+////
+//    public function delete($id)
+//    {
+//        $response=$this->DoctorRateService->delete($id);
+//        return  response($response,200)
+//            ->header('Access-control-Allow-Origin','*')
+//            ->header('Access-control-Allow-Methods','*');
+//    }
 
 
 }

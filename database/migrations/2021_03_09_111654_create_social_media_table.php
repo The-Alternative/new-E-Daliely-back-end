@@ -18,8 +18,12 @@ class CreateSocialMediaTable extends Migration
             $table->integer('phone_number');
             $table->integer('whatsapp_number');
             $table->string('facebook_account');
+            $table->string('instagram_account');
             $table->integer('telegram_number');
             $table->string('email');
+            $table->string('doctor_id');
+            $table->string('is_active');
+
             $table->timestamps();
         });
     }

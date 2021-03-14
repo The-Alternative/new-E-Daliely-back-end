@@ -6,6 +6,8 @@ namespace App\Service\MedicalDevice;
 use App\Http\Requests\MedicalDevice\MedicalDeviceRequest;
 use App\Models\medicalDevice\medicalDevice;
 use App\Traits\GeneralTrait;
+use Illuminate\Support\Facades\DB;
+
 
 class MedicalDeviceService
 {

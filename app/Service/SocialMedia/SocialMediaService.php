@@ -7,6 +7,7 @@ namespace App\Service\SocialMedia;
 use App\Http\Requests\SocialMedia\SocialMediaRequest;
 use App\Models\SocialMedia\SocialMedia;
 use App\Traits\GeneralTrait;
+use Illuminate\Support\Facades\DB;
 
 class SocialMediaService
 {
@@ -48,8 +49,11 @@ class SocialMediaService
         $SocialMedia->phone_number                       =$request->phone_number ;
         $SocialMedia->whatsapp_number                    =$request->whatsapp_number;
         $SocialMedia->facebook_account                   =$request->facebook_account;
-        $SocialMedia->telegram_account                   =$request->telegram_account ;
+        $SocialMedia->instagram_account                  =$request->instagram_account;
+        $SocialMedia->telegram_number                    =$request->telegram_number ;
         $SocialMedia->email                              =$request->email  ;
+        $SocialMedia->doctor_id                          =$request->doctor_id   ;
+        $SocialMedia->is_active                          =$request->is_active   ;
 
 
         $result=$SocialMedia->save();
@@ -72,8 +76,13 @@ class SocialMediaService
         $SocialMedia->phone_number                       =$request->phone_number ;
         $SocialMedia->whatsapp_number                    =$request->whatsapp_number;
         $SocialMedia->facebook_account                   =$request->facebook_account;
-        $SocialMedia->telegram_account                   =$request->telegram_account ;
+        $SocialMedia->instagram_account                  =$request->instagram_account;
+        $SocialMedia->telegram_number                    =$request->telegram_number ;
         $SocialMedia->email                              =$request->email  ;
+        $SocialMedia->doctor_id                          =$request->doctor_id   ;
+        $SocialMedia->is_active                          =$request->is_active   ;
+
+
 
         $result=$SocialMedia->save();
         if ($result)
@@ -87,21 +96,7 @@ class SocialMediaService
 
     }
 
-//    public function search($name)
-//    {
-//        $SocialMedia = DB::table('doctors')
-//            ->where("name","like","%".$name."%")
-//            ->get();
-//        if (!$doctorRate)
-//        {
-//            return $this->returnError('400', 'not found this doctorRate');
-//        }
-//        else
-//        {
-//            return $this->returnData('doctorRate', $doctorRate,'done');
-//
-//        }
-//    }
+
 
     public function trash( $id)
     {

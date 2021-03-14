@@ -11,7 +11,7 @@ class Specialty extends Model
     use HasFactory;
 
     protected $table='specialties';
-    protected $fillable=['id','name','graduation_year'];
+    protected $fillable=['id','name','graduation_year','is_active'];
 
     public function doctor()
     {

@@ -13,7 +13,7 @@ class SpecialtyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

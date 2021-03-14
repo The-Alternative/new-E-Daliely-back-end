@@ -177,30 +177,28 @@ Route::group(['middleware'=>'api','prefix'=>'doctor','namespace'=>'Doctors'],fun
     Route::PUT('/restoreTrashed/{id}', 'DoctorController@restoreTrashed');
 });
 /*---------------Doctor Rate Route--------*/
-//Route::group(['middleware'=>'api','prefix'=>'DoctorRate','namespace'=>'DoctorRate'],function () {
-//    Route::get('/get', 'DoctorRateController@get');
-//    Route::get('/getById/{id}', 'DoctorRateController@getById');
+Route::group(['middleware'=>'api','prefix'=>'DoctorRate','namespace'=>'DoctorRate'],function () {
+    Route::get('/get', 'DoctorRateController@get');
+    Route::get('/getById/{id}', 'DoctorRateController@getById');
 //    Route::get('/getTrashed', 'DoctorRateController@getTrashed');
-//    Route::post('/create', 'DoctorRateController@create');
-//    Route::put('/update/{id}', 'DoctorRateController@update');
-//    Route::GET('/search/{name}', 'DoctorRateController@search');
-//    Route::PUT('/trash/{id}', 'DoctorRateController@trash');
+    Route::post('/create', 'DoctorRateController@create');
+    Route::put('/update/{id}', 'DoctorRateController@update');
+   // Route::PUT('/trash/{id}', 'DoctorRateController@trash');
 //    Route::delete('/delete/{id}', 'DoctorRateController@delete');
 //    Route::PUT('/restoreTrashed/{id}', 'DoctorRateController@restoreTrashed');
-//});
-//
-///*--------------Social Media Route-------*/
-//Route::group(['middleware'=>'api','prefix'=>'SocialMedia','namespace'=>'SocialMedia'],function () {
-//    Route::get('/get', 'SocialMediaController@get');
-//    Route::get('/getById/{id}', 'SocialMediaController@getById');
-//    Route::get('/getTrashed', 'SocialMediaController@getTrashed');
-//    Route::post('/create', 'SocialMediaController@create');
-//    Route::put('/update/{id}', 'SocialMediaController@update');
-//   // Route::GET('/search/{name}', 'SocialMediaController@search');
-//    Route::PUT('/trash/{id}', 'SocialMediaController@trash');
-//    Route::delete('/delete/{id}', 'SocialMediaController@delete');
-//    Route::PUT('/restoreTrashed/{id}', 'SocialMediaController@restoreTrashed');
-//});
+});
+
+/*--------------Social Media Route-------*/
+Route::group(['middleware'=>'api','prefix'=>'SocialMedia','namespace'=>'SocialMedia'],function () {
+    Route::get('/get', 'SocialMediaController@get');
+    Route::get('/getById/{id}', 'SocialMediaController@getById');
+    Route::get('/getTrashed', 'SocialMediaController@getTrashed');
+    Route::post('/create', 'SocialMediaController@create');
+    Route::put('/update/{id}', 'SocialMediaController@update');
+    Route::PUT('/trash/{id}', 'SocialMediaController@trash');
+    Route::delete('/delete/{id}', 'SocialMediaController@delete');
+    Route::PUT('/restoreTrashed/{id}', 'SocialMediaController@restoreTrashed');
+});
 ///*------------Hospital Route------------*/
 Route::group(['middleware'=>'api','prefix'=>'Hospital','namespace'=>'Hospital'],function () {
     Route::get('/get', 'HospitalController@get');
@@ -227,27 +225,27 @@ Route::group(['middleware'=>'api','prefix'=>'WorkPlace','namespace'=>'WorkPlace'
 });
 //
 ///*---------------Medical Device Route-------------*/
-//Route::group(['middleware'=>'api','prefix'=>'MedicalDevice','namespace'=>'MedicalDevice'],function () {
-//    Route::get('/get', 'MedicalDeviceController@get');
-//    Route::get('/getById/{id}', 'MedicalDeviceController@getById');
-//    Route::get('/getTrashed', 'MedicalDeviceController@getTrashed');
-//    Route::post('/create', 'MedicalDeviceController@create');
-//    Route::put('/update/{id}', 'MedicalDeviceController@update');
-//    Route::GET('/search/{name}', 'MedicalDeviceController@search');
-//    Route::PUT('/trash/{id}', 'MedicalDeviceController@trash');
-//    Route::delete('/delete/{id}', 'MedicalDeviceController@delete');
-//    Route::PUT('/restoreTrashed/{id}', 'MedicalDeviceController@restoreTrashed');
-//});
-//
-///*---------------Specialty Route-------------*/
-//Route::group(['middleware'=>'api','prefix'=>'Specialty','namespace'=>'Specialty'],function () {
-//    Route::get('/get', 'SpecialtyController@get');
-//    Route::get('/getById/{id}', 'SpecialtyController@getById');
-//    Route::get('/getTrashed', 'SpecialtyController@getTrashed');
-//    Route::post('/create', 'SpecialtyController@create');
-//    Route::put('/update/{id}', 'SpecialtyController@update');
-//    Route::GET('/search/{name}', 'SpecialtyController@search');
-//    Route::PUT('/trash/{id}', 'SpecialtyController@trash');
-//    Route::delete('/delete/{id}', 'SpecialtyController@delete');
-//    Route::PUT('/restoreTrashed/{id}', 'SpecialtyController@restoreTrashed');
-//});
+Route::group(['middleware'=>'api','prefix'=>'MedicalDevice','namespace'=>'MedicalDevice'],function () {
+    Route::get('/get', 'MedicalDeviceController@get');
+    Route::get('/getById/{id}', 'MedicalDeviceController@getById');
+    Route::get('/getTrashed', 'MedicalDeviceController@getTrashed');
+    Route::post('/create', 'MedicalDeviceController@create');
+    Route::put('/update/{id}', 'MedicalDeviceController@update');
+    Route::GET('/search/{name}', 'MedicalDeviceController@search');
+    Route::PUT('/trash/{id}', 'MedicalDeviceController@trash');
+    Route::delete('/delete/{id}', 'MedicalDeviceController@delete');
+    Route::PUT('/restoreTrashed/{id}', 'MedicalDeviceController@restoreTrashed');
+});
+
+/*---------------Specialty Route-------------*/
+Route::group(['middleware'=>'api','prefix'=>'Specialty','namespace'=>'Specialty'],function () {
+    Route::get('/get', 'SpecialtyController@get');
+    Route::get('/getById/{id}', 'SpecialtyController@getById');
+    Route::get('/getTrashed', 'SpecialtyController@getTrashed');
+    Route::post('/create', 'SpecialtyController@create');
+    Route::put('/update/{id}', 'SpecialtyController@update');
+    Route::GET('/search/{name}', 'SpecialtyController@search');
+    Route::PUT('/trash/{id}', 'SpecialtyController@trash');
+    Route::delete('/delete/{id}', 'SpecialtyController@delete');
+    Route::PUT('/restoreTrashed/{id}', 'SpecialtyController@restoreTrashed');
+});

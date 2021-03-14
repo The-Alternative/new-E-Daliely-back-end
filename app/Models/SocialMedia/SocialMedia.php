@@ -10,7 +10,7 @@ class SocialMedia extends Model
 {
     use HasFactory;
     protected $table='social_media';
-    protected $fillable=['id','phone_number','whatsapp_number','facebook_account','telegram_account','email'];
+    protected $fillable=['id','phone_number','whatsapp_number','facebook_account','telegram_account','email','doctor_id','instagram_account','is_active'];
 
     public function doctor(){
 
