@@ -24,7 +24,22 @@ class SocialMediaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'phone_number'      =>'required|regex:/[0-9]{10}/',
+            'whatsapp_number'   =>'required|regex:/[0-9]{10}/',
+            'telegram_number'   =>'required|regex:/[0-9]{10}/',
         ];
     }
+    public function messages()
+    {
+        return [
+            'phone_number.required'=>'Please Enter Your  Phone Number',
+            'whatsapp_number.required'=>'Please Enter Your  whatsapp Number',
+            'telegram_number.required'=>'Please Enter Your  telegram Number',
+
+
+
+        ];
+
+            }
+
 }

@@ -24,7 +24,20 @@ class HospitalRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=> 'required|min:5|max:255|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)+$/|unique:hospitals,name'
+        ];
+
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Please Enter Your Hospital\'s Name',
+            'name.min' => 'Your Hospital\'s Name Is Too Short',
+            'name.max' => 'Your Hospital\'s Name Is Too Long',
+            'name.regex' => 'Your Hospital\'s Name Have Number',
+            'name.unique' => 'This Name\'s Is Used By Another Hospital',
+
         ];
     }
 }
