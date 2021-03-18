@@ -15,13 +15,17 @@ class doctor extends Model
     use HasFactory;
     protected $table='Doctors';
     protected $fillable =['Id','name','image','description','specialty_id','social_media_id','is_active','is_approved'];
+    protected $hidden   =['id','social_media_id','specialty_id','created_at','updated_at'];
+     public $timestamps=false;
 
-    public function socialMedia(){
+    public function socialMedia()
+    {
         return $this->hasMany(SocialMedia::class);
     }
     public  function workPlace()
     {
         return $this->belongsToMany(workPlace::class);
+
     }
 
     public  function Specialty()
@@ -38,5 +42,4 @@ class doctor extends Model
     {
         return $this->hasOne(DoctorRate::class);
     }
-
 }

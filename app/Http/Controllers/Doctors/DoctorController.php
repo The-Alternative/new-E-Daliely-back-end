@@ -90,4 +90,37 @@ class DoctorController extends Controller
             ->header('Access-control-Allow-Methods','*');
     }
 
+    public function SocialMedia($doctor_id)
+    {
+        $response=$this->DoctorService->SocialMedia($doctor_id);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+    }
+
+    public function workplace($doctor_id)
+    {
+        $response=$this->DoctorService->workplace($doctor_id);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+    }
+
+    public function doctormedicaldevice($doctor_id)
+    {
+        $response=$this->DoctorService->doctormedicaldevice($doctor_id);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+    }
+
+    public function getalldetails($doctor_id)
+    {
+        $response=$this->DoctorService->getalldetails($doctor_id);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+
+    }
+
 }

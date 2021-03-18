@@ -13,10 +13,10 @@ class CreateDoctorSpecialtyTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctorSpecialty', function (Blueprint $table) {
+        Schema::create('doctor_Specialty', function (Blueprint $table) {
             $table->id();
-            $table->integer('doctor_id');
-            $table->integer('specialties_id');
+            $table->integer('doctor_id')->unsigned();
+            $table->integer('specialties_id')->unsigned();
             $table->timestamps();
         });
     }

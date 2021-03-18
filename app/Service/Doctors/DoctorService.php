@@ -22,7 +22,8 @@ class DoctorService
     public function get()
     {
 
-        $doctor=$this->doctorModel::all()->where('is_active','=',1);
+        $doctor= $this->doctorModel::all()->where('is_active','=',1);
+
         return $this->returnData('doctor',$doctor,'done');
 
     }
@@ -137,5 +138,28 @@ class DoctorService
 
     }
 
+    public function SocialMedia($name,$doctor_id)
+    {
 
+
+
+        return doctor::with('socialMedia')->find($doctor_id);
+
+    }
+    public function workplace($doctor_id)
+    {
+        return doctor::with('workPlace') ->find($doctor_id);
+
+    }
+
+    public function doctormedicaldevice($doctor_id)
+    {
+             return doctor::with('medicalDevice') ->find($doctor_id);
+    }
+
+    public function getalldetails($doctor_id)
+    {
+        $medicaldevice=doctor::with('medicalDevice','socialMedia','workPlace') ->find($doctor_id);
+        return $medicaldevice;
+    }
 }

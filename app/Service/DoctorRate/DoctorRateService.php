@@ -5,6 +5,7 @@ namespace App\Service\DoctorRate;
 
 use App\Http\Requests\DoctorRate\DoctorRateRequest;
 use App\Models\DoctorRate\DoctorRate;
+use App\Models\Doctors\doctor;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\DB;
 
@@ -18,6 +19,13 @@ class DoctorRateService
     {
 
         $this->DoctorRateModel=$doctorRate;
+    }
+
+    public function getDoctorRate()
+    {
+        $doctorRate =DoctorRate::find(1);
+        $doctorRate->doctor;
+        return response()->json($doctorRate);
     }
     public function get()
     {

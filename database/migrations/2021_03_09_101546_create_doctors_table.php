@@ -18,8 +18,8 @@ class CreateDoctorsTable extends Migration
             $table->string('name');
             $table->string('image');
             $table->string('description');
-            $table->integer('social_media_id');
-            $table->integer('specialty_id');
+            $table->integer('social_media_id')->unsigned();
+            $table->integer('specialty_id')->unsigned();
             $table->boolean('is_active');
             $table->boolean('is_approved');
             $table->timestamps();

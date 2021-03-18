@@ -175,6 +175,12 @@ Route::group(['middleware'=>'api','prefix'=>'doctor','namespace'=>'Doctors'],fun
     Route::PUT('/trash/{id}', 'DoctorController@trash');
     Route::delete('/delete/{id}', 'DoctorController@delete');
     Route::PUT('/restoreTrashed/{id}', 'DoctorController@restoreTrashed');
+
+    Route::GET('/Doctor-social-media/{doctor_id}', 'DoctorController@SocialMedia');
+    Route::GET('/doctor-work-place/{doctor_id}', 'DoctorController@workplace');
+    Route::GET('/doctor-medical-device/{doctor_id}', 'DoctorController@doctormedicaldevice');
+    Route::GET('/doctor-details/{doctor_id}', 'DoctorController@getalldetails');
+
 });
 /*---------------Doctor Rate Route--------*/
 Route::group(['middleware'=>'api','prefix'=>'DoctorRate','namespace'=>'DoctorRate'],function () {
@@ -186,6 +192,9 @@ Route::group(['middleware'=>'api','prefix'=>'DoctorRate','namespace'=>'DoctorRat
    // Route::PUT('/trash/{id}', 'DoctorRateController@trash');
 //    Route::delete('/delete/{id}', 'DoctorRateController@delete');
 //    Route::PUT('/restoreTrashed/{id}', 'DoctorRateController@restoreTrashed');
+
+
+    Route::get('/get-doctor-rate','DoctorRateController@getDoctorRate');
 });
 
 /*--------------Social Media Route-------*/

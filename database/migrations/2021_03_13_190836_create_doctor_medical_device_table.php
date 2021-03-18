@@ -13,10 +13,10 @@ class CreateDoctorMedicalDeviceTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctorMedicalDevice', function (Blueprint $table) {
+        Schema::create('doctor_Medical_Device', function (Blueprint $table) {
             $table->id();
-            $table->integer('doctor_id');
-            $table->integer('medical_device_id');
+            $table->integer('doctor_id')->unsigned();
+            $table->integer('medical_device_id')->unsigned();
             $table->timestamps();
         });
     }

@@ -20,6 +20,16 @@ class DoctorRateController extends Controller
         $this->DoctorRateService=$DoctorRateService;
         $this->response=$response;
     }
+
+    public function getDoctorRate()
+    {
+        $response=$this->DoctorRateService->getDoctorRate();
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+
+    }
+
     public function get()
     {
 

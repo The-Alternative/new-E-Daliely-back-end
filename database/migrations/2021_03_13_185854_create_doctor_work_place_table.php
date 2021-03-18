@@ -13,10 +13,10 @@ class CreateDoctorWorkPlaceTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctorWorkPlace', function (Blueprint $table) {
+        Schema::create('doctor_Work_Place', function (Blueprint $table) {
             $table->id();
-            $table->integer('doctor_id');
-            $table->integer('work_places_id');
+            $table->integer('doctor_id')->unsigned();
+            $table->integer('work_place_id')->unsigned();
             $table->timestamps();
         });
     }

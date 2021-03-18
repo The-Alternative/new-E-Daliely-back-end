@@ -16,11 +16,11 @@ class CreateWorkPlacesTable extends Migration
         Schema::create('work_places', function (Blueprint $table) {
             $table->id();
             $table->string('clinic');
-            $table->integer('hospital_id');
+            $table->integer('hospital_id')->unsigned();
             $table->time('work_hours');
             $table->date('work_day');
-            $table->integer('doctor_id');
-            $table->integer('location_id');
+            $table->integer('doctor_id')->unsigned();
+            $table->integer('location_id')->unsigned();
             $table->boolean('is_active');
             $table->timestamps();
         });

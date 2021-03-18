@@ -19,7 +19,7 @@ class CreateHospitalsTable extends Migration
             $table->string('medical_center');
             $table->boolean('private_hospital');
             $table->boolean('general_hospital');
-            $table->integer('location_id');
+            $table->integer('location_id')->unsigned();
             $table->boolean('is_active');
             $table->boolean('is_approved');
 
