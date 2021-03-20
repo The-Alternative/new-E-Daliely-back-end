@@ -1,7 +1,6 @@
 <?php
 namespace App\Service\Products;
 
-
 use App\Traits\GeneralTrait;
 use App\Models\Custom_Fildes\Custom_Field;
 use App\Http\Requests\ProductRequest;
@@ -17,7 +16,6 @@ use LaravelLocalization;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
-
 
 class ProductService
 {
@@ -37,13 +35,23 @@ class ProductService
     /****Get All Active Products  ****/
     public function get()
     {
+        try
+        {
         $default_lang=get_default_languages();
         $product= Product::where('trans_lang', $default_lang)->selection();
         return $this->returnData('Product',$product,'done');
+    }
+    catch(\Exception $ex)
+        {
+            return $this->returnError('400', 'nothing to get');
+        }
 
     }
         /*__________________________________________________________________*/
-    /****Get Active Product By ID  ****/
+    /****Get Active Product By ID  ***
+     * @param $id
+     * @return JsonResponse
+     */
     public function getById(/*Request $request,*/ $id)
     {
        // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
@@ -61,7 +69,10 @@ class ProductService
     }
 
         /*__________________________________________________________________*/
-    /****Restore Products Fore Active status  ****/
+    /****Restore Products Fore Active status  ***
+     * @param $id
+     * @return JsonResponse
+     */
     public function restoreTrashed( $id)
     {
         $product=Product::find($id);
@@ -71,7 +82,10 @@ class ProductService
     }
 
         /*__________________________________________________________________*/
-        /****   Product's Soft Delete   ****/
+    /****   Product's Soft Delete   ***
+     * @param $id
+     * @return JsonResponse
+     */
     public function trash( $id)
     {
         $product= Product::find($id);
@@ -82,7 +96,10 @@ class ProductService
 
         /*__________________________________________________________________*/
 
-        /****  Create Products   ****/
+    /****  Create Products   ***
+     * @param ProductRequest $request
+     * @return JsonResponse
+     */
 
     public function create(ProductRequest $request)
     {
@@ -121,8 +138,8 @@ class ProductService
                         'barcode' => $request['barcode'],
                         'is_active' => $request['is_active'],
                         'is_appear'=> $request['is_appear'],
-                        // 'image' => $request['image']
-                        'image'=>$fileBath
+                         'image' => $request['image']
+//                        'image'=>$fileBath
                     ]);
                 $product = $allProducts->filter(
                     function($value , $key)
@@ -160,14 +177,15 @@ class ProductService
             catch(\Exception $ex)
                 {
                     DB::rollback();
-                    return $this->returnError('400', 'saving failed');
-                } 
+//                    dd($ex.getCode());
+                    return $this->returnError('400', $ex.getMessage());
+                }
     }
 
     /*__________________________________________________________________*/
     /****  Update Product   ***
      * @param ProductRequest $request
-     * @param $id
+     * @param $pro_id
      * @return JsonResponse
      */
     public function update(ProductRequest $request,$pro_id)
@@ -221,38 +239,27 @@ class ProductService
         /*__________________________________________________________________*/
     public function search($title)
     {
-        // $product = DB::table('products')->select('id',
-        // 'title_'.LaravelLocalization::getCurrentLocale().' as title',
-        // 'slug_'.LaravelLocalization::getCurrentLocale().' as slug',
-        // 'brand_id',
-        // 'barcode',
-        // 'meta_'.LaravelLocalization::getCurrentLocale().' as meta',
-        // 'is_active',
-        // 'is_appear',
-        // 'short_des_'.LaravelLocalization::getCurrentLocale().' as short_des',
-        // 'description_'.LaravelLocalization::getCurrentLocale().' as description')
-        // ->where('is_active',1)
-        //         ->where("title","like","%".$title."%")
-        //         ->get();
-        // $title='title_'.LaravelLocalization::getCurrentLocale().' as title';
+
         $product= Product::searchTitle();
         if (!$product)
         {
             return $this->returnError('400', 'not found this Product');
-
         }
           else
             {
                 return $this->returnData('products', $product,'done');
-
             }
     }
 
             /*__________________________________________________________________*/
-                /****  Delete Product   ****/
+    /****  Delete Product   ***
+     * @param $id
+     * @return JsonResponse
+     */
     public function delete( $id)
     {
         $product=Product::find($id);
+
         if ($product->$is_active=0)
             {
                 $product=Product::destroy($id);

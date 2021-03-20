@@ -56,7 +56,7 @@ class BrandsService
 //        return response()->json($brand);
     }
 //
-    public function createNewBrands( BrandRequest )
+    public function createNewBrands( BrandRequest $request )
     {
 
         $brand=new Brands();

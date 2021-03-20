@@ -15,6 +15,9 @@ function get_languages(){
 function get_default_languages(){
     return Config::get('app.locale');
 }
+function get_current_local(){
+    return Config::get('app.locale');
+}
 
 function uploadImage($folder, $image)
 {

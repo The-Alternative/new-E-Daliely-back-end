@@ -2,6 +2,7 @@
 namespace App\Service\Categories;
 
 
+use App\Models\Categories\CategoryTranslation;
 use App\Traits\GeneralTrait;
 use App\Models\Custom_Fildes\Custom_Field;
 use App\Http\Requests\CategoryRequest;
@@ -18,31 +19,41 @@ class CategoryService
 {
     use GeneralTrait;
     private $CategoryService;
+    private $categoryModel;
+    private $categoryTranslateModel;
     /**
      * ProductService constructor.
      */
 
-    public function __construct(Category $category)
+    public function __construct(Category $category,CategoryTranslation $categoryTranslation)
     {
-        $this->CategoryModel=$category;
+        $this->categoryModel=$category;
+        $this->categoryTranslateModel=$categoryTranslation;
     }
 
     /****Get All Active Products Or By ID  ****/
 
     public function get()
-    {   
-        $category= Category::all();
-            return $this->returnData('Category',$category,'done'); 
+    {
+//        $category= Category::with('language','CategoryTranslation')->where('lang_id','1')->get();
+//            return $this->returnData('Category',$category,'done');
     }
     public function getById($id )
     {
        // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
 
-        $category= Category::find($id);
-        return $this->returnData('Category',$category,'done'); 
+//        $category= Category::with('CategoryTranslation')->joinWhere('')->find($id);
+//        $category = Category::where('id', $id)
+//            ->Join('Categories', 'CategoryTranslation.locale', '=', 'en')->get();
+        $category = Category::where('id', $id)
+            ->leftJoin('Categories', 'categoryTranslation.id', '=', 'Categories.id')
+            ->select('Categories.id','categoryTranslation.name')->where('categoryTranslation.locale','en')->get();
+
+
+        return $this->returnData('Category',$category,'done');
     }
         /****ــــــThis Functions For Trashed Productsــــــ  ****/
-        
+
     /****Get All Trashed Products Or By ID  ****/
 
     public function getTrashed()
@@ -55,8 +66,8 @@ class CategoryService
     public function restoreTrashed( $id)
     {
         $category=$this->Category::find($id);
-            $category->is_active=true; 
-            $category->save(); 
+            $category->is_active=true;
+            $category->save();
             return $this->returnData('Category', $category,'This Product Is trashed Now');
     }
         /****   Product's Soft Delete   ****/
@@ -64,36 +75,119 @@ class CategoryService
     public function trash( $id)
     {
         $category=$this->Category::find($id);
-            $category->is_active=false; 
-            $category->save(); 
+            $category->is_active=false;
+            $category->save();
             return $this->returnData('Category', $category,'This Product Is trashed Now');
     }
 
     /*ـــــــــــــــــــــــــــــــــــــــــــــــ*/
 
-        /****  Create Products   ****/
+    /****  Create Products   ***
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 
-    public function create(CategoryRequest $request)
-    {
-        $request->is_active?$is_active=true:$is_active=false;
-        $validated = $request->validated();
-        $category= new Category;
-        $category->name= $request->name;
-        $category->slug= $request->slug;
-        $category->parent_id=$request->parent_id;
-        $category->is_active= $is_active;
-        $category->image=$request->image;
-        $result=$category->save();
-        // if ($result)
-        //     {
-                return $this->returnData('Category', $category,'done');
-            // }
-            // else
-            //     {
-            //         return $this->returnError('400', 'saving failed');
-
-            //     }
-    }
+//    public function create(CategoryRequest $request)
+        public function create(Request $request)
+        {
+            try
+            {
+                $validated = $request->validated();
+                $request->is_active?$is_active=true:$is_active=false;
+                $request->is_appear?$is_appear=true:$is_appear=false;
+                //transformation to collection
+                $allProducts = collect($request->product);
+                $filter = $allProducts->filter(
+                    function($value , $key)
+                    {
+                        return $value['abbr'] == get_default_languages();
+                    }
+                );
+                //transformation to array
+                $default_product = array_values($filter->all()) [0];
+                //select folder to save the image
+                // $fileBath = "" ;
+                //     if($request->has('image'))
+                //     {
+                //         $fileBath=uploadImage('images/products',$request->image);
+                //     }
+                DB::beginTransaction();
+                // //create the default language's product
+                $default_product_id=Product::insertGetId([
+                    'trans_lang' => $default_product ['abbr'],
+                    'trans_of' =>  0 ,
+                    'title' => $default_product['title'],
+                    'slug' => $default_product['slug'],
+                    'meta' => $default_product['meta'],
+                    'short_des' => $default_product['short_des'],
+                    'description' => $default_product['description'],
+                    'brand_id' => $request->brand_id,
+                    'barcode' => $request['barcode'],
+                    'is_active' => $request['is_active'],
+                    'is_appear'=> $request['is_appear'],
+                    'image' => $request['image']
+//                        'image'=>$fileBath
+                ]);
+                $product = $allProducts->filter(
+                    function($value , $key)
+                    {
+                        return $value['abbr'] != get_default_languages();
+                    }
+                );
+                //check the product and request
+                if(isset($product) && $product->count())
+                {
+                    $products_arr=[];
+                    //insert other traslations for products
+                    foreach ($product as $product)
+                    {
+                        $products_arr[]=[
+                            'trans_lang' => $product['abbr'],
+                            'trans_of' => $default_product_id,
+                            'title' => $product['title'],
+                            'slug' => $product['slug'],
+                            'meta' => $product['meta'],
+                            'short_des' => $product['short_des'],
+                            'description' => $product['description'],
+                            'brand_id' => $request->brand_id,
+                            'barcode' => $request['barcode'],
+                            'is_active' => $request['is_active'],
+                            'is_appear'=> $request['is_appear'],
+                            'image' => $request['image']
+                        ];
+                    }
+                    Product::insert($products_arr);
+                }
+                DB::commit();
+                return $this->returnData('product', $allProducts,'done');
+            }
+            catch(\Exception $ex)
+            {
+                DB::rollback();
+//                    dd($ex.getCode());
+                return $this->returnError('400', $ex.getMessage());
+            }
+        }
+//    {
+//        $request->is_active?$is_active=true:$is_active=false;
+//        $validated = $request->validated();
+//        $category= new Category;
+//        $category->name= $request->name;
+//        $category->slug= $request->slug;
+//        $category->parent_id=$request->parent_id;
+//        $category->is_active= $is_active;
+//        $category->image=$request->image;
+//        $result=$category->save();
+//        // if ($result)
+//        //     {
+//                return $this->returnData('Category', $category,'done');
+//            // }
+//            // else
+//            //     {
+//            //         return $this->returnError('400', 'saving failed');
+//
+//            //     }
+//    }
 
             /****  Update Product   ****/
 
@@ -128,7 +222,7 @@ class CategoryService
             return $this->returnError('400', 'not found this Product');
 
         }
-          else 
+          else
             {
                 return $this->returnData('Category', $category,'done');
             }

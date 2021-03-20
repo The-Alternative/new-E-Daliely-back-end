@@ -19,7 +19,7 @@ class CreateLanguagesTable extends Migration
             $table->string('abbr');
             $table->string('native');
             $table->boolean('is_active');
-            $table->integer('iso_code');
+            $table->unsignedInteger('iso_code');
             $table->string('locale');
             $table->string('flag');
             $table->boolean('rtl');

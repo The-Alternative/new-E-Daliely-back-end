@@ -10,17 +10,20 @@ use LaravelLocalization;
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $primaryKey = 'id';
     protected $table ='products';
 
-    protected $fillable = [
-        
+  protected $fillable = [
+
         'trans_lang','trans_of','title',
         'slug','brand_id','barcode','image',
         'meta','is_active',
-        'is_appear','short_des','description'
+      'is_appear','short_des','description'
 ];
+// protected $fillable = [
+//     'brand_id','barcode','image','meta','is_active','is_appear','category_id','custom_feild_id','offer_id'
+//];
     protected $hidden = [
         'created_at', 'updated_at'
     ];
@@ -44,8 +47,7 @@ class Product extends Model
         return $query->select('trans_lang','trans_of','title',
         'slug','brand_id','barcode','image',
         'meta','is_active',
-        'is_appear','short_des','description')
-        ->where('trans_of',$id);
+        'is_appear','short_des','description');
     }
 
 
