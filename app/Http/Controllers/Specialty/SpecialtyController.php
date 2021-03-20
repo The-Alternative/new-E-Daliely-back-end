@@ -22,23 +22,17 @@ class SpecialtyController extends Controller
     }
     public function get()
     {
-
-        $response=$this->SpecialtyService->get();
-        return $response;
+        return$this->SpecialtyService->get();
     }
 
     public function  getById($id)
     {
-
-        $response=$this->SpecialtyService->getById($id);
-        return $response;
+        return $this->SpecialtyService->getById($id);
     }
 
     public function getTrashed()
     {
-        $response= $this->SpecialtyService->getTrashed();
-        return $response;
-
+        return $this->SpecialtyService->getTrashed();
     }
 
     public function create(SpecialtyRequest $request)

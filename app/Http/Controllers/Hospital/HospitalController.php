@@ -22,23 +22,17 @@ class HospitalController extends Controller
     }
     public function get()
     {
-
-        $response=$this->HospitalService->get();
-        return $response;
+        return $this->HospitalService->get();
     }
 
     public function  getById($id)
     {
-
-        $response=$this->HospitalService->getById($id);
-        return $response;
+        return $this->HospitalService->getById($id);
     }
 
     public function getTrashed()
     {
-        $response= $this->HospitalService->getTrashed();
-        return $response;
-
+        return$this->HospitalService->getTrashed();
     }
 
     public function create(HospitalRequest $request)
@@ -87,6 +81,18 @@ class HospitalController extends Controller
         return  response($response,200)
             ->header('Access-control-Allow-Origin','*')
             ->header('Access-control-Allow-Methods','*');
+    }
+
+    //get all the doctors who work in the hospital according to her name
+
+    public function doctors($hospital_name)
+    {
+        $response=$this->HospitalService->hospitalsDoctor($hospital_name);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+
+
     }
 
 }

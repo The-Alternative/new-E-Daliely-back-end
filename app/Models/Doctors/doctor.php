@@ -2,6 +2,7 @@
 
 namespace App\Models\Doctors;
 
+use App\Models\Hospital\Hospital;
 use App\Models\SocialMedia\SocialMedia;
 use App\Models\WorkPlace\WorkPlace;
 use App\Models\Specialty\Specialty;
@@ -14,8 +15,8 @@ class doctor extends Model
 {
     use HasFactory;
     protected $table='Doctors';
-    protected $fillable =['Id','name','image','description','specialty_id','social_media_id','is_active','is_approved'];
-    protected $hidden   =['id','social_media_id','specialty_id','created_at','updated_at'];
+    protected $fillable =['Id','name','image','description','specialty_id','hospital_id','work_places_id','social_media_id','is_active','is_approved'];
+    protected $hidden   =['id','social_media_id','specialty_id','hospital_id','work_places_id','created_at','updated_at'];
      public $timestamps=false;
 
     public function socialMedia()
@@ -25,7 +26,6 @@ class doctor extends Model
     public  function workPlace()
     {
         return $this->belongsToMany(workPlace::class);
-
     }
 
     public  function Specialty()
@@ -42,4 +42,9 @@ class doctor extends Model
     {
         return $this->hasOne(DoctorRate::class);
     }
+    public function hospital()
+    {
+        return $this->belongsToMany(Hospital::class);
+    }
+
 }

@@ -22,23 +22,17 @@ class SocialMediaController extends Controller
     }
     public function get()
     {
-
-        $response=$this->SocialMediaService->get();
-        return $response;
+        return$this->SocialMediaService->get();
     }
 
     public function  getById($id)
     {
-
-        $response=$this->SocialMediaService->getById($id);
-        return $response;
+        return $this->SocialMediaService->getById($id);
     }
 
     public function getTrashed()
     {
-        $response= $this->SocialMediaService->getTrashed();
-        return $response;
-
+        return $this->SocialMediaService->getTrashed();
     }
 
     public function create(SocialMediaRequest $request)
@@ -57,8 +51,6 @@ class SocialMediaController extends Controller
             ->header('Access-control-Allow-Methods','*');
 
     }
-
-
     public function trash($id)
     {
         $response= $this->SocialMediaService->trash($id);

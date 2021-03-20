@@ -176,10 +176,11 @@ Route::group(['middleware'=>'api','prefix'=>'doctor','namespace'=>'Doctors'],fun
     Route::delete('/delete/{id}', 'DoctorController@delete');
     Route::PUT('/restoreTrashed/{id}', 'DoctorController@restoreTrashed');
 
-    Route::GET('/Doctor-social-media/{doctor_id}', 'DoctorController@SocialMedia');
-    Route::GET('/doctor-work-place/{doctor_id}', 'DoctorController@workplace');
-    Route::GET('/doctor-medical-device/{doctor_id}', 'DoctorController@doctormedicaldevice');
-    Route::GET('/doctor-details/{doctor_id}', 'DoctorController@getalldetails');
+    Route::GET('/Doctor-social-media/{doctor_name}', 'DoctorController@SocialMedia');
+    Route::GET('/doctor-work-place/{doctor_name}', 'DoctorController@workplace');
+    Route::GET('/doctor-medical-device/{doctor_name}', 'DoctorController@doctormedicaldevice');
+    Route::GET('/doctor-details/{doctor_name}', 'DoctorController@getalldetails');
+    Route::GET('/hospital-doctor/{doctor_name}', 'DoctorController@hospital');
 
 });
 /*---------------Doctor Rate Route--------*/
@@ -219,6 +220,8 @@ Route::group(['middleware'=>'api','prefix'=>'Hospital','namespace'=>'Hospital'],
     Route::PUT('/trash/{id}', 'HospitalController@trash');
     Route::delete('/delete/{id}', 'HospitalController@delete');
     Route::PUT('/restoreTrashed/{id}', 'HospitalController@restoreTrashed');
+
+    Route::GET('/doctor-work-in-this-hospital/{hospital_name}', 'HospitalController@doctors');
 });
 ///*---------------Work Place Route-------------*/
 Route::group(['middleware'=>'api','prefix'=>'WorkPlace','namespace'=>'WorkPlace'],function () {
@@ -231,8 +234,8 @@ Route::group(['middleware'=>'api','prefix'=>'WorkPlace','namespace'=>'WorkPlace'
     Route::PUT('/trash/{id}', 'WorkPlaceController@trash');
     Route::delete('/delete/{id}', 'WorkPlaceController@delete');
     Route::PUT('/restoreTrashed/{id}', 'WorkPlaceController@restoreTrashed');
-});
-//
+    });
+
 ///*---------------Medical Device Route-------------*/
 Route::group(['middleware'=>'api','prefix'=>'MedicalDevice','namespace'=>'MedicalDevice'],function () {
     Route::get('/get', 'MedicalDeviceController@get');

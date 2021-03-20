@@ -12,7 +12,7 @@ class medicalDevice extends Model
 
     protected $table='medical_devices';
     protected $fillable=['id','name','hospital_id','doctor_id','is_active','is_approved'];
-    protected $hidden=['id','pivot','created_at','updated_at'];
+    protected $hidden=['id','pivot','created_at','updated_at','hospital_id','doctor_id'];
 
     public function doctor()
     {

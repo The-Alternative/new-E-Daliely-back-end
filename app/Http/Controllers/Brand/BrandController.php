@@ -25,7 +25,6 @@ class BrandController extends Controller
 
     public function get()
     {
-
         $response=$this->BrandsService->get();
         return $response;
     }

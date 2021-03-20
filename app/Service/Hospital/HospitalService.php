@@ -52,6 +52,7 @@ class HospitalService
         $Hospital->general_hospital          =$request->general_hospital;
         $Hospital->private_hospital          =$request->private_hospital;
         $Hospital->location_id               =$request->location_id;
+        $Hospital->doctor_id                 =$request->doctor_id;
         $Hospital->is_active                 =$request->is_active;
         $Hospital->is_approved               =$request->is_approved;
 
@@ -78,6 +79,7 @@ class HospitalService
         $Hospital->general_hospital          =$request->general_hospital;
         $Hospital->private_hospital          =$request->private_hospital;
         $Hospital->location_id               =$request->location_id;
+        $Hospital->doctor_id                 =$request->doctor_id;
         $Hospital->is_active                 =$request->is_active;
         $Hospital->is_approved               =$request->is_approved;
 
@@ -136,6 +138,14 @@ class HospitalService
         $Hospital->save();
         return $this->returnData('Hospital', $Hospital, 'This Hospital is deleted Now');
 
+    }
+
+    //get all the doctors who work in the hospital according to her name
+    public function hospitalsDoctor($hospital_name)
+    {
+      return  Hospital::with('doctor')
+                       ->where("name","like","%".$hospital_name."%")
+                       ->get();
     }
 
 }

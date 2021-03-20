@@ -23,23 +23,17 @@ class MedicalDeviceController extends Controller
     }
     public function get()
     {
-
-        $response=$this->MedicalDeviceService->get();
-        return $response;
+        return$this->MedicalDeviceService->get();
     }
 
     public function  getById($id)
     {
-
-        $response=$this->MedicalDeviceService->getById($id);
-        return $response;
+        return $this->MedicalDeviceService->getById($id);
     }
 
     public function getTrashed()
     {
-        $response= $this->MedicalDeviceService->getTrashed();
-        return $response;
-
+        return$this->MedicalDeviceService->getTrashed();
     }
 
     public function create(MedicalDeviceRequest $request)

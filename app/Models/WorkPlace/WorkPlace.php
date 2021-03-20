@@ -11,8 +11,8 @@ class WorkPlace extends Model
 {
     use HasFactory;
     protected $table='work_places';
-    protected $fillable=['id','clinic','hospital_id','work_hours','work_day','doctor_id','location_id','is_active'];
-    protected $hidden=['id','created_at','updated_at','doctor_id','location_id','pivot'];
+    protected $fillable=['id','clinic','hospitals_id','work_hours','work_day','doctors_id','location_id','is_active'];
+    protected $hidden=['id','created_at','updated_at','doctor_id','location_id','pivot','hospitals_id','doctors_id'];
 
     public function doctor()
     {
@@ -21,6 +21,7 @@ class WorkPlace extends Model
 
     public function hospital()
     {
-        return $this->belongsTo(Hospital::class);
+        return $this->hasManyThrough('hospital','doctor');
     }
+
 }

@@ -23,23 +23,17 @@ class WorkPlaceController extends Controller
     }
     public function get()
     {
-
-        $response=$this->WorkPlaceService->get();
-        return $response;
+        return$this->WorkPlaceService->get();
     }
 
     public function  getById($id)
     {
-
-        $response=$this->WorkPlaceService->getById($id);
-        return $response;
+        return $this->WorkPlaceService->getById($id);
     }
 
     public function getTrashed()
     {
-        $response= $this->WorkPlaceService->getTrashed();
-        return $response;
-
+        return  $this->WorkPlaceService->getTrashed();
     }
 
     public function create(WorkPlaceRequest $request)
@@ -89,4 +83,5 @@ class WorkPlaceController extends Controller
             ->header('Access-control-Allow-Origin','*')
             ->header('Access-control-Allow-Methods','*');
     }
+
 }
