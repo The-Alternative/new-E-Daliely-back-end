@@ -16,7 +16,11 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('trans_lang');
+<<<<<<< HEAD
             $table->integer('trans_of')->unsigned();
+=======
+            $table->unsigned('trans_of');
+>>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
             $table->string('title');
             $table->string('slug');
             $table->integer('brand_id');
