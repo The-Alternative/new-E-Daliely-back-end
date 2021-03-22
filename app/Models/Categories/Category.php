@@ -6,13 +6,13 @@ use App\Models\Language\Language;
 use App\Models\Categories\CategoryTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Translatable\HasTranslations;
+//use Spatie\Translatable\HasTranslations;
 
 class Category extends Model
 {
-    use HasTranslations;
+//    use HasTranslations;
 
-    public $translatable = ['name', 'slug'];
+//    public $translatable = ['name', 'slug'];
     use HasFactory;
 
     protected $table = 'categories';
@@ -22,13 +22,27 @@ class Category extends Model
 //        'slug',
         'parent_id', 'image', 'is_active'];
 
+    //________________ scopes begin _________________//
+
+    public function scopeWithTrans($query)
+    {
+        return $query=Category::join('category_translations', 'category_translations.category_id', '=', 'categories.id')
+            ->where('category_translations.locale','=',get_current_local())
+            ->select('categories.*','category_translations.*');
+    }
+
+
+
+    //________________ scopes end _________________//
+
+
 //    public function language()
 //    {
 //        return $this->belongsTo(Language::class, 'lang_id', 'id');
 //    }
     public function CategoryTranslation()
     {
-        return $this->hasMany(CategoryTranslation::class);
+        return $this->hasMany(CategoryTranslation::class,'category_id');
     }
 
 

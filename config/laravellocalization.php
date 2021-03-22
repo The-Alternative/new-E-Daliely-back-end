@@ -331,10 +331,6 @@ return [
     // If false, system will take app.php locale attribute
 
 
-    'useAcceptLanguageHeader' => false,
-
-    'useAcceptLanguageHeader' => true,
-
     'useAcceptLanguageHeader' => true,
     // If `hideDefaultLocaleInURL` is true, then a url without locale
     // is identical with the same url with default locale.
