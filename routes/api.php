@@ -47,6 +47,20 @@ Route::group(
                 Route::DELETE('/delete/{id}','CategoriesController@delete');
             });
 
+        /*_____________ Section routes_____________*/
+        Route::group(['prefix'=>'sections','namespace'=>'Category'],function()
+        {
+            Route::GET('/getAll','SectionsController@get');
+            Route::GET('/getById/{id}','SectionsController@getById');
+            Route::POST('/create','SectionsController@create');
+            Route::PUT('/update/{id}','SectionsController@update');
+            Route::PUT('/trash/{id}','SectionsController@trash');
+            Route::PUT('/restoreTrashed/{id}','SectionsController@restoreTrashed');
+            Route::GET('/search/{name}','SectionsController@search');
+            Route::GET('/getTrashed','SectionsController@getTrashed');
+            Route::DELETE('/delete/{id}','SectionsController@delete');
+        });
+
         /*_____________ Brand routes_____________*/
         // Route::group(['prefix'=> 'brands'] ,function ()
         //     {

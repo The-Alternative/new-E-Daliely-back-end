@@ -57,7 +57,7 @@ class CategoryService
 
     public function restoreTrashed( $id)
     {
-        $category=$this->Category::find($id);
+        $category=Category::find($id);
             $category->is_active=true;
             $category->save();
             return $this->returnData('Category', $category,'This Product Is trashed Now');
@@ -66,7 +66,7 @@ class CategoryService
 
     public function trash( $id)
     {
-        $category=$this->Category::find($id);
+        $category=Category::find($id);
             $category->is_active=false;
             $category->save();
             return $this->returnData('Category', $category,'This Product Is trashed Now');
@@ -170,10 +170,8 @@ class CategoryService
             $collection2 = collect($ss);
 
               $db_category= array_values(CategoryTranslation::where('category_id',$id)->get()->all());
-              $db_categoryLength=count($db_category);
               $dbdcategory = array_values($db_category);
               $request_category = array_values($request->category);
-              $request_categoryLength=count($request_category);
                 foreach($dbdcategory as $dbdcategor){
                     foreach($request_category as $request_categor){
                         $values= CategoryTranslation::where('category_id',$id)->where('locale',$request_categor['locale'])->update([
