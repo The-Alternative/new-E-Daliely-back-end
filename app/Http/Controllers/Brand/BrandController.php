@@ -7,59 +7,85 @@ use App\Http\controllers\controller;
 use App\Service\Brands\BrandsService;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Brands\BrandRequest;
+use Illuminate\Http\response;
+
 
 class BrandController extends Controller
 {
     use GeneralTrait;
-
     private $BrandsService;
+    private $response;
 
-    public function __construct(BrandsService $BrandsService)
+    public function __construct(BrandsService $BrandsService,Response $response )
     {
-
         $this->BrandsService=$BrandsService;
+        $this->response=$response;
     }
 
-    public function getAllBrands()
+    public function get()
     {
-        $response=$this->BrandsService->getAllBrands();
+        $response=$this->BrandsService->get();
+        return $response;
+    }
+
+    public function  getById($id)
+    {
+
+        $response=$this->BrandsService->getById($id);
+       return $response;
+    }
+
+    public function getTrashed()
+    {
+        $response= $this->BrandsService->getTrashed();
+        return $response;
+
+    }
+////
+    public function create(BrandRequest $request)
+    {
+        $response=$this->BrandsService->create($request);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+    }
+////
+    public function update(BrandRequest $request,$id)
+    {
+        $response=$this->BrandsService->update($request,$id);
         return  response($response,200)
             ->header('Access-control-Allow-Origin','*')
             ->header('Access-control-Allow-Methods','*');
 
     }
-
-    public function  getBrandsById($id)
+    public function search($name)
     {
+        $response= $this->BrandsService->search($name);
+        return response($response, 200)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', '*');
+    }
 
-        $response=$this->BrandsService->getBrandsById($id);
-        return  response($response,200)
-            ->header('Access-control-Allow-Origin','*')
-            ->header('Access-control-Allow-Methods','*');
+    public function trash($id)
+    {
+        $response= $this->BrandsService->trash($id);
+        return response($response, 200)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', '*');
+    }
+
+    public function restoreTrashed($id)
+    {
+        $response= $this->BrandsService->restoreTrashed($id);
+        return response($response, 200)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', '*');
     }
 //
-    public function createNewBrands(Request $request)
+    public function delete($id)
     {
-        $response=$this->BrandsService->createNewBrands($request);
-        return  response($response,200)
-            ->header('Access-control-Allow-Origin','*')
-            ->header('Access-control-Allow-Methods','*');
-    }
-//
-    public function updateBrand(Request $request,$id)
-    {
-        $response=$this->BrandsService->updateBrand($request,$id);
-        return  response($response,200)
-            ->header('Access-control-Allow-Origin','*')
-            ->header('Access-control-Allow-Methods','*');
-
-    }
-
-    public function deleteBrand(Request $request ,$id)
-    {
-        $response=$this->BrandsService->deleteBrand($request,$id);
+        $response=$this->BrandsService->delete($id);
         return  response($response,200)
             ->header('Access-control-Allow-Origin','*')
             ->header('Access-control-Allow-Methods','*');
