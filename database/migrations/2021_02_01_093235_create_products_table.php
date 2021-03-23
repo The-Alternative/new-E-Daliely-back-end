@@ -17,7 +17,11 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('trans_lang');
 
+
             $table->integer('trans_of')->unsigned();
+
+            $table->unsigned('trans_of');
+
 
             $table->unsigned('trans_of');
 

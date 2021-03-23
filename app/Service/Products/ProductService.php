@@ -38,6 +38,7 @@ class ProductService
     public function get()
     {
 
+
         $product= Product::all()->where('is_active',1);
             return $this->returnData('Product',$product,'done');
     //     try{
@@ -61,14 +62,17 @@ class ProductService
         return $this->returnData('Product',$product,'done');
 
 
+        $default_lang=get_default_languages();
+        $product= Product::where('trans_lang', $default_lang)->selection();
+        return $this->returnData('Product',$product,'done');
+
+
     }
         /*__________________________________________________________________*/
     /****Get Active Product By ID  ****/
     public function getById(/*Request $request,*/ $id)
     {
        // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
-
-
 
         $product= Product::find($id);
 
@@ -77,12 +81,12 @@ class ProductService
 
        $product= Product::selectActiveValue()->find($id);
 
+
+       $product= Product::selectActiveValue()->find($id);
         return $this->returnData('Product',$product,'done');
     }
         /*__________________________________________________________________*/
         /****ــــــThis Functions For Trashed Productsــــــ  ****/
-
-
 
     /****Get All Trashed Products Or By ID  ****/
     public function getTrashed()
@@ -176,7 +180,11 @@ class ProductService
                                 'trans_of' => $default_product_id,
                                 'title' => $product['title'],
 
+
                                 'slug' => ['slug'],
+
+                                'slug' => $product['slug'],
+
 
                                 'slug' => $product['slug'],
 

@@ -47,34 +47,25 @@ return [
         //'en-GB'       => ['name' => 'British English',        'script' => 'Latn', 'native' => 'British English', 'regional' => 'en_GB'],
         //'en-CA'       => ['name' => 'Canadian English',       'script' => 'Latn', 'native' => 'Canadian English', 'regional' => 'en_CA'],
         //'en-US'       => ['name' => 'U.S. English',           'script' => 'Latn', 'native' => 'U.S. English', 'regional' => 'en_US'],
-<<<<<<< HEAD
-
 
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
        // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
-=======
-<<<<<<< HEAD
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
         // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
 
         //'es'          => ['nme' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
         // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
-<<<<<<< HEAD
 
 
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
+        //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
-=======
-=======
 
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
->>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
 
         //'eo'          => ['name' => 'Esperanto',              'script' => 'Latn', 'native' => 'esperanto', 'regional' => ''],
         //'eu'          => ['name' => 'Basque',                 'script' => 'Latn', 'native' => 'euskara', 'regional' => 'eu_ES'],
@@ -264,9 +255,10 @@ return [
         //'ug'          => ['name' => 'Uyghur',                 'script' => 'Arab', 'native' => 'ئۇيغۇرچە', 'regional' => 'ug_CN'],
         //'ur'          => ['name' => 'Urdu',                   'script' => 'Arab', 'native' => 'اردو', 'regional' => 'ur_PK'],
 
-<<<<<<< HEAD
+
 
         'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
+
 
         //'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
@@ -280,19 +272,20 @@ return [
 
         //'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
-=======
-<<<<<<< HEAD
         'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
         // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
         // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
-=======
+
+        // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
+
+        // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
+
         'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE']
 
         //'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
->>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
 
         //'uz-Arab'     => ['name' => 'Uzbek (Arabic)',         'script' => 'Arab', 'native' => 'اۉزبېک', 'regional' => ''],
         //'tg-Arab'     => ['name' => 'Tajik (Arabic)',         'script' => 'Arab', 'native' => 'تاجیکی', 'regional' => 'tg_TJ'],
@@ -366,21 +359,11 @@ return [
     // again if the session expires.
     //
     // If false, system will take app.php locale attribute
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
 
     'useAcceptLanguageHeader' => false,
 
     'useAcceptLanguageHeader' => true,
-
-<<<<<<< HEAD
-=======
->>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
-
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
     'useAcceptLanguageHeader' => true,
     // If `hideDefaultLocaleInURL` is true, then a url without locale
     // is identical with the same url with default locale.

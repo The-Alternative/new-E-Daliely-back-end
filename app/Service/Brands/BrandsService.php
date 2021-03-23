@@ -27,12 +27,15 @@ class BrandsService
 
     public function get()
     {
+
        $brand=$this->BrandModel::all()->where('is_active','=',1);
         return $this->returnData('brand',$brand,'done');
+
     }
 
     public function getById($id)
     {
+
         $brand= $this->BrandModel::find($id);
         return $this->returnData('brand',$brand,'done');
     }
@@ -47,11 +50,11 @@ class BrandsService
     {
         $brand = new Brands();
 
-        $brand->name = $request->name;
-        $brand->slug = $request->slug;
+        $brand->name        = $request->name;
+        $brand->slug        = $request->slug;
         $brand->description = $request->description;
-        $brand->image = $request->image;
-        $brand->is_active = $request->is_active;
+        $brand->image       = $request->image;
+        $brand->is_active   = $request->is_active;
 
         $result = $brand->save();
         if ($result) {
@@ -60,6 +63,9 @@ class BrandsService
             return $this->returnError('400', 'saving failed');
         }
     }
+
+    }
+
 
     public function update(BrandRequest $request,$id)
     {
@@ -70,6 +76,7 @@ class BrandsService
         $brand->description     =$request->description;
         $brand->image           =$request->image;
         $brand->is_active       =$request->is_active;
+
 
         $result=$brand->save();
         if ($result)
@@ -115,13 +122,14 @@ class BrandsService
         return $this->returnData('brand', $brand,'This brand is trashed Now');
     }
 
-
     public function delete($id)
     {
         $brand = Brands::find($id);
         $brand->is_active = false;
         $brand->save();
 
+
         return $this->returnData('brand', $brand, 'This brand is deleted Now');
+
     }
 }
