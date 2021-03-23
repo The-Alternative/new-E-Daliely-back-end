@@ -60,7 +60,7 @@ class CategoryService
         $category=Category::find($id);
             $category->is_active=true;
             $category->save();
-            return $this->returnData('Category', $category,'This Product Is trashed Now');
+            return $this->returnData('Category', $category,'This Category Is trashed Now');
     }
         /****   category's Soft Delete   ****/
 
@@ -69,7 +69,7 @@ class CategoryService
         $category=Category::find($id);
             $category->is_active=false;
             $category->save();
-            return $this->returnData('Category', $category,'This Product Is trashed Now');
+            return $this->returnData('Category', $category,'This Category Is trashed Now');
     }
 
     /*ــــــــــــــــــــــــ  ـــــــــــــــــــــــ*/
@@ -100,9 +100,9 @@ class CategoryService
                 DB::beginTransaction();
                 // //create the default language's product
                 $unTransCategory_id=Category::insertGetId([
-                    'image' => $request['image'],
-                    'lang_id' => $request['lang_id'],
-                    'is_active' => $request['is_active'],
+                    'image' =>$request['image'],
+                    'lang_id' =>$request['lang_id'],
+                    'is_active' =>$request['is_active'],
                     'parent_id'=>$request['parent_id']
                 ]);
                 //check the category and request
@@ -158,7 +158,8 @@ class CategoryService
             //         ]);
             // }
 
-           $ncategory=Category::where('id',$id)->update([
+           $ncategory=Category::where('id',$id)
+               ->update([
                 'image' => $request['image'],
                 'lang_id' => $request['lang_id'],
                 'is_active' => $request['is_active'],
@@ -169,12 +170,16 @@ class CategoryService
             $allcategorieslength=$collection1->count();
             $collection2 = collect($ss);
 
-              $db_category= array_values(CategoryTranslation::where('category_id',$id)->get()->all());
+              $db_category= array_values(CategoryTranslation::where('category_id',$id)
+                  ->get()
+                  ->all());
               $dbdcategory = array_values($db_category);
               $request_category = array_values($request->category);
                 foreach($dbdcategory as $dbdcategor){
                     foreach($request_category as $request_categor){
-                        $values= CategoryTranslation::where('category_id',$id)->where('locale',$request_categor['locale'])->update([
+                        $values= CategoryTranslation::where('category_id',$id)
+                            ->where('locale',$request_categor['locale'])
+                            ->update([
                             'name'=>$request_categor['name'],
                             'slug'=>$request_categor['slug'],
                             'locale'=>$request_categor['locale'],
@@ -201,7 +206,7 @@ class CategoryService
                 ->get();
         if (!$category)
         {
-            return $this->returnError('400', 'not found this Product');
+            return $this->returnError('400', 'not found this Category');
 
         }
           else
@@ -219,7 +224,7 @@ class CategoryService
         if ($category->$is_active=0)
             {
                 $category=Category::destroy($id);
-                 return $this->returnData('Category', $category,'This Product Is deleted Now');
+                 return $this->returnData('Category', $category,'This Category Is deleted Now');
             }
     }
 

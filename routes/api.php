@@ -21,14 +21,14 @@ Route::group(
         /*_____________ Product routes _____________*/
         Route::group(['prefix'=>'products','namespace'=>'Product'],function()
             {
-                Route::POST('/getAll','ProductsController@get');
-                Route::POST('/getById/{id}','ProductsController@getById');
+                Route::GET('/getAll','ProductsController@get');
+                Route::GET('/getById/{id}','ProductsController@getById');
                 Route::POST('/create','ProductsController@create');
-                Route::post('/update/{id}','ProductsController@update');
-                Route::POST('/search/{title}','ProductsController@search');
+                Route::PUT('/update/{id}','ProductsController@update');
+                Route::GET('/search/{title}','ProductsController@search');
                 Route::PUT('/trash/{id}','ProductsController@trash');
                 Route::PUT('/restoreTrashed/{id}','ProductsController@restoreTrashed');
-                Route::POST('/getTrashed','ProductsController@getTrashed');
+                Route::GET('/getTrashed','ProductsController@getTrashed');
                 Route::DELETE('/delete/{id}','ProductsController@delete');
             });
         });////////////////////end of localization//////////////////////

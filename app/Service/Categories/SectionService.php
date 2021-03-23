@@ -210,7 +210,7 @@ class SectionService
     public function delete($id)
     {
         $section=$this->Section::find($id);
-        if ($section->$is_active=0)
+        if ($section->is_active=0)
             {
                 $section=Section::destroy($id);
                  return $this->returnData('Section', $section,'This Section Is deleted Now');

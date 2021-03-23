@@ -9,6 +9,11 @@ class ProductTranslation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title','slug','short_des','description'
+        'name','meta','short_des','long_des','product_id'
     ];
+
+    public function Product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
