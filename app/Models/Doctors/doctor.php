@@ -19,6 +19,13 @@ class doctor extends Model
     protected $hidden   =['id','social_media_id','specialty_id','hospital_id','work_places_id','created_at','updated_at'];
      public $timestamps=false;
 
+     //scope
+    public function scopeIsActive($query)
+    {
+        return $query->where('is_active',1)->get();
+
+    }
+
     public function socialMedia()
     {
         return $this->hasMany(SocialMedia::class);

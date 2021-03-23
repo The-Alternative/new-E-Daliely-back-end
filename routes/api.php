@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
+
 // use LaravelLocalization;
 
 Route::middleware('auth:api')->get('/user', function (Request $request)
@@ -80,7 +80,7 @@ Route::group(
         //         Route::put('updateStore/{id}', 'Store\StoreController@updateStore');
         //         Route::put('deleteStore/{id}', 'Store\StoreController@deleteStore');
         //     });
-=======
+
 
 // use LaravelLocalization;
 
@@ -216,7 +216,6 @@ Route::group(['middleware' =>'api','prefix'=> 'brands','namespace'=>'Brand'] ,fu
     Route::delete('/delete{id}',  'BrandController@delete');
 });
 
-<<<<<<< HEAD
 /*--------------------Language Routes----------------*/
 Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'] ,function () {
     Route::get('/get', 'LanguageController@get');
@@ -228,10 +227,7 @@ Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'
     Route::PUT('/restoreTrashed/{id}', 'LanguageController@restoreTrashed');
     Route::PUT('/trash/{id}', 'LanguageController@trash');
     Route::GET('/search/{name}', 'LanguageController@search');
-=======
-
-
-
+});
 
 /////LanguageController
 Route::group(['prefix'=> 'languages'] ,function () {
@@ -245,10 +241,8 @@ Route::group(['prefix'=> 'languages'] ,function () {
     Route::put('updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
 
     Route::put('deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
 });
-
-
 
 /*----------------Store Routes---------------*/
 Route::group(['middleware'=>'api','prefix'=>'stores','namespace'=>'Store'],function () {
@@ -346,8 +340,6 @@ Route::group(['middleware'=>'api','prefix'=>'MedicalDevice','namespace'=>'Medica
     Route::delete('/delete/{id}', 'MedicalDeviceController@delete');
     Route::PUT('/restoreTrashed/{id}', 'MedicalDeviceController@restoreTrashed');
 });
-
-<<<<<<< HEAD
 /*---------------Specialty Route-------------*/
 Route::group(['middleware'=>'api','prefix'=>'Specialty','namespace'=>'Specialty'],function () {
     Route::get('/get', 'SpecialtyController@get');
@@ -360,6 +352,4 @@ Route::group(['middleware'=>'api','prefix'=>'Specialty','namespace'=>'Specialty'
     Route::delete('/delete/{id}', 'SpecialtyController@delete');
     Route::PUT('/restoreTrashed/{id}', 'SpecialtyController@restoreTrashed');
 });
-=======
->>>>>>> 147a9d6640b5efa2eaa525babaaf6aeb77fce6d1
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+

@@ -14,6 +14,13 @@ class Hospital extends Model
     protected $hidden=['id','created_at','updated_at','location_id','doctor_id'];
     public $timestamps=false;
 
+
+    //scope
+    public function scopeIsActive($query)
+    {
+        return $query->where('is_active',1)->get();
+
+    }
     public function doctor()
     {
         return $this->hasMany(doctor::class);

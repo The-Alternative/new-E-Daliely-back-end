@@ -37,7 +37,6 @@ class ProductService
     /****Get All Active Products  ****/
     public function get()
     {
-<<<<<<< HEAD
 
         $product= Product::all()->where('is_active',1);
             return $this->returnData('Product',$product,'done');
@@ -51,11 +50,11 @@ class ProductService
     // catch (\Exception $exception){
     //     throw new BadMethodCallException();
     // }
-=======
+
         $default_lang=get_default_languages();
         $product= Product::where('trans_lang', $default_lang)->selection();
         return $this->returnData('Product',$product,'done');
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
 
         $default_lang=get_default_languages();
         $product= Product::where('trans_lang', $default_lang)->selection();
@@ -69,23 +68,22 @@ class ProductService
     {
        // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
 
-<<<<<<< HEAD
+
 
         $product= Product::find($id);
 
        $product= Product::selectActiveValue()->find($id);
 
-=======
+
        $product= Product::selectActiveValue()->find($id);
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
         return $this->returnData('Product',$product,'done');
     }
         /*__________________________________________________________________*/
         /****ــــــThis Functions For Trashed Productsــــــ  ****/
-<<<<<<< HEAD
 
-=======
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
+
     /****Get All Trashed Products Or By ID  ****/
     public function getTrashed()
     {
@@ -177,11 +175,11 @@ class ProductService
                                 'trans_lang' => $product['abbr'],
                                 'trans_of' => $default_product_id,
                                 'title' => $product['title'],
-<<<<<<< HEAD
+
                                 'slug' => ['slug'],
-=======
+
                                 'slug' => $product['slug'],
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
+
                                 'meta' => $product['meta'],
                                 'short_des' => $product['short_des'],
                                 'description' => $product['description'],
@@ -201,7 +199,7 @@ class ProductService
                 {
                     DB::rollback();
                     return $this->returnError('400', 'saving failed');
-                } 
+                }
     }
 
     /*__________________________________________________________________*/

@@ -23,7 +23,7 @@ class WorkPlaceService
     public function get()
     {
 
-        $WorkPlace=$this->WorkPlaceModel::all();
+        $WorkPlace=$this->WorkPlaceModel::IsActive();
         return $this->returnData('WorkPlace',$WorkPlace,'done');
 
     }
@@ -38,7 +38,7 @@ class WorkPlaceService
 
     public function getTrashed()
     {
-        $WorkPlace= $this->WorkPlaceModel::all()->where('is_active',0);
+        $WorkPlace= $this->WorkPlaceModel::IsActive();
         return $this -> returnData('$WorkPlace',$WorkPlace,'done');
     }
 

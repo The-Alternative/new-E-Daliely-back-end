@@ -1,24 +1,9 @@
 <?php
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD:app/Http/Requests/Location/LocationRequest.php
-namespace App\Http\Requests\Location;
-
-use Illuminate\Foundation\Http\FormRequest;
-
-class LocationRequest extends FormRequest
-=======
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
 namespace App\Http\Requests\Brands;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 class BrandRequest extends FormRequest
-<<<<<<< HEAD
-=======
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f:app/Http/Requests/Brands/BrandRequest.php
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,13 +12,7 @@ class BrandRequest extends FormRequest
      */
     public function authorize()
     {
-<<<<<<< HEAD
-
         return true;
-
-=======
-        return false;
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
     }
 
     /**
@@ -44,8 +23,6 @@ class BrandRequest extends FormRequest
     public function rules()
     {
         return [
-<<<<<<< HEAD
-
 
             'name'=> 'required|min:5|max:255|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)+$/|unique:brands,name',
             'slug'=>'required:brands',
@@ -71,19 +48,4 @@ class BrandRequest extends FormRequest
         ];
     }
 
-
-=======
-<<<<<<< HEAD:app/Http/Requests/Location/LocationRequest.php
-            //
-=======
-            'name'=> 'require|min:5|max:255|unique:brands,name',
-            'slug'=>'required',
-            'description'=>'required|min:20|max:255',
-            'image'=>'required',
-            'is_active'=>'required',
-
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f:app/Http/Requests/Brands/BrandRequest.php
-        ];
-    }
->>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
 }

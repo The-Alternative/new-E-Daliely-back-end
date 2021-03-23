@@ -38,7 +38,7 @@ class SocialMediaService
 
     public function getTrashed()
     {
-        $SocialMedia= $this->SocialMediaModel::all()->where('is_active',0);
+        $SocialMedia= $this->SocialMediaModel::IsActive();
         return $this -> returnData('SocialMedia',$SocialMedia,'done');
     }
 

@@ -13,6 +13,13 @@ class Specialty extends Model
     protected $table='specialties';
     protected $fillable=['id','name','graduation_year','is_active'];
 
+
+    //scope
+    public function scopeIsActive($query)
+    {
+        return $query->where('is_active',1)->get();
+
+    }
     public function doctor()
     {
         return $this->belongsToMany(doctor::class);

@@ -20,7 +20,7 @@ class DoctorService
     }
     public function get()
     {
-        $doctor= $this->doctorModel::all()->where('is_active','=',1);
+        $doctor= $this->doctorModel::IsActive();
         return $this->returnData('doctor',$doctor,'done');
     }
 
@@ -32,7 +32,7 @@ class DoctorService
 
     public function getTrashed()
     {
-        $doctor= $this->doctorModel::all()->where('is_active',0);
+        $doctor= $this->doctorModel::IsActive();
         return $this -> returnData('doctor',$doctor,'done');
     }
 
