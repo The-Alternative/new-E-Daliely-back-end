@@ -307,22 +307,6 @@ Route::group(['middleware'=>'api','prefix'=> 'languages','namespace'=>'Language'
     Route::GET('/search/{name}', 'LanguageController@search');
 });
 
-
-/////LanguageController
-Route::group(['prefix'=> 'languages'] ,function () {
-
-    Route::get('/', 'Language\LanguageController@getAllLanguage');
-
-    Route::get('{id}', 'Language\LanguageController@getLanguageById');
-
-    Route::post('createNewLanguage', 'Language\LanguageController@createNewLanguage');
-
-    Route::put('updateLanguage/{id}', 'Language\LanguageController@updateLanguage');
-
-    Route::put('deleteLanguage/{id}', 'Language\LanguageController@deleteLanguage');
-
-});
-
 /*----------------Store Routes---------------*/
 Route::group(['middleware'=>'api','prefix'=>'stores','namespace'=>'Store'],function () {
     Route::get('/get', 'StoreController@get');
@@ -433,3 +417,51 @@ Route::group(['middleware'=>'api','prefix'=>'Specialty','namespace'=>'Specialty'
 });
 
 
+/*---------------Patient Route-------------*/
+Route::group(['middleware'=>'api','prefix'=>'Patient','namespace'=>'Patient'],function () {
+    Route::get('/get', 'PatientController@get');
+    Route::get('/getById/{id}', 'PatientController@getById');
+    Route::get('/getTrashed', 'PatientController@getTrashed');
+    Route::post('/create', 'PatientController@create');
+    Route::put('/update/{id}', 'PatientController@update');
+    Route::GET('/search/{name}', 'PatientController@search');
+    Route::PUT('/trash/{id}', 'PatientController@trash');
+    Route::delete('/delete/{id}', 'PatientController@delete');
+    Route::PUT('/restoreTrashed/{id}', 'PatientController@restoreTrashed');
+});
+///*---------------Appointment Route-------------*/
+//Route::group(['middleware'=>'api','prefix'=>'Appointment','namespace'=>'Appointment'],function () {
+//    Route::get('/get', 'AppointmentController@get');
+//    Route::get('/getById/{id}', 'AppointmentController@getById');
+//    Route::get('/getTrashed', 'AppointmentController@getTrashed');
+//    Route::post('/create', 'AppointmentController@create');
+//    Route::put('/update/{id}', 'AppointmentController@update');
+//    Route::GET('/search/{name}', 'AppointmentController@search');
+//    Route::PUT('/trash/{id}', 'AppointmentController@trash');
+//    Route::delete('/delete/{id}', 'AppointmentController@delete');
+//    Route::PUT('/restoreTrashed/{id}', 'AppointmentController@restoreTrashed');
+//});
+///*---------------Medical File Route-------------*/
+//Route::group(['middleware'=>'api','prefix'=>'MedicalFile','namespace'=>'MedicalFile'],function () {
+//    Route::get('/get', 'MedicalFileController@get');
+//    Route::get('/getById/{id}', 'MedicalFileController@getById');
+//    Route::get('/getTrashed', 'MedicalFileController@getTrashed');
+//    Route::post('/create', 'MedicalFileController@create');
+//    Route::put('/update/{id}', 'MedicalFileController@update');
+//    Route::GET('/search/{name}', 'MedicalFileController@search');
+//    Route::PUT('/trash/{id}', 'MedicalFileController@trash');
+//    Route::delete('/delete/{id}', 'MedicalFileController@delete');
+//    Route::PUT('/restoreTrashed/{id}', 'MedicalFileController@restoreTrashed');
+//});
+///*---------------Clinic Route-------------*/
+//Route::group(['middleware'=>'api','prefix'=>'Clinic','namespace'=>'Clinic'],function () {
+//    Route::get('/get', 'ClinicController@get');
+//    Route::get('/getById/{id}', 'ClinicController@getById');
+//    Route::get('/getTrashed', 'ClinicController@getTrashed');
+//    Route::post('/create', 'ClinicController@create');
+//    Route::put('/update/{id}', 'ClinicController@update');
+//    Route::GET('/search/{name}', 'ClinicController@search');
+//    Route::PUT('/trash/{id}', 'ClinicController@trash');
+//    Route::delete('/delete/{id}', 'ClinicController@delete');
+//    Route::PUT('/restoreTrashed/{id}', 'ClinicController@restoreTrashed');
+//});
