@@ -430,17 +430,17 @@ Route::group(['middleware'=>'api','prefix'=>'Patient','namespace'=>'Patient'],fu
     Route::PUT('/restoreTrashed/{id}', 'PatientController@restoreTrashed');
 });
 ///*---------------Appointment Route-------------*/
-//Route::group(['middleware'=>'api','prefix'=>'Appointment','namespace'=>'Appointment'],function () {
-//    Route::get('/get', 'AppointmentController@get');
-//    Route::get('/getById/{id}', 'AppointmentController@getById');
-//    Route::get('/getTrashed', 'AppointmentController@getTrashed');
-//    Route::post('/create', 'AppointmentController@create');
-//    Route::put('/update/{id}', 'AppointmentController@update');
-//    Route::GET('/search/{name}', 'AppointmentController@search');
-//    Route::PUT('/trash/{id}', 'AppointmentController@trash');
-//    Route::delete('/delete/{id}', 'AppointmentController@delete');
-//    Route::PUT('/restoreTrashed/{id}', 'AppointmentController@restoreTrashed');
-//});
+Route::group(['middleware'=>'api','prefix'=>'Appointment','namespace'=>'Appointment'],function () {
+    Route::get('/get', 'AppointmentController@get');
+    Route::get('/getById/{id}', 'AppointmentController@getById');
+    Route::get('/getTrashed', 'AppointmentController@getTrashed');
+    Route::post('/create', 'AppointmentController@create');
+    Route::put('/update/{id}', 'AppointmentController@update');
+   // Route::GET('/search/{name}', 'AppointmentController@search');
+    Route::PUT('/trash/{id}', 'AppointmentController@trash');
+    Route::delete('/delete/{id}', 'AppointmentController@delete');
+    Route::PUT('/restoreTrashed/{id}', 'AppointmentController@restoreTrashed');
+});
 ///*---------------Medical File Route-------------*/
 //Route::group(['middleware'=>'api','prefix'=>'MedicalFile','namespace'=>'MedicalFile'],function () {
 //    Route::get('/get', 'MedicalFileController@get');
