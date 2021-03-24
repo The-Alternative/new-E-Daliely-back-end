@@ -2,6 +2,7 @@
 
 namespace App\Models\Products;
 
+use App\Models\Products\ProductTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use LaravelLocalization;
@@ -10,23 +11,24 @@ use LaravelLocalization;
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $primaryKey = 'id';
     protected $table ='products';
 
-    protected $fillable = [
-        
-        'trans_lang','trans_of','title',
-        'slug','brand_id','barcode','image',
-        'meta','is_active',
-        'is_appear','short_des','description'
+  protected $fillable = [
+        'slug','image','category_id','barcode',
+      'custom_feild_id', 'brand_id', 'rating_id',
+      'offer_id', 'is_appear','is_active'
 ];
+
     protected $hidden = [
         'created_at', 'updated_at'
     ];
     protected $casts = [
         'is_active' => 'boolean'
     ];
+
+    //________________ scopes begin _________________//
 
     /****ــــــ This Local Scopes For Products ــــــ  ***
      * @param $query
@@ -44,8 +46,7 @@ class Product extends Model
         return $query->select('trans_lang','trans_of','title',
         'slug','brand_id','barcode','image',
         'meta','is_active',
-        'is_appear','short_des','description')
-        ->where('trans_of',$id);
+        'is_appear','short_des','description');
     }
 
 
@@ -71,10 +72,18 @@ class Product extends Model
     }
 
 
-      // get all translation products
-    public function products()
+    public function scopeWithTrans($query)
     {
-        return $this->hasMany(self::class,'trans_of');
+        return $query=Product::join('product_translations', 'product_translations.product_id', '=', 'products.id')
+            ->where('product_translations.locale','=',get_current_local())
+            ->select('products.*','product_translations.*');
+    }
+
+
+    //________________ scopes end _________________//
+    public function ProductTranslation()
+    {
+        return $this->hasMany(ProductTranslation::class,'product_id');
     }
 
 //    public function customfields()
@@ -83,28 +92,28 @@ class Product extends Model
 //        ->withTimestamps()
 //        ->withPivot(['value','description']);
 //    }
-public function language()
-{
-    return $this->belongsToMany(language::class);
-}
-    public function categories(){
-        return $this->belongsToMany(category::class)
-        ->withTimestamps()
-        ->withPivot(['description']);
-    }
+//public function language()
+//{
+//    return $this->belongsToMany(language::class);
+//}
+//    public function categories(){
+//        return $this->belongsToMany(category::class)
+//        ->withTimestamps()
+//        ->withPivot(['description']);
+//    }
 
-    public function stores(){
-        return $this->belongsToMany(store::class)
-        ->withTimestamps()
-        ->withPivot(['is_active','is_approve','price','qty']);
-    }
-
-    public function product_images(){
-        return $this->hasMany(product_image::class);
-    }
-    public function brand(){
-        return $this->belongsTo(brand::class);
-    }
+//    public function stores(){
+//        return $this->belongsToMany(store::class)
+//        ->withTimestamps()
+//        ->withPivot(['is_active','is_approve','price','qty']);
+//    }
+//
+//    public function product_images(){
+//        return $this->hasMany(product_image::class);
+//    }
+//    public function brand(){
+//        return $this->belongsTo(brand::class);
+//    }
 
     public function product_store_ratings(){
         return $this->hasMany(Product_Store_Rating::class);

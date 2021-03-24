@@ -3,6 +3,7 @@
 namespace App\Models\Language;
 
 use App\Models\Brands\Brands;
+use App\Models\Categories\CategoryTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,11 +17,11 @@ class Language extends Model
         [
             'name','abbr','native','is_active','iso_code','locale','flag','rtl'
         ];
-    protected $hidden = 
+    protected $hidden =
         [
             'created_at', 'updated_at'
         ];
-    protected $casts = 
+    protected $casts =
         [
             'is_active' => 'boolean'
         ];
@@ -42,13 +43,21 @@ class Language extends Model
        return $value==1 ? 'Active' : 'Not Active';
     }
 
+    public function category()
+    {
+        return $this->hasMany(Category::class, 'abbr', 'id');
+    }
+    public function CategoryTranslation()
+    {
+        return $this->hasMany(CategoryTranslation::class);
+    }
 
-    public function product()
-    {
-        return $this->belongsToMany(product::class);
-    }
-    public function brand()
-    {
-        return $this->belongsToMany(brands::class);
-    }
+//    public function product()
+//    {
+//        return $this->belongsToMany(Product::class);
+//    }
+//    public function brand()
+//    {
+//        return $this->belongsToMany(brands::class);
+//    }
 }

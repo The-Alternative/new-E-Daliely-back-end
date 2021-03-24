@@ -48,22 +48,28 @@ return [
         //'en-CA'       => ['name' => 'Canadian English',       'script' => 'Latn', 'native' => 'Canadian English', 'regional' => 'en_CA'],
         //'en-US'       => ['name' => 'U.S. English',           'script' => 'Latn', 'native' => 'U.S. English', 'regional' => 'en_US'],
 
+<<<<<<< HEAD
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
        // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
+=======
+>>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
         // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
 
         //'es'          => ['nme' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
         // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
+<<<<<<< HEAD
 
 
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
+=======
+>>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
 
         //'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'regional' => 'es_ES'],
 
@@ -256,6 +262,7 @@ return [
         //'ur'          => ['name' => 'Urdu',                   'script' => 'Arab', 'native' => 'اردو', 'regional' => 'ur_PK'],
 
 
+<<<<<<< HEAD
 
         'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
@@ -272,12 +279,15 @@ return [
 
         //'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
+=======
+>>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
         'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
         // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
         // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
+<<<<<<< HEAD
         // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
         // 'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
@@ -286,6 +296,11 @@ return [
 
         //'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
 
+=======
+        'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE']
+
+        //'ar'          => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'regional' => 'ar_AE'],
+>>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
 
         //'uz-Arab'     => ['name' => 'Uzbek (Arabic)',         'script' => 'Arab', 'native' => 'اۉزبېک', 'regional' => ''],
         //'tg-Arab'     => ['name' => 'Tajik (Arabic)',         'script' => 'Arab', 'native' => 'تاجیکی', 'regional' => 'tg_TJ'],
@@ -361,9 +376,12 @@ return [
     // If false, system will take app.php locale attribute
 
 
+<<<<<<< HEAD
     'useAcceptLanguageHeader' => false,
 
     'useAcceptLanguageHeader' => true,
+=======
+>>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
     'useAcceptLanguageHeader' => true,
     // If `hideDefaultLocaleInURL` is true, then a url without locale
     // is identical with the same url with default locale.

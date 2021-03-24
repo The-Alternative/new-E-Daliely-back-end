@@ -29,8 +29,11 @@ class CategoriesController extends Controller
     }
     public function getById($id )
     {
-     $response= $this->CategoryService->getById($id);
-     return $response;
+        $response= $this->CategoryService->getById($id);
+          return response($response, 200)
+              ->header('Access-Control-Allow-Origin', '*')
+              ->header('Access-Control-Allow-Methods', '*');
+//     dd( $response);
     }
     public function getTrashed()
     {
@@ -46,9 +49,9 @@ class CategoriesController extends Controller
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');
         }
-        public function update(CategoryRequest $request)
+        public function update(CategoryRequest $request,$id)
         {
-            $response= $this->CategoryService->update( $request);
+            $response= $this->CategoryService->update( $request,$id);
             return response($response, 200)
                      ->header('Access-Control-Allow-Origin', '*')
                      ->header('Access-Control-Allow-Methods', '*');

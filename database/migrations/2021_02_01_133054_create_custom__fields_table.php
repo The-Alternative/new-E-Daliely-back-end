@@ -13,10 +13,10 @@ class CreateCustomFieldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom__fields', function (Blueprint $table) {
+        Schema::create('custom_fields', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
-            $table->integer('custom_field_id');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('custom_field_id');
             $table->string('value');
             $table->string('description');
             $table->timestamps();

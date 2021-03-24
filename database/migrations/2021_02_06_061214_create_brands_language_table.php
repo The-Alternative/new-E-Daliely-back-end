@@ -15,9 +15,9 @@ class CreateBrandsLanguageTable extends Migration
     {
         Schema::create('brands_language', function (Blueprint $table) {
             $table->id();
-            $table->integer('brands_id');
-            $table->integer('lang_id');
-            $table->string('name');
+            $table->unsignedInteger('brands_id');
+            $table->unsignedInteger('lang_id');
+            $table->unsignedInteger('name');
             $table->string('description');
             $table->timestamps();
         });

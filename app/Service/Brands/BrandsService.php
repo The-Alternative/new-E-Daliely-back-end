@@ -39,7 +39,6 @@ class BrandsService
         $brand= $this->BrandModel::find($id);
         return $this->returnData('brand',$brand,'done');
     }
-
     public function getTrashed()
     {
         $brand= $this->BrandModel::all()->where('is_active',0);
@@ -63,9 +62,6 @@ class BrandsService
             return $this->returnError('400', 'saving failed');
         }
     }
-
-    }
-
 
     public function update(BrandRequest $request,$id)
     {
