@@ -42,8 +42,11 @@ class AppointmentService
         $appointment=new Appointment();
 
         $appointment->doctors_id                =$request->doctors_id;
-        $appointment->patients_id               =$request->patients_id;
-        $appointment->date_time_appointment     =$request->date_time_appointment;
+        $appointment->customers_id              =$request->customers_id ;
+        $appointment->begin_date                =$request->begin_date;
+        $appointment->end_date                  =$request->end_date;
+        $appointment->begin_time                =$request->begin_time;
+        $appointment->end_time                  =$request->end_time ;
         $appointment->is_approved               =$request->is_approved;
         $appointment->is_active                 =$request->is_active;
 
@@ -64,8 +67,11 @@ class AppointmentService
         $appointment= $this->AppointmentModel::find($id);
 
         $appointment->doctors_id                =$request->doctors_id;
-        $appointment->patients_id               =$request->patients_id;
-        $appointment->date_time_appointment     =$request->date_time_appointment;
+        $appointment->customers_id              =$request->customers_id ;
+        $appointment->begin_date                =$request->begin_date;
+        $appointment->end_date                  =$request->end_date;
+        $appointment->begin_time                =$request->begin_time;
+        $appointment->end_time                  =$request->end_time ;
         $appointment->is_approved               =$request->is_approved;
         $appointment->is_active                 =$request->is_active;
 
@@ -79,21 +85,6 @@ class AppointmentService
             return $this->returnError('400', 'updating failed');
         }
     }
-
-//    public function search($name)
-//    {
-//        $appointment = DB::table('Appointments')
-//            ->where("first_name","like","%".$name."%")
-//            ->get();
-//        if (!$appointment)
-//        {
-//            return $this->returnError('400', 'not found this patient');
-//        }
-//        else
-//        {
-//            return $this->returnData('Appointment', $appointment,'done');
-//        }
-//    }
 
     public function trash( $id)
     {

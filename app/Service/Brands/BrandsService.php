@@ -28,7 +28,7 @@ class BrandsService
     public function get()
     {
 
-       $brand=$this->BrandModel::all()->where('is_active','=',1);
+       $brand=$this->BrandModel::all()->IsActive();
         return $this->returnData('brand',$brand,'done');
 
     }

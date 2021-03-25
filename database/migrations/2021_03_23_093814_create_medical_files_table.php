@@ -16,7 +16,7 @@ class CreateMedicalFilesTable extends Migration
         Schema::create('medical_files', function (Blueprint $table) {
             $table->id();
             $table->integer('doctor_id');
-            $table->integer('patient_id');
+            $table->integer('customer_id');
             $table->integer('file_number');
             $table->date('file_date');
             $table->date('review_date');

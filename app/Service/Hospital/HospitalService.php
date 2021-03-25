@@ -24,7 +24,7 @@ class HospitalService
     public function get()
     {
 
-        $Hospital=$this->HospitalModel::all();
+        $Hospital=$this->HospitalModel::all()->IsActive();
         return $this->returnData('Hospital',$Hospital,'done');
 
     }

@@ -18,6 +18,7 @@ class CreateDoctorCustomerTable extends Migration
             $table->integer('doctor_id');
             $table->integer('customer_id');
             $table->integer('medical_file_id');
+            $table->integer('age');
             $table->string('gender');
             $table->string('social_status');
             $table->string('blood_type');

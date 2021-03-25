@@ -17,7 +17,10 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->integer('doctors_id')->unsigned();
             $table->integer('patients_id')->unsigned();
-            $table->dateTime('date_time_appointment');
+            $table->date('begin_date');
+            $table->date('end_date');
+            $table->time('begin_time');
+            $table->date('end_time');
             $table->boolean('is_active');
             $table->boolean('is_approved');
             $table->timestamps();

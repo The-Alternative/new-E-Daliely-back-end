@@ -17,7 +17,6 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->integer('age');
             $table->integer('social_media_id');
             $table->string('address');
             $table->boolean('is_active');

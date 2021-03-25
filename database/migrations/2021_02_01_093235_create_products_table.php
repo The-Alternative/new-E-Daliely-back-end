@@ -21,10 +21,10 @@ class CreateProductsTable extends Migration
 
             $table->integer('trans_of')->unsigned();
 
-            $table->unsigned('trans_of');
-
-
-            $table->unsigned('trans_of');
+//            $table->unsigned('trans_of');
+//
+//
+//            $table->unsigned('trans_of');
 
             $table->string('title');
 

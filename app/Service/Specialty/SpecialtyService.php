@@ -23,7 +23,7 @@ class SpecialtyService
     public function get()
     {
 
-        $Specialty=$this->SpecialtyModel::all();
+        $Specialty=$this->SpecialtyModel::all()->IsActive;
         return $this->returnData(' Specialty', $Specialty,'done');
 
     }

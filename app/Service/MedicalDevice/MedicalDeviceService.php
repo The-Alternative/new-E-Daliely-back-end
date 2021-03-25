@@ -24,7 +24,7 @@ class MedicalDeviceService
     public function get()
     {
 
-        $MedicalDevice=$this->MedicalDeviceModel::all()->where('is_active',1);
+        $MedicalDevice=$this->MedicalDeviceModel::all()->IsActive();
         return $this->returnData(' MedicalDevice', $MedicalDevice,'done');
 
     }

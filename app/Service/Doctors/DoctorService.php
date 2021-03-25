@@ -32,7 +32,7 @@ class DoctorService
 
     public function getTrashed()
     {
-        $doctor= $this->doctorModel::IsActive();
+        $doctor= $this->doctorModel::all()->where('is_active',0);
         return $this -> returnData('doctor',$doctor,'done');
     }
 
@@ -40,12 +40,13 @@ class DoctorService
     {
         $doctor=new doctor();
 
-        $doctor->name                 =$request->name;
+        $doctor->first_name           =$request->first_name;
+        $doctor->last_name            =$request->last_name;
         $doctor->description          =$request->description;
         $doctor->image                =$request->image;
         $doctor->social_media_id      =$request->social_media_id ;
         $doctor->specialty_id         =$request->specialty_id;
-        $doctor->work_place_id        =$request->work_place_id;
+        $doctor->clinic_id            =$request->clinic_id;
         $doctor->hospital_id          =$request->hospital_id;
         $doctor->is_active            =$request->is_active ;
         $doctor->is_approved          =$request->is_approved;
@@ -65,12 +66,13 @@ class DoctorService
     {
         $doctor= $this->doctorModel::find($id);
 
-        $doctor->name                 =$request->name;
+        $doctor->first_name           =$request->first_name;
+        $doctor->last_name            =$request->last_name;
         $doctor->description          =$request->description;
         $doctor->image                =$request->image;
         $doctor->social_media_id      =$request->social_media_id ;
         $doctor->specialty_id         =$request->specialty_id;
-        $doctor->work_place_id        =$request->work_place_id;
+        $doctor->clinic_id            =$request->clinic_id;
         $doctor->hospital_id          =$request->hospital_id;
         $doctor->is_active            =$request->is_active ;
         $doctor->is_approved          =$request->is_approved;
@@ -134,12 +136,12 @@ class DoctorService
     }
 
     //get  doctor's work place by doctor's name
-    public function workplace($doctor_name)
-    {
-        return doctor::with('workPlace')
-                     ->where("name","like","%".$doctor_name."%")
-                     ->get();
-    }
+//    public function workplace($doctor_name)
+//    {
+//        return doctor::with('workPlace')
+//                     ->where("name","like","%".$doctor_name."%")
+//                     ->get();
+//    }
 
     //get  doctor's medical devices by doctor's name
     public function doctormedicaldevice($doctor_name)
