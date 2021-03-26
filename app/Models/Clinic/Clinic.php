@@ -3,7 +3,7 @@
 namespace App\Models\Clinic;
 
 use App\Models\Doctors\doctor;
-
+use App\Models\Clinic\ClinicTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,8 +12,30 @@ class Clinic extends Model
     use HasFactory;
 
     protected $table='clinics';
-    protected $fillable=['id','doctors_id','name','location_id','phone_number','is_active','is_approved'];
+    protected $fillable=['id','doctors_id','location_id','phone_number','is_active','is_approved'];
+//Scope
 
+    public function scopeIsActive($query)
+    {
+        return $query->where('is_active',1)->get();
+
+    }
+
+    public function ScopeWithTrans($query)
+    {
+        return $query=Clinic::join('clinic_translation','clinic_translation.clinic_id','=','clinic_id')
+            ->where('clinic_translation.local','=',get_current_local())
+            ->select('clinic.*','clinic_translation.*')->get();
+    }
+
+    public function clinicTranslation()
+    {
+        return $this->hasMany(ClinicTranslation::class,'clinic_id');
+    }
+    public function clinic()
+    {
+        return $this->belongsToMany(Clinic::class);
+    }
     public function doctor()
     {
         return $this->hasOne(doctor::class);

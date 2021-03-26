@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpecialtyTranslationTable extends Migration
+class CreateBrandTranslationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateSpecialtyTranslationTable extends Migration
      */
     public function up()
     {
-        Schema::create('specialty_translation', function (Blueprint $table) {
+        Schema::create('brand_translation', function (Blueprint $table) {
             $table->id();
-            $table->integer('specialty_id');
+            $table->integer('brand_id');
             $table->string('locale');
             $table->string('name');
-
-
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateSpecialtyTranslationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('specialty_translation');
+        Schema::dropIfExists('brand_translation');
     }
 }

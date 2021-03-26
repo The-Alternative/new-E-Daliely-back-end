@@ -16,6 +16,7 @@ class CreateClinicTranslationTable extends Migration
         Schema::create('clinic_translation', function (Blueprint $table) {
             $table->id();
             $table->integer('clinic_id')->unsigned();
+            $table->string('locale');
             $table->string('name');
             $table->timestamps();
         });

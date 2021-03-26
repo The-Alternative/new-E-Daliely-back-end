@@ -15,7 +15,6 @@ class CreateMedicalDevicesTable extends Migration
     {
         Schema::create('medical_devices', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->integer('hospital_id')->unsigned();
             $table->integer('doctor_id')->unsigned();
             $table->boolean('is_active');

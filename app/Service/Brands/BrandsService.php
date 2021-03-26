@@ -4,14 +4,13 @@
 namespace App\Service\Brands;
 
 use App\Models\Brands\Brands;
-use App\Models\Products\Product;
+use App\Models\Brands\BrandTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\GeneralTrait;
 use App\Http\Requests\Brands\BrandRequest;
 use phpDocumentor\Reflection\Types\This;
-
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes;
 
 class BrandsService
@@ -28,7 +27,7 @@ class BrandsService
     public function get()
     {
 
-       $brand=$this->BrandModel::all()->IsActive();
+       $brand=$this->BrandModel::all()->IsActive()->WithTrans();
         return $this->returnData('brand',$brand,'done');
 
     }
@@ -36,7 +35,7 @@ class BrandsService
     public function getById($id)
     {
 
-        $brand= $this->BrandModel::find($id);
+        $brand= $this->BrandModel::withTrans()->find($id);
         return $this->returnData('brand',$brand,'done');
     }
     public function getTrashed()
@@ -44,45 +43,121 @@ class BrandsService
         $brand= $this->BrandModel::all()->where('is_active',0);
         return $this -> returnData('brand',$brand,'done');
     }
-
+//________________________________________________________________________//
     public function create( BrandRequest $request )
     {
-        $brand = new Brands();
+        try {
+            $allbrands = collect($request->Brands)->all();
 
-        $brand->name        = $request->name;
-        $brand->slug        = $request->slug;
-        $brand->description = $request->description;
-        $brand->image       = $request->image;
-        $brand->is_active   = $request->is_active;
+            DB::beginTransaction();
 
-        $result = $brand->save();
-        if ($result) {
-            return $this->returnData('brand', $brand, 'done');
-        } else {
-            return $this->returnError('400', 'saving failed');
-        }
+            $unTransbrand_id = Brands::insertGetId([
+                'image' => $request['image'],
+                'slug' => $request['slug'],
+                'is_active' => $request['is_active'],
+            ]);
+            if (isset($allbrands) && count($allbrands)) {
+                foreach ($allbrands as $allbrand) {
+                    $transbrand_arr[] = [
+                        'name' => $allbrand ['name'],
+                        'description' => $allbrand ['description'],
+                        'locale' => $allbrand['locale'],
+                        'brand_id' => $unTransbrand_id,
+                    ];
+                }
+                $transbrand_arr = BrandTranslation::insert($transbrand_arr);
+            }
+            DB::commit();
+            return $this->returnData('brand', [$unTransbrand_id, $transbrand_arr], 'done');
+            }
+        catch(\Exception $ex)
+            {
+                DB::rollback();
+                return $this->returnError('brand', 'faild');
+            }
+//        $brand = new Brands();
+//
+//        $brand->name        = $request->name;
+//        $brand->slug        = $request->slug;
+//        $brand->description = $request->description;
+//        $brand->image       = $request->image;
+//        $brand->is_active   = $request->is_active;
+//
+//        $result = $brand->save();
+//        if ($result) {
+//            return $this->returnData('brand', $brand, 'done');
+//        } else {
+//            return $this->returnError('400', 'saving failed');
+//        }
     }
-
+//_____________________________________________________//
     public function update(BrandRequest $request,$id)
     {
-        $brand= $this->BrandModel::find($id);
+        try{
+            $brand= Brands::find($id);
+            if(!$brand)
+                return $this->returnError('400', 'not found this brand');
+            $allbrand = collect($request->Brands)->all();
+            if (!($request->has('brands.is_active')))
+                $request->request->add(['is_active'=>0]);
+            else
+                $request->request->add(['is_active'=>1]);
 
-        $brand->name            =$request->name;
-        $brand->slug            =$request->slug;
-        $brand->description     =$request->description;
-        $brand->image           =$request->image;
-        $brand->is_active       =$request->is_active;
+            $newbrand=Brands::where('id',$id)
+                ->update([
+                    'image' => $request['image'],
+                    'slug' => $request['slug'],
+                    'is_active' => $request['is_active']
+                ]);
 
+            $ss=BrandTranslation::where('brand_id',$id);
+            $collection1 = collect($allbrand);
+            $allbrandlength=$collection1->count();
+            $collection2 = collect($ss);
 
-        $result=$brand->save();
-        if ($result)
-        {
-            return $this->returnData('brand', $brand,'done');
+            $db_brand= array_values(BrandTranslation::where('brand_id',$id)
+                ->get()
+                ->all());
+            $dbbrand = array_values($db_brand);
+            $request_brand = array_values($request->Brands);
+            foreach($dbbrand as $dbbrands){
+                foreach($request_brand as $request_brands){
+                    $values= BrandTranslation::where('brand_id',$id)
+                        ->where('locale',$request_brands['locale'])
+                        ->update([
+                            'name'=>$request_brands['name'],
+                            'description'=>$request_brands['description'],
+                            'locale'=>$request_brands['locale'],
+                            'brand_id'=>$id
+                        ]);
+                }
+            }
+            DB::commit();
+            return $this->returnData('brand', $dbbrand,'done');
+
         }
-        else
-        {
-            return $this->returnError('400', 'updating failed');
+        catch(\Exception $ex){
+           // return $ex;
+            return $this->returnError('400', 'saving failed');
         }
+//        $brand= $this->BrandModel::find($id);
+//
+//        $brand->name            =$request->name;
+//        $brand->slug            =$request->slug;
+//        $brand->description     =$request->description;
+//        $brand->image           =$request->image;
+//        $brand->is_active       =$request->is_active;
+//
+//
+//        $result=$brand->save();
+//        if ($result)
+//        {
+//            return $this->returnData('brand', $brand,'done');
+//        }
+//        else
+//        {
+//            return $this->returnError('400', 'updating failed');
+//        }
 
     }
 

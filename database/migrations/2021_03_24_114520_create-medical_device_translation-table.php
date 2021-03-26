@@ -16,6 +16,7 @@ class CreateMedicalDeviceTranslationTable extends Migration
         Schema::create('medical_device_translation', function (Blueprint $table) {
             $table->id();
             $table->integer('medical_device_id')->unsigned();
+            $table->string('locale');
             $table->string('name');
             $table->timestamps();
         });

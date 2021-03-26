@@ -15,7 +15,6 @@ class CreateClinicsTable extends Migration
     {
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->integer('location_id')->unsigned();
             $table->integer('phone_number');
             $table->integer('doctor_id')->unsigned();

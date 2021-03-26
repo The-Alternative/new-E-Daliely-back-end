@@ -2,6 +2,8 @@
 
 namespace App\Models\Doctors;
 
+
+use App\Models\Doctors\DoctorTranslation;
 use App\Models\Hospital\Hospital;
 use App\Models\SocialMedia\SocialMedia;
 use App\Models\WorkPlace\WorkPlace;
@@ -16,7 +18,7 @@ class doctor extends Model
 {
     use HasFactory;
     protected $table='Doctors';
-    protected $fillable =['Id','first_name','last_name','image','description','specialty_id','hospital_id','clinic_id','social_media_id','is_active','is_approved'];
+    protected $fillable =['Id','image','specialty_id','hospital_id','clinic_id','social_media_id','is_active','is_approved'];
     protected $hidden   =['id','social_media_id','specialty_id','hospital_id','work_places_id','created_at','updated_at'];
      public $timestamps=false;
 
@@ -25,6 +27,18 @@ class doctor extends Model
     {
         return $query->where('is_active',1)->get();
 
+    }
+
+    public function ScopeWithTrans($query)
+    {
+        return $query=doctor::join('doctor_translation','doctor_translation.doctor_id','=','doctor_id')
+            ->where('doctor_translation.local','=',get_current_local())
+            ->select('doctors.*','doctor_translation.*')->get();
+    }
+
+    public function doctorTranslation()
+    {
+        return $this->hasMany(DoctorTranslation::class,'doctor_id');
     }
 
 //    public function socialMedia()
