@@ -146,7 +146,7 @@ class DoctorService
                 }
             }
             DB::commit();
-            return $this->returnData('brand', $dbdoctor,'done');
+            return $this->returnData('doctor', $dbdoctor,'done');
 
         }
         catch(\Exception $ex){

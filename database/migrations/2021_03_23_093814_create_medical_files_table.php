@@ -21,7 +21,6 @@ class CreateMedicalFilesTable extends Migration
             $table->date('file_date');
             $table->date('review_date');
             $table->string('PDF');
-            $table->string('section');
             $table->boolean('is_active');
             $table->boolean('is_approved');
             $table->timestamps();

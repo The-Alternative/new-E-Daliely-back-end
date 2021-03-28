@@ -6,9 +6,10 @@ namespace App\Models\Doctors;
 use App\Models\Doctors\DoctorTranslation;
 use App\Models\Hospital\Hospital;
 use App\Models\SocialMedia\SocialMedia;
-use App\Models\WorkPlace\WorkPlace;
+//use App\Models\WorkPlace\WorkPlace;
 use App\Models\Clinic\Clinic;
 use App\Models\Specialty\Specialty;
+use App\Models\Customer\Customer;
 use App\Models\DoctorRate\DoctorRate;
 use App\Models\medicalDevice\medicalDevice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,14 +42,14 @@ class doctor extends Model
         return $this->hasMany(DoctorTranslation::class,'doctor_id');
     }
 
-//    public function socialMedia()
-//    {
-//        return $this->hasMany(SocialMedia::class);
-//    }
-    public  function workPlace()
+    public function socialMedia()
     {
-        return $this->belongsToMany(workPlace::class);
+        return $this->hasMany(SocialMedia::class);
     }
+//    public  function workPlace()
+//    {
+//        return $this->belongsToMany(workPlace::class);
+//    }
 
     public  function Specialty()
     {
@@ -72,6 +73,11 @@ class doctor extends Model
     public function hospital()
     {
         return $this->belongsToMany(Hospital::class);
+    }
+
+    public function customer()
+    {
+        return $this->hasMany(Customer::class);
     }
 
 }

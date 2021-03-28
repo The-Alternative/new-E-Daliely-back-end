@@ -461,17 +461,28 @@ Route::group(['middleware'=>'api','prefix'=>'Appointment','namespace'=>'Appointm
     Route::delete('/delete/{id}', 'AppointmentController@delete');
     Route::PUT('/restoreTrashed/{id}', 'AppointmentController@restoreTrashed');
 });
+///*---------------Customer Route-------------*/
+Route::group(['middleware'=>'api','prefix'=>'customer','namespace'=>'Customer'],function () {
+    Route::get('/get',          'CustomerController@get');
+    Route::get('/getById/{id}', 'CustomerController@getById');
+    Route::get('/getTrashed',   'CustomerController@getTrashed');
+    Route::post('/create',      'CustomerController@create');
+    Route::put('/update/{id}',  'CustomerController@update');
+    Route::GET('/search/{name}','CustomerController@search');
+    Route::PUT('/trash/{id}',   'CustomerController@trash');
+    Route::delete('/delete/{id}','CustomerController@delete');
+    Route::PUT('/restoreTrashed/{id}', 'CustomerController@restoreTrashed');
+});
 ///*---------------Medical File Route-------------*/
-//Route::group(['middleware'=>'api','prefix'=>'MedicalFile','namespace'=>'MedicalFile'],function () {
-//    Route::get('/get', 'MedicalFileController@get');
-//    Route::get('/getById/{id}', 'MedicalFileController@getById');
-//    Route::get('/getTrashed', 'MedicalFileController@getTrashed');
-//    Route::post('/create', 'MedicalFileController@create');
-//    Route::put('/update/{id}', 'MedicalFileController@update');
-//    Route::GET('/search/{name}', 'MedicalFileController@search');
-//    Route::PUT('/trash/{id}', 'MedicalFileController@trash');
-//    Route::delete('/delete/{id}', 'MedicalFileController@delete');
-//    Route::PUT('/restoreTrashed/{id}', 'MedicalFileController@restoreTrashed');
-//});
+Route::group(['middleware'=>'api','prefix'=>'MedicalFile','namespace'=>'MedicalFile'],function () {
+    Route::get('/get', 'MedicalFileController@get');
+    Route::get('/getById/{id}', 'MedicalFileController@getById');
+    Route::get('/getTrashed', 'MedicalFileController@getTrashed');
+    Route::post('/create', 'MedicalFileController@create');
+    Route::put('/update/{id}', 'MedicalFileController@update');
+    Route::PUT('/trash/{id}', 'MedicalFileController@trash');
+    Route::delete('/delete/{id}', 'MedicalFileController@delete');
+    Route::PUT('/restoreTrashed/{id}', 'MedicalFileController@restoreTrashed');
+});
 
 
