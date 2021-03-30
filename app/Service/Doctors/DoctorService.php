@@ -22,13 +22,13 @@ class DoctorService
     }
     public function get()
     {
-        $doctor= $this->doctorModel::IsActive()->WithTrans();
+        $doctor= $this->doctorModel::Active()->WithTrans();
         return $this->returnData('doctor',$doctor,'done');
     }
 
     public function getById($id)
     {
-        $doctor= $this->doctorModel::find($id);
+        $doctor= $this->doctorModel::WithTrans()->find($id);
         return $this->returnData('doctor',$doctor,'done');
     }
 
@@ -42,11 +42,9 @@ class DoctorService
     public function create( DoctorRequest $request )
     {
         try {
-            $alldoctors = collect($request->doctor)->all();
-
+            $alldoctor = collect($request->doctor)->all();
             DB::beginTransaction();
-
-            $unTransdoctor_id = doctor::insertGetId([
+            $unTransdoctor_id =doctor::insertGetId([
                 'image' => $request['image'],
                 'social_media_id' => $request['social_media_id'],
                 'hospital_id' => $request['hospital_id'],
@@ -55,53 +53,31 @@ class DoctorService
                 'is_approved' => $request['is_approved'],
                 'is_active' => $request['is_active'],
             ]);
-            if (isset($alldoctor) && count($alldoctors)) {
-                foreach ($alldoctors as $alldoctor) {
-                    $transdoctor_arr[] = [
-                        'first_name' => $alldoctor ['first_name'],
-                        'last_name' => $alldoctor ['last_name'],
-                        'description' => $alldoctor ['description'],
-                        'locale' => $alldoctor['locale'],
+            if (isset($alldoctor)) {
+                foreach ($alldoctor as $alldoctors) {
+                    $transdoctor[] = [
+                        'first_name' => $alldoctors ['first_name'],
+                        'last_name' => $alldoctors ['last_name'],
+                        'description' => $alldoctors ['description'],
+                        'locale' => $alldoctors['locale'],
                         'doctor_id' => $unTransdoctor_id,
                     ];
                 }
-                $transdoctor_arr =DoctorTranslation::insert($transdoctor_arr);
+                DoctorTranslation::insert( $transdoctor);
             }
             DB::commit();
-            return $this->returnData('doctor', [$unTransdoctor_id, $transdoctor_arr], 'done');
+            return $this->returnData('doctor', [$unTransdoctor_id,  $transdoctor], 'done');
         }
         catch(\Exception $ex)
         {
             DB::rollback();
             return $this->returnError('doctor', 'faild');
         }
-//        $doctor=new doctor();
-//
-//        $doctor->first_name           =$request->first_name;
-//        $doctor->last_name            =$request->last_name;
-//        $doctor->description          =$request->description;
-//        $doctor->image                =$request->image;
-//        $doctor->social_media_id      =$request->social_media_id ;
-//        $doctor->specialty_id         =$request->specialty_id;
-//        $doctor->clinic_id            =$request->clinic_id;
-//        $doctor->hospital_id          =$request->hospital_id;
-//        $doctor->is_active            =$request->is_active ;
-//        $doctor->is_approved          =$request->is_approved;
-//
-//        $result=$doctor->save();
-//        if ($result)
-//        {
-//            return $this->returnData('doctor', $doctor,'done');
-//        }
-//        else
-//        {
-//            return $this->returnError('400', 'saving failed');
-//        }
     }
-
+//_________________________________________________________//
     public function update(DoctorRequest $request,$id)
     {
-        try{
+//        try{
             $doctor= doctor::find($id);
             if(!$doctor)
                 return $this->returnError('400', 'not found this doctor');
@@ -135,44 +111,22 @@ class DoctorService
             foreach($dbdoctor as $dbdoctors){
                 foreach($request_doctor as $request_doctors){
                     $values= DoctorTranslation::where('doctor_id',$id)
-                        ->where('locale',$request_doctor['locale'])
+                        ->where('locale',$request_doctors['locale'])
                         ->update([
-                            'first_name' => $alldoctor ['first_name'],
-                            'last_name' => $alldoctor ['last_name'],
-                            'description' => $alldoctor ['description'],
-                            'locale' => $alldoctor['locale'],
+                            'first_name' => $request_doctors ['first_name'],
+                            'last_name' => $request_doctors ['last_name'],
+                            'description' => $request_doctors ['description'],
+                            'locale' => $request_doctors['locale'],
                             'doctor_id' => $id,
                         ]);
                 }
             }
-            DB::commit();
+//            DB::commit();
             return $this->returnData('doctor', $dbdoctor,'done');
 
-        }
-        catch(\Exception $ex){
-                        return $this->returnError('400', 'saving failed');
-        }
-//        $doctor= $this->doctorModel::find($id);
-//
-//        $doctor->first_name           =$request->first_name;
-//        $doctor->last_name            =$request->last_name;
-//        $doctor->description          =$request->description;
-//        $doctor->image                =$request->image;
-//        $doctor->social_media_id      =$request->social_media_id ;
-//        $doctor->specialty_id         =$request->specialty_id;
-//        $doctor->clinic_id            =$request->clinic_id;
-//        $doctor->hospital_id          =$request->hospital_id;
-//        $doctor->is_active            =$request->is_active ;
-//        $doctor->is_approved          =$request->is_approved;
-//
-//        $result=$doctor->save();
-//        if ($result)
-//        {
-//            return $this->returnData('doctor', $doctor,'done');
 //        }
-//        else
-//        {
-//            return $this->returnError('400', 'updating failed');
+//        catch(\Exception $ex){
+//                        return $this->returnError('400', 'saving failed');
 //        }
     }
 //___________________________________________________________//

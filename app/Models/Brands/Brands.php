@@ -18,7 +18,7 @@ class Brands extends Model
 
 
     //scope
-    public function ScopeIsActive($query)
+    public function ScopeActive($query)
     {
         return $query->where('is_active',1);
     }
@@ -26,8 +26,8 @@ class Brands extends Model
     public function ScopeWithTrans($query)
     {
         return $query=Brands::join('brand_translation','brand_translation.brand_id','=','brand_id')
-            ->where('brand_translation.local','=',get_current_local())
-            ->select('brand.*','brand_translation.*')->get();
+            ->where('brand_translation.locale','=',get_current_local())
+            ->select('brands.*','brand_translation.*');
     }
 
     public function BrandTranslation()

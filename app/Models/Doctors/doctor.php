@@ -20,20 +20,20 @@ class doctor extends Model
     use HasFactory;
     protected $table='Doctors';
     protected $fillable =['Id','image','specialty_id','hospital_id','clinic_id','social_media_id','is_active','is_approved'];
-    protected $hidden   =['id','social_media_id','specialty_id','hospital_id','work_places_id','created_at','updated_at'];
+//    protected $hidden   =['id','social_media_id','specialty_id','hospital_id','work_places_id','created_at','updated_at'];
      public $timestamps=false;
 
      //scope
-    public function scopeIsActive($query)
+    public function scopeActive($query)
     {
-        return $query->where('is_active',1)->get();
+        return $query->where('is_active',1);
 
     }
 
     public function ScopeWithTrans($query)
     {
         return $query=doctor::join('doctor_translation','doctor_translation.doctor_id','=','doctor_id')
-            ->where('doctor_translation.local','=',get_current_local())
+            ->where('doctor_translation.locale','=',get_current_local())
             ->select('doctors.*','doctor_translation.*')->get();
     }
 

@@ -23,7 +23,7 @@ class CustomerService
     }
     public function get()
     {
-        $customer= $this->CustomerModel::IsActive()->WithTrans();
+        $customer= $this->CustomerModel::Active()->WithTrans();
         return $this->returnData('customer',$customer,'done');
     }
 
@@ -43,29 +43,27 @@ class CustomerService
     public function create( CustomerRequest $request )
     {
         try {
-            $allcustomer = collect($request->Customer)->all();
-
+            $allcustomer = collect($request->customer)->all();
             DB::beginTransaction();
-
             $unTranscustomer_id = Customer::insertGetId([
                 'social_media_id' => $request['social_media_id'],
                 'is_approved' => $request['is_approved'],
                 'is_active' => $request['is_active'],
             ]);
-            if (isset($allcustomer) && count($allcustomer)) {
-                foreach ($allcustomer as $allcustomer) {
-                    $transcustomer_arr[] = [
-                        'first_name' => $allcustomer ['first_name'],
-                        'last_name' => $allcustomer ['last_name'],
-                        'address' => $allcustomer ['address'],
-                        'locale' => $allcustomer['locale'],
+              if (isset($allcustomer)) {
+                foreach ($allcustomer as $allcustomers) {
+                    $transcustomer[] = [
+                        'first_name' => $allcustomers ['first_name'],
+                        'last_name' => $allcustomers ['last_name'],
+                        'address' => $allcustomers ['address'],
+                        'locale' => $allcustomers['locale'],
                         'customer_id' => $unTranscustomer_id,
                     ];
                 }
-                $transcustomer_arr =CustomerTranslation::insert($transcustomer_arr);
+               CustomerTranslation::insert($transcustomer);
             }
             DB::commit();
-            return $this->returnData('Customer', [$unTranscustomer_id, $transcustomer_arr], 'done');
+            return $this->returnData('Customer', [$unTranscustomer_id, $transcustomer], 'done');
         }
         catch(\Exception $ex)
         {
@@ -77,51 +75,51 @@ class CustomerService
     public function update(CustomerRequest $request,$id)
     {
         try{
-            $customer= Customer::find($id);
-            if(!$customer)
-                return $this->returnError('400', 'not found this customer');
-            $allcustomer = collect($request->Customer)->all();
-            if (!($request->has('customer.is_active')))
-                $request->request->add(['is_active'=>0]);
-            else
-                $request->request->add(['is_active'=>1]);
+        $customer = Customer::find($id);
+        if (!$customer)
+            return $this->returnError('400', 'not found this customer');
+        $allcustomer = collect($request->Customer)->all();
+        if (!($request->has('customer.is_active')))
+            $request->request->add(['is_active' => 0]);
+        else
+            $request->request->add(['is_active' => 1]);
 
-            $newcustomer=CustomerTranslation::where('id',$id)
-                ->update([
-                    'social_media_id' => $request['social_media_id'],
-                    'is_approved' => $request['is_approved'],
-                    'is_active' => $request['is_active'],
-                ]);
+        $newcustomer = Customer::where('id', $id)
+            ->update([
+                'social_media_id' => $request['social_media_id'],
+                'is_approved' => $request['is_approved'],
+                'is_active' => $request['is_active'],
+            ]);
 
-            $ss=CustomerTranslation::where('customer_id',$id);
-            $collection1 = collect($allcustomer);
-            $allcustomerlength=$collection1->count();
-            $collection2 = collect($ss);
+        $ss = CustomerTranslation::where('customer_id', $id);
+        $collection1 = collect($allcustomer);
+        $allcustomerlength = $collection1->count();
+        $collection2 = collect($ss);
 
-            $db_customer= array_values(CustomerTranslation::where('customer_id',$id)
-                ->get()
-                ->all());
-            $dbcustomer = array_values($db_customer);
-            $request_customer= array_values($request->Customer);
-            foreach($dbcustomer as $dbcustomer){
-                foreach($request_customer as $request_customer){
-                    $values= CustomerTranslation::where('customer_id',$id)
-                        ->where('locale',$request_customer['locale'])
-                        ->update([
-                            'first_name' => $allcustomer ['first_name'],
-                            'last_name' => $allcustomer ['last_name'],
-                            'address' => $allcustomer ['address'],
-                            'locale' => $allcustomer['locale'],
-                            'customer_id' => $id,
-                        ]);
-                }
+        $db_customer = array_values(CustomerTranslation::where('customer_id', $id)
+            ->get()
+            ->all());
+        $dbcustomer = array_values($db_customer);
+        $request_customer = array_values($request->customer);
+        foreach ($dbcustomer as $dbcustomers) {
+            foreach ($request_customer as $request_customers) {
+                $values = CustomerTranslation::where('customer_id', $id)
+                    ->where('locale', $request_customers['locale'])
+                    ->update([
+                        'first_name' => $request_customers ['first_name'],
+                        'last_name' => $request_customers ['last_name'],
+                        'address' => $request_customers ['address'],
+                        'locale' => $request_customers['locale'],
+                        'customer_id' => $id,
+                    ]);
             }
-            DB::commit();
-            return $this->returnData('customer', $dbcustomer,'done');
-
         }
-        catch(\Exception $ex){
-            return $this->returnError('400', 'saving failed');
+        DB::commit();
+        return $this->returnData('customer', $dbcustomer, 'done');
+    }
+            catch(\Exception $ex)
+        {
+                  return $this->returnError('400', 'saving failed');
         }
     }
 //___________________________________________________________//

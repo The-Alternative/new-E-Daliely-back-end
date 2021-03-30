@@ -15,17 +15,17 @@ class Clinic extends Model
     protected $fillable=['id','doctors_id','location_id','phone_number','is_active','is_approved'];
 //Scope
 
-    public function scopeIsActive($query)
+    public function scopeActive($query)
     {
-        return $query->where('is_active',1)->get();
+        return $query->where('is_active',1);
 
     }
 
     public function ScopeWithTrans($query)
     {
         return $query=Clinic::join('clinic_translation','clinic_translation.clinic_id','=','clinic_id')
-            ->where('clinic_translation.local','=',get_current_local())
-            ->select('clinic.*','clinic_translation.*')->get();
+            ->where('clinic_translation.locale','=',get_current_local())
+            ->select('clinics.*','clinic_translation.*');
     }
 
     public function clinicTranslation()

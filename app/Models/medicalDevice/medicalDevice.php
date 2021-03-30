@@ -13,21 +13,21 @@ class medicalDevice extends Model
 
     protected $table='medical_devices';
     protected $fillable=['id','name','hospital_id','doctor_id','is_active','is_approved'];
-    protected $hidden=['id','pivot','created_at','updated_at','hospital_id','doctor_id'];
+//    protected $hidden=['id','pivot','created_at','updated_at','hospital_id','doctor_id'];
 
 
     //scope
-    public function scopeIsActive($query)
+    public function scopeActive($query)
     {
-        return $query->where('is_active',1)->get();
+        return $query->where('is_active',1);
 
     }
 
     public function ScopeWithTrans($query)
     {
         return $query=medicalDevice::join('medical_device_translation','medical_device_translation.medical_device_id','=','medical_device_id')
-            ->where('medical_device_translation.local','=',get_current_local())
-            ->select('medical_device.*','medical_device_translation.*')->get();
+            ->where('medical_device_translation.locale','=',get_current_local())
+            ->select('medical_devices.*','medical_device_translation.*');
     }
 
     public function medicaldeviceTranslation()

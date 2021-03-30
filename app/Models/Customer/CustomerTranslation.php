@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class CustomerTranslation extends Model
 {
     use HasFactory;
-    protected $table='customer_translation';
+    protected $table='customer_translations';
     protected $fillable=['id','customer_id','first_name','last_name','address','locale'];
 
     public function customer()

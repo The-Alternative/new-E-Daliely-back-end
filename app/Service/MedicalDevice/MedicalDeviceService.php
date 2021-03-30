@@ -27,7 +27,7 @@ class MedicalDeviceService
     public function get()
     {
 
-        $MedicalDevice=$this->MedicalDeviceModel::all()->IsActive();
+        $MedicalDevice=$this->MedicalDeviceModel::Active()->WithTrans()->get();
         return $this->returnData(' MedicalDevice', $MedicalDevice,'done');
 
     }
@@ -35,7 +35,7 @@ class MedicalDeviceService
     public function getById($id)
     {
 
-        $MedicalDevice= $this->MedicalDeviceModel::find($id);
+        $MedicalDevice= $this->MedicalDeviceModel::WithTrans()->find($id);
         return $this->returnData(' MedicalDevice', $MedicalDevice,'done');
 
     }
@@ -49,53 +49,32 @@ class MedicalDeviceService
     public function create( MedicalDeviceRequest $request )
     {
         try {
-            $allmedicaldevice = collect($request->medicalDevice)->all();
-
+            $allmedicaldevice = collect($request->medicaldevice)->all();
             DB::beginTransaction();
-
             $unTransmedicaldevice_id = medicalDevice::insertGetId([
                 'doctor_id' => $request['doctor_id'],
                 'hospital_id' => $request['hospital_id'],
                 'is_approved' => $request['is_approved'],
                 'is_active' => $request['is_active'],
             ]);
-            if (isset($allmedicaldevice) && count($allmedicaldevice)) {
-                foreach ($allmedicaldevice as $allmedicaldevice) {
-                    $transmedicaldevice_arr[] = [
-                        'name' => $allmedicaldevice ['name'],
-                        'locale' => $allmedicaldevice['locale'],
+            if (isset($allmedicaldevice)) {
+                foreach ($allmedicaldevice as $allmedicaldevices) {
+                    $transmedicaldevice[] = [
+                        'name' => $allmedicaldevices ['name'],
+                        'locale' => $allmedicaldevices['locale'],
                         'medical_device_id' => $unTransmedicaldevice_id,
                     ];
                 }
-                $transmedicaldevice_arr =MedicalDeviceTranslation::insert($transmedicaldevice_arr);
+             MedicalDeviceTranslation::insert($transmedicaldevice);
             }
             DB::commit();
-            return $this->returnData('MedicalDevice', [$unTransmedicaldevice_id, $transmedicaldevice_arr], 'done');
+            return $this->returnData('MedicalDevice',[$unTransmedicaldevice_id, $transmedicaldevice],'done');
         }
         catch(\Exception $ex)
         {
             DB::rollback();
             return $this->returnError('MedicalDevice', 'faild');
         }
-//         $MedicalDevice=new medicalDevice();
-//
-//         $MedicalDevice->name            =$request->name;
-//         $MedicalDevice->hospital_id     =$request->hospital_id;
-//         $MedicalDevice->doctor_id       =$request->doctor_id;
-//         $MedicalDevice->is_active       =$request->is_active;
-//         $MedicalDevice->is_approved     =$request->is_approved;
-//
-//
-//        $result= $MedicalDevice->save();
-//        if ($result)
-//        {
-//            return $this->returnData(' MedicalDevice',  $MedicalDevice,'done');
-//        }
-//        else
-//        {
-//            return $this->returnError('400', 'saving failed');
-//        }
-
     }
 //__________________________________________________________________________//
     public function update(MedicalDeviceRequest $request,$id)
@@ -104,8 +83,8 @@ class MedicalDeviceService
             $medicaldevice= medicalDevice::find($id);
             if(!$medicaldevice)
                 return $this->returnError('400', 'not found this medical Device');
-            $allmedicaldevice = collect($request->medicalDevice)->all();
-            if (!($request->has('medical_device.is_active')))
+            $allmedicaldevice = collect($request->medicaldevice)->all();
+            if (!($request->has('medical_devices.is_active')))
                 $request->request->add(['is_active'=>0]);
             else
                 $request->request->add(['is_active'=>1]);
@@ -127,47 +106,26 @@ class MedicalDeviceService
                 ->get()
                 ->all());
             $dbmedicaldevice = array_values($db_medicaldevice);
-            $request_medicaldevice= array_values($request->medicalDevice);
-            foreach($dbmedicaldevice as $dbmedicaldevice){
-                foreach($request_medicaldevice as $request_medicaldevice){
-                    $values= DoctorTranslation::where('medical_Device_id',$id)
-                        ->where('locale',$request_medicaldevice['locale'])
+            $request_medicaldevice= array_values($request->medicaldevice);
+            foreach($dbmedicaldevice as $dbmedicaldevices){
+                foreach($request_medicaldevice as $request_medicaldevices){
+                    $values=MedicalDeviceTranslation::where('medical_Device_id',$id)
+                        ->where('locale',$request_medicaldevices['locale'])
                         ->update([
-                            'name' => $allmedicaldevice ['name'],
-                            'locale' => $allmedicaldevice['locale'],
+                            'name' => $request_medicaldevices ['name'],
+                            'locale' => $request_medicaldevices['locale'],
                             'medical_device_id' => $id,
                         ]);
                 }
             }
             DB::commit();
             return $this->returnData('Medical Device', $dbmedicaldevice,'done');
-
         }
         catch(\Exception $ex){
             return $this->returnError('400', 'saving failed');
         }
-
-//         $MedicalDevice= $this->MedicalDeviceModel::find($id);
-//
-//        $MedicalDevice->name            =$request->name;
-//        $MedicalDevice->hospital_id     =$request->hospital_id;
-//        $MedicalDevice->doctor_id       =$request->doctor_id;
-//        $MedicalDevice->is_active       =$request->is_active;
-//        $MedicalDevice->is_approved     =$request->is_approved;
-//
-//
-//        $result= $MedicalDevice->save();
-//        if ($result)
-//        {
-//            return $this->returnData(' MedicalDevice',  $MedicalDevice,'done');
-//        }
-//        else
-//        {
-//            return $this->returnError('400', 'updating failed');
-//        }
-
     }
-
+//______________________________________________________//
     public function search($name)
     {
         $MedicalDevice = DB::table('medical_devices')

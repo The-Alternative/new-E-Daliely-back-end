@@ -17,17 +17,17 @@ class Specialty extends Model
 
 
     //scope
-    public function scopeIsActive($query)
+    public function scopeActive($query)
     {
-        return $query->where('is_active',1)->get();
+        return $query->where('is_active',1);
 
     }
 
     public function ScopeWithTrans($query)
     {
         return $query=Specialty::join('specialty_translation','specialty_translation.specialty_id','=','specialty_id')
-            ->where('specialty_translation.local','=',get_current_local())
-            ->select('specialty.*','specialty_translation.*')->get();
+            ->where('specialty_translation.locale','=',get_current_local())
+            ->select('specialties.*','specialty_translation.*');
     }
 
     public function specialtyTranslation()

@@ -22,13 +22,13 @@ class ClinicService
     }
     public function get()
     {
-        $clinic= $this->ClinicModel::IsActive()->WithTrans();
+        $clinic= $this->ClinicModel::Active()->WithTrans()->get();
         return $this->returnData('clinic',$clinic,'done');
     }
 
     public function getById($id)
     {
-        $clinic= $this->ClinicModel::find($id);
+        $clinic= $this->ClinicModel::WithTrans()->find($id);
         return $this->returnData('clinic',$clinic,'done');
     }
 
@@ -41,10 +41,8 @@ class ClinicService
     public function create( ClinicRequest $request )
     {
         try {
-            $allclinic= collect($request->Clinic)->all();
-
+            $allclinic= collect($request->clinic)->all();
             DB::beginTransaction();
-
             $unTransclinic_id = Clinic::insertGetId([
                 'location_id' => $request['location_id'],
                 'doctor_id' => $request['doctor_id'],
@@ -52,47 +50,29 @@ class ClinicService
                 'is_approved' => $request['is_approved'],
                 'is_active' => $request['is_active'],
             ]);
-            if (isset($allclinic) && count($allclinic)) {
-                foreach ($allclinic as $allclinic) {
-                    $transclinic_arr[] = [
-                        'name' => $allclinic['name'],
-                        'locale' => $allclinic['locale'],
+            if (isset($allclinic)) {
+                foreach ($allclinic as $allclinics) {
+                    $transclinic[] = [
+                        'name' => $allclinics['name'],
+                        'locale' => $allclinics['locale'],
                         'clinic_id' => $unTransclinic_id,
                     ];
                 }
-                $transclinic_arr =ClinicTranslation::insert($transclinic_arr);
+                ClinicTranslation::insert($transclinic);
             }
             DB::commit();
-            return $this->returnData('Clinic', [$unTransclinic_id, $transclinic_arr], 'done');
+            return $this->returnData('Clinic', [$unTransclinic_id, $transclinic], 'done');
         }
         catch(\Exception $ex)
         {
             DB::rollback();
             return $this->returnError('Clinic', 'faild');
         }
-//        $clinic=new Clinic();
-//
-//        $clinic->name                 =$request->name;
-//        $clinic->doctor_id            =$request->doctor_id ;
-//        $clinic->location_id          =$request->location_id  ;
-//        $clinic->phone_number         =$request->phone_number;
-//        $clinic->is_active            =$request->is_active ;
-//        $clinic->is_approved          =$request->is_approved;
-//
-//        $result=$clinic->save();
-//        if ($result)
-//        {
-//            return $this->returnData('clinic', $clinic,'done');
-//        }
-//        else
-//        {
-//            return $this->returnError('400', 'saving failed');
-//        }
     }
 //______________________________________________________________//
     public function update(ClinicRequest $request,$id)
     {
-        try{
+//        try{
             $clinic= Clinic::find($id);
             if(!$clinic)
                 return $this->returnError('400', 'not found this Clinic');
@@ -120,45 +100,27 @@ class ClinicService
                 ->get()
                 ->all());
             $dbclinic = array_values($db_clinic);
-            $request_clinic= array_values($request->Clinic);
-            foreach($dbclinic as $dbclinic){
-                foreach($request_clinic as $request_clinic){
+            $request_clinic= array_values($request->clinic);
+            foreach($dbclinic as $dbclinics){
+                foreach($request_clinic as $request_clinics){
                     $values= ClinicTranslation::where('clinic_id',$id)
-                        ->where('locale',$request_clinic['locale'])
+                        ->where('locale',$request_clinics['locale'])
                         ->update([
-                            'name' => $allclinic ['name'],
-                            'locale' => $allclinic['locale'],
+                            'name' => $request_clinics ['name'],
+                            'locale' => $request_clinics['locale'],
                             'clinic_id' => $id,
                         ]);
                 }
             }
-            DB::commit();
+//            DB::commit();
             return $this->returnData('Clinic', $dbclinic,'done');
 
-        }
-        catch(\Exception $ex){
-            return $this->returnError('400', 'saving failed');
-        }
-//        $clinic= $this->ClinicModel::find($id);
-//
-//        $clinic->name                 =$request->name;
-//        $clinic->doctor_id            =$request->doctor_id ;
-//        $clinic->location_id          =$request->location_id  ;
-//        $clinic->phone_number         =$request->phone_number;
-//        $clinic->is_active            =$request->is_active ;
-//        $clinic->is_approved          =$request->is_approved;
-//
-//        $result=$clinic->save();
-//        if ($result)
-//        {
-//            return $this->returnData('clinic', $clinic,'done');
 //        }
-//        else
-//        {
-//            return $this->returnError('400', 'updating failed');
+//        catch(\Exception $ex){
+//            return $this->returnError('400', 'saving failed');
 //        }
     }
-
+//_________________________________________________________________//
     public function search($name)
     {
         $clinic = DB::table('clinics')

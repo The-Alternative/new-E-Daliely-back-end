@@ -447,9 +447,6 @@ Route::group(['middleware'=>'api','prefix'=>'Specialty','namespace'=>'Specialty'
     Route::delete('/delete/{id}', 'SpecialtyController@delete');
     Route::PUT('/restoreTrashed/{id}', 'SpecialtyController@restoreTrashed');
 });
-
-
-
 ///*---------------Appointment Route-------------*/
 Route::group(['middleware'=>'api','prefix'=>'Appointment','namespace'=>'Appointment'],function () {
     Route::get('/get', 'AppointmentController@get');

@@ -24,18 +24,18 @@ class SpecialtyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> 'required|min:3|max:255|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)+$/|unique:specialties,name'
+//            'name'=> 'required|min:3|max:255|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)+$/|unique:specialties,name'
 
         ];
     }
     public function messages()
     {
         return [
-            'name.required' => 'Please Enter Your specialty\'s Name',
-            'name.min' => 'Your specialty\'s Name Is Too Short',
-            'name.max' => 'Your specialty\'s Name Is Too Long',
-            'name.regex' => 'Your specialty\'s Name Have Number',
-            'name.unique' => 'This Name\'s Is Used By Another specialty',
+//            'name.required' => 'Please Enter Your specialty\'s Name',
+//            'name.min' => 'Your specialty\'s Name Is Too Short',
+//            'name.max' => 'Your specialty\'s Name Is Too Long',
+//            'name.regex' => 'Your specialty\'s Name Have Number',
+//            'name.unique' => 'This Name\'s Is Used By Another specialty',
             ];
     }
 }
