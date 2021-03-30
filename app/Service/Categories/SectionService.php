@@ -103,7 +103,7 @@ class SectionService
                 //check the category and request
                 if(isset($allsections) && count($allsections))
                 {
-                    //insert other traslations for products
+                    //insert other traslations for sections
                     foreach ($allsections as $allsection)
                     {
                         $transSection_arr[]=[

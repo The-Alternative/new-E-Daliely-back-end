@@ -15,22 +15,25 @@ class CreateStoresTable extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->string( 'title');
-            $table->unsignedInteger('user_id');
+//            $table->unsignedInteger('section_id')->index();
+            $table->unsignedInteger('loc_id')->index();
+            $table->unsignedInteger('country_id')->index();
+            $table->unsignedInteger('gov_id')->index();
+            $table->unsignedInteger('city_id')->index();
+            $table->unsignedInteger('street_id')->index();
+            $table->unsignedInteger('offer_id')->index();
+            $table->unsignedInteger('socialMedia_id')->index();
+            $table->unsignedInteger( 'followers_id')->index();
             $table->boolean('is_active');
             $table->boolean('is_approved');
-            $table->string( 'default_language');
-            $table->unsignedInteger('phone_number');
-            $table->string( 'business_email');
+            $table->boolean('delivery');
+            $table->string( 'edalilyPoint');
+            $table->string( 'rating');
+            $table->string( 'workingHours');
             $table->string( 'logo');
-            $table->string( 'address');
-            $table->string( 'location');
-            $table->string( 'working_hours');
-            $table->string( 'working_days');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

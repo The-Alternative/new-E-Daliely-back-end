@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductTranslationsTable extends Migration
+class CreateStoreTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreateProductTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_translations', function (Blueprint $table) {
+        Schema::create('store_translations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('short_des');
-            $table->string('long_des');
-            $table->string('meta');
-            $table->string('locale');
-            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('store_id');
+            $table->string('title');
+            $table->string('local');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -32,6 +28,6 @@ class CreateProductTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_translations');
+        Schema::dropIfExists('store_translations');
     }
 }
