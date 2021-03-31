@@ -24,36 +24,42 @@ class StoresProductsService
     {
         $this->storeProductModel=$storeProduct;
     }
-    public function viewStoresHasProduct($id){
-
+    public function viewStoresHasProduct($id)
+    {
          $product = Product::with('Store')->find($id);
         return $response= $this->returnData('Product in Store',$product,'done');
-
-//        $allProducts=StoreProduct::where('store_id',$id)->get();
-//         return $product_details=Store::with(['Product' => function ($q)
-//         {
-//              $q->join('products', 'products.id', '=', 'stores_products.product_id')
-////                 ->where('stores_products.product_id', 'products.id')
-//                 ->select(['products.*']);}])->get();
-
-//         where('store_id',$id)->join('products', 'products.id', '=', 'stores_products.product_id')
-//            ->where('stores_products.product_id','products.id')
-//            ->select(['products.*','stores_products.*'])->get();
-
-
-//       $collection1= $allProducts->collect($allProducts)->all();
-//        $allProducts->where();
     }
 
-    public function insertProductToStore(Request $request){
-        $Products=collect($request->Product)->all();
-        $store = Store::find($request->store_id);
-        $storeProduct=new StoreProduct();
-        $storeProduct->store_id =$request->store_id;
-        $storeProduct->Product_id =$request->Product_id;
-        $storeProduct->price = $request->price;
-        $storeProduct->quantity =$request->quantity;
-        $storeProduct->save();
+    public function rangeOfPrice($id)
+    {
+       $products = StoreProduct::where('product_id',$id)->get();
+        foreach($products as $product){
+             $collection[]=[
+                 $product['price']
+             ];
+        }
+         $collection=collect($collection)->all();
+         $collectionq1=array_values($collection);
+         $max = collect($collectionq1)->max();
+         $min = collect($collectionq1)->min();
+
+        return $response= $this->returnData('range Of Price in all Store',['max',$max,'min',$min],'done');
+    }
+
+    public function insertProductToStore(Request $request)
+    {
+        $request->is_active?$is_active=true:$is_active=false;
+        $request->is_appear?$is_appear=true:$is_appear=false;
+            $Products=collect($request->Product)->all();
+            $store = Store::find($request->store_id);
+            $storeProduct=new StoreProduct();
+            $storeProduct->store_id =$request->store_id;
+            $storeProduct->Product_id =$request->Product_id;
+            $storeProduct->price = $request->price;
+            $storeProduct->quantity =$request->quantity;
+            $storeProduct->is_active =$request->is_active;
+            $storeProduct->is_appear =$request->is_appear;
+            $storeProduct->save();
         return $response= $this->returnData('Product in Store',[$store,$storeProduct],'done');
     }
 //{
@@ -62,18 +68,31 @@ class StoresProductsService
 //"price": "651",
 //"quantity": "5450"
 //}
-    public function updateProductInStore(Request $request){
+    public function updateProductInStore(Request $request)
+    {
         $Products=collect($request->Product)->all();
         $store = Store::find($request->store_id);
-        $storeProduct=new StoreProduct();
-        $storeProduct->store_id =$request->store_id;
-        $storeProduct->Product_id =$request->Product_id;
-        $storeProduct->price = $request->price;
-        $storeProduct->quantity =$request->quantity;
-        $storeProduct->save();
+        $storeProduct=StoreProduct::update([
+            'store_id'=>$request->store_id,
+            'Product_id' =>$request->Product_id,
+            'price'=>$request->price,
+            'quantity'=>$request->quantity,
+        ]);
         return $response= $this->returnData('Product in Store',[$store,$storeProduct],'done');
     }
-
+    public function hiddenProductByQuantity( $id)
+    {  $product=StoreProduct::find($id);
+        if ($product->quantity==0)
+        {
+            $product=StoreProduct::where('product_id',$id)->Update([
+           'is_appear'=>$product['is_appear']=0
+                ]);
+            return $this->returnData('product', $product,'This Product Is empty Now');
+        }
+        else {
+            return $this->returnData('product', $product,'This Product Is available Now');
+        }
+    }
 
 
 

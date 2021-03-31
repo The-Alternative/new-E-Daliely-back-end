@@ -27,9 +27,33 @@ class StoresProductsController extends Controller
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
     }
+
+    public function updateProductInStore(Request $request)
+    {
+        $response= $this->StoresProductsService->updateProductInStore($request);
+        return response($response, 200)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', '*');
+    }
+
     public function viewStoresHasProduct($id)
     {
         $response= $this->StoresProductsService->viewStoresHasProduct($id);
+        return response($response,200)
+            ->header('Access-Control-Allow-origin','*')
+            ->header('Access-Control-Allow-method','*');
+    }
+
+    public function hiddenProductByQuantity($id)
+    {
+        $response= $this->StoresProductsService->hiddenProductByQuantity($id);
+        return response($response,200)
+            ->header('Access-Control-Allow-origin','*')
+            ->header('Access-Control-Allow-method','*');
+    }
+    public function rangeOfPrice($id)
+    {
+        $response= $this->StoresProductsService->rangeOfPrice($id);
         return response($response,200)
             ->header('Access-Control-Allow-origin','*')
             ->header('Access-Control-Allow-method','*');
