@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Store;
 
-
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use App\Http\controllers\controller;
@@ -28,9 +27,9 @@ class StoresProductsController extends Controller
             ->header('Access-Control-Allow-Methods', '*');
     }
 
-    public function updateProductInStore(Request $request)
+    public function updateProductInStore(Request $request,$id)
     {
-        $response= $this->StoresProductsService->updateProductInStore($request);
+        $response= $this->StoresProductsService->updateProductInStore($request,$id);
         return response($response, 200)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
@@ -43,6 +42,15 @@ class StoresProductsController extends Controller
             ->header('Access-Control-Allow-origin','*')
             ->header('Access-Control-Allow-method','*');
     }
+
+    public function viewProductsInStore($id)
+    {
+        $response= $this->StoresProductsService->viewProductsInStore($id);
+        return response($response,200)
+            ->header('Access-Control-Allow-origin','*')
+            ->header('Access-Control-Allow-method','*');
+    }
+
 
     public function hiddenProductByQuantity($id)
     {

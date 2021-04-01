@@ -100,9 +100,10 @@ Route::group(
                 Route::DELETE('/delete/{id}','StoreController@delete');
 
                 Route::POST('/insertProductToStore','StoresProductsController@insertProductToStore');
-                Route::POST('/updateProductInStore','StoresProductsController@updateProductInStore');
+                Route::PUT('/updateProductInStore/{id}','StoresProductsController@updateProductInStore');
                 Route::PUT('/hiddenProductByQuantity/{id}','StoresProductsController@hiddenProductByQuantity');
                 Route::GET('/viewStoresHasProduct/{id}','StoresProductsController@viewStoresHasProduct');
+                Route::GET('/viewProductsInStore/{id}','StoresProductsController@viewProductsInStore');
                 Route::GET('/rangeOfPrice/{id}','StoresProductsController@rangeOfPrice');
 
             });

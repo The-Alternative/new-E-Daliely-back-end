@@ -13,8 +13,8 @@ class StoreScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        $builder->join('store_translations', 'store_translations.store_id', '=', 'stores.id')
+        $builder->join('store_translations', 'stores.id', '=','store_translations.store_id' )
             ->where('store_translations.local','=',get_current_local())
-            ->select(['stores.*','store_translations.*']);
+            ->select(['stores.*','store_translations.title','store_translations.local']);
     }
 }

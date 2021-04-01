@@ -4,6 +4,7 @@ namespace App\Models\Products;
 
 use App\Models\Products\ProductTranslation;
 use App\Models\Stores\Store;
+use App\Models\Stores\StoreProduct;
 use App\Scopes\ProductScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -82,7 +83,7 @@ class Product extends Model
     {
         return $query=Product::join('product_translations', 'product_translations.product_id', '=', 'products.id')
             ->where('product_translations.locale','=',get_current_local())
-            ->select('products.*','product_translations.*');
+            ->select('products.*','product_translations.*')->get();
     }
 
 
@@ -104,6 +105,9 @@ class Product extends Model
             ->withTimestamps();
 
     }
+//    public function StoreProduct(){
+//        return $this->belongsTo(StoreProduct::class,'product_id');
+//    }
 //    public function doctors()
 //    {
 //        return $this->hasManyThrough('App\Models\Doctor', 'App\Models\Hospital', 'country_id', 'hospital_id', 'id', 'id');

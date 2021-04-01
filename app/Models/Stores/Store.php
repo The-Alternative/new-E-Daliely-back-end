@@ -41,13 +41,13 @@ class Store extends Model
         parent::booted();
         static::addGlobalScope(new StoreScope);
     }
-//    public function scopeWithTrans($query)
-//    {
-//        return $query=
-//            Store::join('store_translations', 'store_translations.store_id', '=', 'stores.id')
-//            ->where('store_translations.local','=',get_current_local())
-//            ->select(['stores.*','store_translations.*']);
-//    }
+    public function scopeWithTrans($query)
+    {
+        return $query=
+            Store::join('store_translations', 'store_translations.store_id', '=', 'stores.id')
+            ->where('store_translations.local','=',get_current_local())
+            ->select(['stores.*','store_translations.*']);
+    }
 
 
 
@@ -67,6 +67,9 @@ class Store extends Model
             ->withPivot(['price','quantity'])
             ->withTimestamps();
     }
+//    public function StoreProduct(){
+//        return $this->belongsTo(StoreProduct::class,'store_id');
+//    }
 //    public function Section()
 //    {
 //        return $this->hasMany(Section::class,'section_id');
