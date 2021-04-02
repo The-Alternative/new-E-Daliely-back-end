@@ -9,6 +9,7 @@ use App\Models\Stores\StoreProduct;
 use App\Models\Stores\StoreTranslation;
 use App\Scopes\StoreScope;
 use App\Traits\GeneralTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -20,83 +21,97 @@ class StoreService
     use GeneralTrait;
     private $StoreService;
     private $storeModel;
+    private $storeTranslation;
 
 
     /**
      * Category Service constructor.
      * @param Store $store
+     * @param StoreTranslation $storeTranslation
      */
 
-    public function __construct(Store $store)
+    public function __construct(Store $store ,StoreTranslation $storeTranslation)
     {
         $this->storeModel=$store;
+        $this->storeTranslation=$storeTranslation;
     }
 
     /****Get All Active category Or By ID  ****/
 
     public function get()
     {
-        $store = Store::with(['StoreTranslation'=>function($q){
-            $q->where('local',get_current_local());
-        },'Product'])->get();
+        try {
+            $store = $this->storeModel->get();
 
-        return $response= $this->returnData('Store',$store,'done');
+            return $response= $this->returnData('Store',$store,'done');
+        } catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
     public function getById($id)
     {
-        $store = Store::with(['StoreTranslation'=>function($q){
-            $q->where('local',get_current_local());
-        },'Product'])->find($id);
+        try {
+            $store = $this->storeModel->find($id);
+            return $response= $this->returnData('Store',$store,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
 
-//
-        return $response= $this->returnData('Store',$store,'done');
     }
     /****ــــــThis Functions For Trashed category  ****/
     /****Get All Trashed Products Or By ID  ****/
 
     public function getTrashed()
     {
-        $store = Store::trans()->where('is_active',0)->get();
+        try {
+        $store = $this->storeModel->where('is_active',0)->get();
         return $this -> returnData('Store',$store,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
     /****Restore category Fore Active status  ****/
     public function restoreTrashed( $id)
     {
-        $store=Store::find($id);
-        $store->is_active=true;
-        $store->save();
-        return $this->returnData('Store', $store,'This Store Is trashed Now');
+        try{
+            $store=$this->storeModel->find($id);
+            $store->is_active=true;
+            $store->save();
+              return $this->returnData('Store', $store,'This Store Is trashed Now');
+            }catch(\Exception $ex){
+        return $this->returnError('400','faild');
+        }
     }
     /****   category's Soft Delete   ****/
 
     public function trash( $id)
     {
-        $store=Store::find($id);
-        $store->is_active=false;
-        $store->save();
-        return $this->returnData('Store', $store,'This Store Is trashed Now');
+        try{
+            $store=$this->storeModel->find($id);
+            $store->is_active=false;
+            $store->save();
+                return $this->returnData('Store', $store,'This Store Is trashed Now');
+        }catch(\Exception $ex){
+              return $this->returnError('400','faild');
+        }
     }
 
     /*ــــــــــــــــــــــــ  ـــــــــــــــــــــــ*/
 
     /****  Create category   ***
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
 
     /*___________________________________________________________________________*/
     public function create(Request $request)
     {
         try {
-
-
 //        validated = $request->validated();
         $request->is_active?$is_active=true:$is_active=false;
         $request->is_appear?$is_appear=true:$is_appear=false;
         //transformation to collection
         $stores = collect($request->store)->all();
-
-
         ///select folder to save the image
         // $fileBath = "" ;
         //     if($request->has('image'))
@@ -105,7 +120,7 @@ class StoreService
         //     }
 //        DB::beginTransaction();
         // //create the default language's product
-        $unTransStore_id=Store::insertGetId([
+        $unTransStore_id=$this->storeModel->insertGetId([
             //                'section_id' =>$request['section_id'],
             'loc_id' =>$request['loc_id'],
             'country_id' =>$request['country_id'],
@@ -135,7 +150,7 @@ class StoreService
                     'store_id'=>$unTransStore_id
                 ];
             }
-            StoreTranslation::insert($transstore_arr);
+            $this->storeTranslation->insert($transstore_arr);
         }
         DB::commit();
         return $this->returnData('Store', [$unTransStore_id,$transstore_arr],'done');
@@ -148,18 +163,17 @@ class StoreService
     }
 
     /*___________________________________________________________________________*/
-
     /****__________________  Update category   ___________________***
      * @param Request $request
      * @param $id
-     * @return Exception|\Illuminate\Http\JsonResponse
+     * @return Exception|JsonResponse
      */
 
     public function update(Request $request,$id)
     {
         try{
             //$validated = $request->validated();
-            $category= Store::find($id);
+            $category= $this->storeModel->find($id);
             if(!$category)
                 return $this->returnError('400', 'not found this Store');
             if (!($request->has('category.is_active')))
@@ -176,9 +190,9 @@ class StoreService
             // }
             DB::beginTransaction();
 
-            $nStore=Store::where('id',$id)
+            $nStore=$this->storeModel->where('id',$id)
                 ->update([
-//                    'section_id' => $request['section_id'],
+                    'section_id' => $request['section_id'],
                     'loc_id' => $request['loc_id'],
                     'country_id' => $request['country_id'],
                     'gov_id' => $request['gov_id'],
@@ -196,7 +210,7 @@ class StoreService
                     'logo'=>$request['logo'],
                 ]);
         $stores = collect($request->store)->all();
-            $dbdstores=StoreTranslation::where('Store_id',$id)->get();
+            $dbdstores=$this->storeModel->where('Store_id',$id)->get();
             foreach($dbdstores as $dbdstore){
                 foreach($stores as $store){
                     $values= StoreTranslation::where('store_id',$id)
@@ -219,11 +233,12 @@ class StoreService
     /*___________________________________________________________________________*/
     /****________________  ٍsearch for Product _________________***
      * @param $title
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
 
     public function search($title)
     {
+        try{
         $store = DB::table('Store')
             ->where("name","like","%".$title."%")
             ->get();
@@ -235,21 +250,30 @@ class StoreService
         {
             return $this->returnData('Store', $store,'done');
         }
+            }catch(\Exception $ex){
+        return $this->returnError('400','faild');
+        }
     }
     /*___________________________________________________________________________*/
 
     /****_______________  Delete Product   ________________***
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
 
     public function delete($id)
     {
-        $store =Store::find($id);
-        if ($store->is_active=0)
+        try
+        {
+         $store =$this->storeModel->find($id);
+        if ($store->is_active==0)
         {
             $store=Store::destroy($id);
-            return $this->returnData('Category', $store,'This Store Is deleted Now');
+
+        }
+        return $this->returnData('Category', $store,'This Store Is deleted Now');
+         }catch(\Exception $ex){
+           return $this->returnError('400','faild');
         }
     }
 

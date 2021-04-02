@@ -19,34 +19,36 @@ class StoresProductsService
 
     private $StoresProductsService;
     private $storeProductModel;
+    private $productModel;
+    private $storeModel;
 
-    public function __construct(StoreProduct $storeProduct)
+
+
+    public function __construct(StoreProduct $storeProduct,Product $product,Store $store )
     {
         $this->storeProductModel=$storeProduct;
+        $this->productModel=$product;
+        $this->storeModel=$store;
     }
     public function viewStoresHasProduct($id)
     {
-         $product = Product::with('Store')->find($id);
-//        $product = Product::with('Store')->where('products.id',$id)->get();
-//        return $product->store();
+        try{
+         $product = $this->productModel->with('Store')->find($id);
         return $response= $this->returnData('Product in Store',$product,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
     public function viewProductsInStore($id)
     {
-        $product = Store::with('Product')->find($id);
-//        $product = Product::with('Store')->where('products.id',$id)->get();
-//        return $product->store();
+        $product = $this->storeModel->with('Product')->find($id);
         return $response= $this->returnData('Product in Store',$product,'done');
     }
 
     public function rangeOfPrice($id)
     {
-        $products = StoreProduct::where('product_id',$id)->get();
-//       if (isset($products)){
-//           return $this->returnError('400', 'not found this Product');
-//
-//       }
-
+        try{
+        $products = $this->storeProductModel->where('product_id',$id)->get();
            foreach($products as $product) {
                $collection1[] =
                    $product['price'];
@@ -57,13 +59,17 @@ class StoresProductsService
                $min = collect($collectionq1)->min();
 
                return $response = $this->returnData('range Of Price in all Store', ['max', $max, 'min', $min], 'done');
-           }
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
+        }
     public function insertProductToStore(Request $request)
     {
+        try{
         $request->is_active?$is_active=true:$is_active=false;
         $request->is_appear?$is_appear=true:$is_appear=false;
             $Products=collect($request->Product)->all();
-            $store = Store::find($request->store_id);
+            $store = $this->storeModel->find($request->store_id);
             $storeProduct=new StoreProduct();
             $storeProduct->store_id =$request->store_id;
             $storeProduct->Product_id =$request->Product_id;
@@ -73,6 +79,9 @@ class StoresProductsService
             $storeProduct->is_appear =$request->is_appear;
             $storeProduct->save();
         return $response= $this->returnData('Product in Store',[$store,$storeProduct],'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
 //{
 //"store_id": 2,
@@ -83,8 +92,7 @@ class StoresProductsService
     public function updateProductInStore(Request $request,$id)
     {
         $Products=collect($request->Product)->all();
-//        $store = Store::where('store_id',$id)->find($id);
-        $storeProduct=StoreProduct::where('Product_id',$id)->update([
+        $storeProduct=$this->storeProductModelwhere('Product_id',$id)->update([
             'store_id'=>$request->Product_id,
             'Product_id' =>$request->Product_id,
             'price'=>$request->price,
@@ -93,10 +101,12 @@ class StoresProductsService
         return $response= $this->returnData('Product in Store',$storeProduct,'done');
     }
     public function hiddenProductByQuantity( $id)
-    {  $product=StoreProduct::find($id);
+    {
+        try{
+        $product=$this->storeProductModel->find($id);
         if ($product->quantity==0)
         {
-            $product=StoreProduct::where('product_id',$id)->Update([
+            $product=$this->storeProductModel->where('product_id',$id)->Update([
                 'is_appear'=>$product['is_appear']=0
             ]);
          return $this->returnData('product', $product,'This Product Is empty Now');
@@ -104,6 +114,9 @@ class StoresProductsService
             else {
                 return $this->returnData('product', $product,'This Product Is available Now');
             }
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
         }
 
 

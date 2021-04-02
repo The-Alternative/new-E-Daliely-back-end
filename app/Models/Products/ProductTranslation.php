@@ -9,7 +9,7 @@ class ProductTranslation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name','meta','short_des','long_des','product_id'
+        'name','meta','short_des','long_des','product_id','local'
     ];
 
     public function Product()

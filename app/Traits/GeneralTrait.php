@@ -288,17 +288,21 @@ trait GeneralTrait
             'status' => false,
             'stateNum' => $stateNum,
             'msg' => $msg
-        ]);
+        ])
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', '*');
     }
 
 
     public function returnSuccessMessage($msg, $stateNum )
     {
-        return [
+        return response()->json( [
             'status' => true,
             'stateNum' => $stateNum,
             'msg' => $msg
-        ];
+        ])
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', '*');
     }
 
     public function returnData( $key,$value, $msg)
@@ -308,7 +312,9 @@ trait GeneralTrait
             'stateNum' => '201',
             'msg' => $msg,
             $key => $value
-        ]);
+        ])
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', '*');
         }
 }
 
@@ -452,6 +458,6 @@ trait GeneralTrait
 	// 	}
 
 
- 
+
 
 

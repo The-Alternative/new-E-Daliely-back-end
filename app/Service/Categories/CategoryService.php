@@ -18,58 +18,77 @@ use LaravelLocalization;
 class CategoryService
 {
     use GeneralTrait;
-    private $CategoryService;
     private $categoryModel;
-
-
+    private $categoryTranslation;
     /**
      * Category Service constructor.
      * @param Category $category
      * @param CategoryTranslation $categoryTranslation
      */
 
-    public function __construct(Category $category)
+    public function __construct(Category $category , CategoryTranslation $categoryTranslation)
     {
-        $this->categoryModel=$category;
+        $this->categoryModel=$category;s
+        $this->categoryTranslation=$categoryTranslation;
     }
 
     /****Get All Active category Or By ID  ****/
 
-    public function get()
+    public function getAll()
     {
-        $category = Category::withTrans()->get();
+        try{
+        $category = $this->categoryModel->get();
         return $response= $this->returnData('Category',$category,'done');
+    }catch(\Exception $ex){
+        return $this->returnError('400','faild');
+        }
     }
     public function getById($id )
     {
-        $category = Category::withTrans()->find($id);
+        try{
+        $category =$this->categoryModel->find($id);
         return $response= $this->returnData('Category',$category,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
         /****ــــــThis Functions For Trashed category  ****/
     /****Get All Trashed Products Or By ID  ****/
 
     public function getTrashed()
     {
-        $category = Category::withTrans()->where('is_active',0)->get();
+        try{
+        $category = $this->categoryModel->where('is_active',0)->get();
           return $this -> returnData('Category',$category,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
     /****Restore category Fore Active status  ****/
 
     public function restoreTrashed( $id)
     {
-        $category=Category::find($id);
+        try{
+        $category=$this->categoryModel->find($id);
             $category->is_active=true;
             $category->save();
             return $this->returnData('Category', $category,'This Category Is trashed Now');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
         /****   category's Soft Delete   ****/
 
     public function trash( $id)
     {
-        $category=Category::find($id);
+        try{
+        $category=$this->categoryModel->find($id);
             $category->is_active=false;
             $category->save();
             return $this->returnData('Category', $category,'This Category Is trashed Now');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
 
     /*ــــــــــــــــــــــــ  ـــــــــــــــــــــــ*/
@@ -89,8 +108,6 @@ class CategoryService
                 $request->is_appear?$is_appear=true:$is_appear=false;
                 //transformation to collection
                 $allcategories = collect($request->category)->all();
-
-
                 ///select folder to save the image
                 // $fileBath = "" ;
                 //     if($request->has('image'))
@@ -99,8 +116,9 @@ class CategoryService
                 //     }
                 DB::beginTransaction();
                 // //create the default language's product
-                $unTransCategory_id=Category::insertGetId([
+                $unTransCategory_id=$this->categoryModel->insertGetId([
                     'image' =>$request['image'],
+                    'slug' => $allcategorie['slug'],
                     'lang_id' =>$request['lang_id'],
                     'is_active' =>$request['is_active'],
                     'parent_id'=>$request['parent_id']
@@ -113,15 +131,14 @@ class CategoryService
                     {
                         $transCategory_arr[]=[
                             'name' => $allcategorie ['name'],
-                            'slug' => $allcategorie['slug'],
-                            'locale' => $allcategorie['locale'],
+                            'local' => $allcategorie['local'],
                             'category_id' => $unTransCategory_id,
                             'language_id' => $allcategorie['language_id']
                         ];
                     }
                     $transCategory_arr;
 
-                  CategoryTranslation::insert($transCategory_arr);
+                    $this->categoryTranslation->insert($transCategory_arr);
                 }
                 DB::commit();
                 return $this->returnData('category', [$unTransCategory_id,$transCategory_arr],'done');
@@ -134,14 +151,12 @@ class CategoryService
         }
 
     /*___________________________________________________________________________*/
-
     /****  Update category   ****/
-
     public function update(CategoryRequest $request,$id)
     {
-        $validated = $request->validated();
         try{
-            $category= Category::find($id);
+            $validated = $request->validated();
+            $category= $this->categoryModel->find($id);
             if(!$category)
                 return $this->returnError('400', 'not found this Category');
            $allcategories = collect($request->category)->all();
@@ -158,31 +173,33 @@ class CategoryService
             //         ]);
             // }
 
-           $ncategory=Category::where('id',$id)
+           $ncategory=$this->categoryModel->where('id',$id)
                ->update([
-                'image' => $request['image'],
-                'lang_id' => $request['lang_id'],
-                'is_active' => $request['is_active'],
-                'parent_id'=>$request['parent_id']
+                   'image'     =>$request['image'],
+                   'slug'      =>$request['slug'],
+                   'lang_id'   =>$request['lang_id'],
+                   'is_active' =>$request['is_active'],
+                   'parent_id' =>$request['parent_id']
             ]);
-            $ss=CategoryTranslation::where('category_id',$id);
+            $ss=$this->categoryTranslation->where('category_id',$id);
             $collection1 = collect($allcategories);
             $allcategorieslength=$collection1->count();
             $collection2 = collect($ss);
 
-              $db_category= array_values(CategoryTranslation::where('category_id',$id)
+              $db_category= array_values(
+                  $this->categoryTranslation
+                  ->where('category_id',$id)
                   ->get()
                   ->all());
               $dbdcategory = array_values($db_category);
               $request_category = array_values($request->category);
                 foreach($dbdcategory as $dbdcategor){
                     foreach($request_category as $request_categor){
-                        $values= CategoryTranslation::where('category_id',$id)
-                            ->where('locale',$request_categor['locale'])
+                        $values= $this->categoryTranslation->where('category_id',$id)
+                            ->where('locale',$request_categor['local'])
                             ->update([
                             'name'=>$request_categor['name'],
-                            'slug'=>$request_categor['slug'],
-                            'locale'=>$request_categor['locale'],
+                            'local'=>$request_categor['local'],
                             'language_id'=>$request_categor['language_id'],
                             'category_id'=>$id
                         ]);
@@ -196,36 +213,42 @@ class CategoryService
             return $this->returnError('400', 'saving failed');
         }
     }
+
     /*___________________________________________________________________________*/
                 /****  ٍsearch for Product   ****/
-
     public function search($name)
     {
-        $category = DB::table('categories')
+        try {
+            $category = DB::table('categories')
                 ->where("name","like","%".$name."%")
                 ->get();
-        if (!$category)
-        {
-            return $this->returnError('400', 'not found this Category');
-
-        }
-          else
+            if (!$category)
+            {
+                return $this->returnError('400', 'not found this Category');
+            }
+            else
             {
                 return $this->returnData('Category', $category,'done');
             }
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
+
     /*___________________________________________________________________________*/
-
     /****  Delete Product   ****/
-
     public function delete($id)
     {
-        $category=$this->Category::find($id);
+        try{
+        $category=$this->categoryModel->find($id);
         if ($category->$is_active=0)
             {
-                $category=Category::destroy($id);
+                $category=$this->categoryModel->destroy($id);
                  return $this->returnData('Category', $category,'This Category Is deleted Now');
             }
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
 
 

@@ -28,7 +28,8 @@ class Product extends Model
         'created_at', 'updated_at'
     ];
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'is_appear'=>'boolean'
     ];
 
     //________________ scopes begin _________________//
@@ -37,28 +38,11 @@ class Product extends Model
      * @param $query
      * @return
      */
-    public function scopeSelection($query)
-    {
-        return $query->select('trans_lang','trans_of','title',
-        'slug','brand_id','barcode','image',
-        'meta','is_active',
-        'is_appear','short_des','description');
-    }
-    public function scopeSelectionUpdate($query)
-    {
-        return $query->select('trans_lang','trans_of','title',
-        'slug','brand_id','barcode','image',
-        'meta','is_active',
-        'is_appear','short_des','description');
-    }
-
-
     public function scopeSelectActiveValue($query)
     {
-        return $query->select('trans_lang','trans_of','title',
-        'slug','brand_id','barcode','image',
-        'meta','is_active',
-        'is_appear','short_des','description')
+        return $query->select(
+            'title', 'slug','brand_id','barcode','image',
+            'meta','is_active', 'is_appear','short_des','description')
         ->where('is_active',1)
         ->get();
     }
@@ -70,24 +54,23 @@ class Product extends Model
     {
        return $value==1 ? 'Active' : 'Not Active';
     }
-    public function scopeDefaultProduct($query){
-        return  $query->where('trans_of',0);
+    public function getIsAppearAttribute($value)
+    {
+        return $value==1 ? 'Appear' : 'Not Appear';
     }
-
     protected static function booted()
     {
         parent::booted();
         static::addGlobalScope(new ProductScope);
     }
-    public function scopeWithTrans($query)
-    {
-        return $query=Product::join('product_translations', 'product_translations.product_id', '=', 'products.id')
-            ->where('product_translations.locale','=',get_current_local())
-            ->select('products.*','product_translations.*')->get();
-    }
+//    public function scopeWithTrans($query)
+//    {
+//        return $query=Product::join('product_translations', 'product_translations.product_id', '=', 'products.id')
+//            ->where('product_translations.locale','=',get_current_local())
+//            ->select('products.*','product_translations.*')->get();
+//    }
 
-
-    //________________ scopes end _________________//
+    //______________________________ scopes end _____________________________//
     public function ProductTranslation()
     {
         return $this->hasMany(ProductTranslation::class,'product_id');
