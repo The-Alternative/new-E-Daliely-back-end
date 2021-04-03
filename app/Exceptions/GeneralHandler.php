@@ -31,11 +31,11 @@ class GeneralHandler extends Exception
      * Render the exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function render($request ,Exception $exception)
     {
-       
+
             if($exception instanceof BadMethodCallException){
                 return $this->apiResponse(
                     [
@@ -44,7 +44,7 @@ class GeneralHandler extends Exception
                         'exception' => $exception
                     ],
                     500
-                );      
+                );
             }
             if ($exception instanceof QueryException)
             {

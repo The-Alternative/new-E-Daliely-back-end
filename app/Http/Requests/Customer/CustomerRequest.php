@@ -24,7 +24,14 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'customer'=>'required|array',
+            'customer.*'=>'required|min:5',
+            'customer.*.first_name'=>'required|min:3|max:100|regex:/^([a-zA-Z]+)/|unique:customer_translations,first_name',
+            'customer.*.last_name'=>'required|min:3|max:100|regex:/^([a-zA-Z]+)/|unique:customer_translations,last_name',
+            'customer.*.address'=>'required|min:3|max:100|regex:/^([a-zA-Z]+)/|unique:customer_translations,address',
+
+
+
         ];
     }
 }

@@ -29,5 +29,9 @@ class Section extends Model
     {
         return $this->hasMany(SectionTranslation::class,'section_id');
     }
+//    public function Section()
+//    {
+//        return $this->hasMany(Section::class,'section_id');
+//    }
 
 }

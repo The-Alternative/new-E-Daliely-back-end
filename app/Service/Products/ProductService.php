@@ -36,7 +36,7 @@ class ProductService
     /****Get All Active Products  ****/
     public function get()
     {
-<<<<<<< HEAD
+
 
 
         $product= Product::all()->where('is_active',1);
@@ -60,7 +60,7 @@ class ProductService
         $default_lang=get_default_languages();
         $product= Product::where('trans_lang', $default_lang)->selection();
         return $this->returnData('Product',$product,'done');
-=======
+
 //        try
 //        {
           $products = Product::withTrans()->get();
@@ -70,7 +70,7 @@ class ProductService
 //        {
 //            return $this->returnError('400', 'nothing to get');
 //        }
->>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
+
 
 
         $default_lang=get_default_languages();
@@ -88,7 +88,7 @@ class ProductService
     {
        // $response=DB::table('products')->where('id','=',$id)->where('is_active','=',1)->get();
 
-<<<<<<< HEAD
+
         $product= Product::find($id);
 
        $product= Product::selectActiveValue()->find($id);
@@ -98,9 +98,9 @@ class ProductService
 
 
        $product= Product::selectActiveValue()->find($id);
-=======
+
         $product = Product::withTrans()->find($id);
->>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
+
         return $this->returnData('Product',$product,'done');
     }
         /*__________________________________________________________________*/
@@ -187,7 +187,7 @@ class ProductService
                     //insert other traslations for products
                     foreach ($allproducts as $allproduct)
                     {
-<<<<<<< HEAD
+
                         $products_arr=[];
                         //insert other traslations for products
                         foreach ($product as $product)
@@ -216,7 +216,7 @@ class ProductService
                             ];
                         }
                         Product::insert($products_arr);
-=======
+
                         $transProduct_arr[]=[
                             'name' => $allproduct ['name'],
                             'short_des' => $allproduct['short_des'],
@@ -225,26 +225,24 @@ class ProductService
                             'meta' => $allproduct['meta'],
                             'product_id' => $unTransProduct_id
                         ];
->>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
+
                     }
                     ProductTranslation::insert($transProduct_arr);
                 }
                 DB::commit();
                 return $this->returnData('Product', [$unTransProduct_id,$transProduct_arr],'done');
             }
-<<<<<<< HEAD
             catch(\Exception $ex)
                 {
                     DB::rollback();
                     return $this->returnError('400', 'saving failed');
                 }
-=======
         catch(\Exception $ex)
         {
             DB::rollback();
             return $this->returnError('Product','faild');
         }
->>>>>>> d9314851cee71a1a9ad7a8b610ab100989fe4dcd
+
     }
 
     /*___________________________________________________________________________*/

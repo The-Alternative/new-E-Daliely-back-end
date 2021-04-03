@@ -3,6 +3,8 @@
 namespace App\Models\Products;
 
 use App\Models\Products\ProductTranslation;
+use App\Models\Stores\Store;
+use App\Scopes\ProductScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use LaravelLocalization;
@@ -71,7 +73,11 @@ class Product extends Model
         return  $query->where('trans_of',0);
     }
 
-
+    protected static function booted()
+    {
+        parent::booted();
+        static::addGlobalScope(new ProductScope);
+    }
     public function scopeWithTrans($query)
     {
         return $query=Product::join('product_translations', 'product_translations.product_id', '=', 'products.id')
@@ -85,6 +91,24 @@ class Product extends Model
     {
         return $this->hasMany(ProductTranslation::class,'product_id');
     }
+    public function Store()
+    {
+        return $this->belongsToMany(
+            Store::class,
+            'stores_products',
+            'product_id',
+            'store_id',
+            'id',
+            'id')
+            ->withPivot(['price','quantity'])
+            ->withTimestamps();
+
+    }
+//    public function doctors()
+//    {
+//        return $this->hasManyThrough('App\Models\Doctor', 'App\Models\Hospital', 'country_id', 'hospital_id', 'id', 'id');
+//    }
+
 
 //    public function customfields()
 //    {

@@ -247,27 +247,24 @@ Route::group(
 
 
         /*_____________ Store routes_____________*/
-        // Route::group(['prefix'=>'stores'],function ()
-        //     {
-        //         Route::get('/stores','Store\StoreController@getAllStore');
-        //         Route::get('{id}','Store\StoreController@getStoreById');
-        //         Route::post('createNewStores', 'Store\StoreController@createNewStores');
-        //         Route::put('updateStore/{id}', 'Store\StoreController@updateStore');
-        //         Route::put('deleteStore/{id}', 'Store\StoreController@deleteStore');
-        //     });
+         Route::group(['prefix'=>'stores','namespace'=>'Store'],function ()
+            {
+                Route::GET('/getAll','StoreController@get');
+                Route::GET('/getById/{id}','StoreController@getById');
+                Route::POST('/create','StoreController@create');
+                Route::PUT('/update/{id}','StoreController@update');
+                Route::PUT('/trash/{id}','StoreController@trash');
+                Route::PUT('/restoreTrashed/{id}','StoreController@restoreTrashed');
+                Route::GET('/search/{name}','StoreController@search');
+                Route::GET('/getTrashed','StoreController@getTrashed');
+                Route::DELETE('/delete/{id}','StoreController@delete');
+
+                Route::POST('/insertProductToStore','StoresProductsController@insertProductToStore');
+                Route::GET('/viewStoresHasProduct/{id}','StoresProductsController@viewStoresHasProduct');
+
+            });
 
 
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -397,6 +394,7 @@ Route::group(['middleware'=>'api','prefix'=>'Hospital','namespace'=>'Hospital'],
     Route::GET('/doctor-work-in-this-hospital/{hospital_name}', 'HospitalController@doctors');
 });
 
+
 ///*---------------Clinic Route-------------*/
 Route::group(['middleware'=>'api','prefix'=>'clinic','namespace'=>'Clinic'],function () {
     Route::get('/get',          'ClinicController@get');
@@ -483,3 +481,38 @@ Route::group(['middleware'=>'api','prefix'=>'MedicalFile','namespace'=>'MedicalF
 });
 
 
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+/*_____________ Product routes _____________*/
+//Route::group(['middleware' =>'api','prefix'=>'products','namespace'=>'Product'],function(){
+//        Route::GET('/get','ProductsController@get');
+//        Route::GET('/getById/{id}','ProductsController@getById');
+//        Route::POST('/create','ProductsController@create');
+//        Route::PUT('/update/{id}','ProductsController@update');
+//        Route::GET('/search/{title}','ProductsController@search');
+//        Route::PUT('/trash/{id}','ProductsController@trash');
+//        Route::PUT('/restoreTrashed/{id}','ProductsController@restoreTrashed');
+//        Route::GET('/getTrashed','ProductsController@getTrashed');
+//        Route::DELETE('/delete/{id}','ProductsController@delete');
+//});
+//
+///*_____________Category routes_____________*/
+//Route::group(['middleware' =>'api','prefix'=>'categories','namespace'=>'Category'],function(){
+//        Route::GET('/get','CategoriesController@get');
+//        Route::GET('/getById/{id}','CategoriesController@getById');
+//        Route::POST('/create','CategoriesController@create');
+//        Route::PUT('/update','CategoriesController@update');
+//        Route::PUT('/trash/{id}','CategoriesController@trash');
+//        Route::PUT('/restoreTrashed/{id}','CategoriesController@restoreTrashed');
+//        Route::GET('/search/{name}','CategoriesController@search');
+//        Route::GET('/getTrashed','CategoriesController@getTrashed');
+//        Route::DELETE('/delete/{id}','CategoriesController@delete');
+//});
+//
+//
+//
+//
+//
+//
+//
