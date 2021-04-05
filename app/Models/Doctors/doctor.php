@@ -12,6 +12,7 @@ use App\Models\Specialty\Specialty;
 use App\Models\Customer\Customer;
 use App\Models\DoctorRate\DoctorRate;
 use App\Models\medicalDevice\medicalDevice;
+use App\Models\Appointment\Appointment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -78,6 +79,11 @@ class doctor extends Model
     public function customer()
     {
         return $this->hasMany(Customer::class);
+    }
+
+    public function appointment()
+    {
+        return $this->hasMany(Appointment::class);
     }
 
 }

@@ -3,7 +3,7 @@
 
 namespace App\Service\Customer;
 
-
+use Illuminate\Http\Request;
 use App\Http\Requests\Customer\CustomerRequest;
 use App\Models\Customer\CustomerTranslation;
 use App\Models\Customer\Customer;
@@ -43,6 +43,7 @@ class CustomerService
     public function create( CustomerRequest $request )
     {
         try {
+//        $validated =validator::make($request->all());
             $allcustomer = collect($request->customer)->all();
             DB::beginTransaction();
             $unTranscustomer_id = Customer::insertGetId([

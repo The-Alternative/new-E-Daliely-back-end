@@ -2,6 +2,7 @@
 
 namespace App\Models\Appointment;
 
+use App\Models\Doctors\doctor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,5 +18,10 @@ class Appointment extends Model
     public function ScopeIsActive($query)
     {
         return $query->where('is_active',1);
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(doctor::class);
     }
 }

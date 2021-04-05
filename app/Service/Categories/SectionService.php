@@ -18,52 +18,74 @@ class SectionService
     use GeneralTrait;
     private $SectionService;
     private $SectionModel;
+    private $SectionTranslation;
 
 
 
 
-    public function __construct(Section $sectionModel)
+    public function __construct(Section $sectionModel,SectionTranslation $sectionTranslation)
     {
         $this->SectionModel=$sectionModel;
+        $this->SectionTranslation=$sectionTranslation;
     }
 
     /****Get All Active category Or By ID  ****/
 
-    public function get()
+    public function getAll()
     {
-        $section = Section::withTrans()->get();
+        try{
+        $section = $this->SectionModel->get();
         return $response= $this->returnData('Section',$section,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
     public function getById($id )
     {
-        $section = Section::withTrans()->find($id);
+        try{
+        $section = $this->SectionModel->find($id);
         return $response= $this->returnData('Section',$section,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
         /****ــــــThis Functions For Trashed Sections  ****/
     /****Get All Trashed Sections Or By ID  ****/
 
     public function getTrashed()
     {
-        $section = Section::withTrans()->where('is_active',0)->get();
+        try{
+        $section = $this->SectionModel->where('is_active',0)->get();
           return $this -> returnData('Section',$section,'done');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
     /****Restore category Fore Active status  ****/
 
     public function restoreTrashed( $id)
     {
-        $section=Section::find($id);
+        try{
+        $section=$this->SectionModel->find($id);
         $section->is_active=true;
         $section->save();
             return $this->returnData('Section', $section,'This Section Is trashed Now');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
         /****   category's Soft Delete   ****/
 
     public function trash( $id)
     {
-        $section=Section::find($id);
+        try{
+        $section=$this->SectionModel->find($id);
         $section->is_active=false;
            $section->save();
             return $this->returnData('Section', $section,'This Section Is trashed Now');
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
 
     /*ــــــــــــــــــــــــ  ـــــــــــــــــــــــ*/
@@ -76,8 +98,7 @@ class SectionService
     /*___________________________________________________________________________*/
         public function create(Request $request)
         {
-            try
-            {
+            try{
 //                $validated = $request->validated();
                 $request->is_active?$is_active=true:$is_active=false;
 //                $request->is_appear?$is_appear=true:$is_appear=false;
@@ -93,7 +114,7 @@ class SectionService
                 //     }
                 DB::beginTransaction();
                 // //create the default language's product
-                $unTransSection_id=Section::insertGetId([
+                $unTransSection_id=$this->SectionModel->insertGetId([
 
                     'slug' => $request['slug'],
                     'image' => $request['image'],
@@ -113,7 +134,7 @@ class SectionService
                             'section_id' => $unTransSection_id
                         ];
                     }
-                    SectionTranslation::insert($transSection_arr);
+                    $this->SectionTranslation->insert($transSection_arr);
                 }
                 DB::commit();
                 return $this->returnData('category', [$unTransSection_id,$transSection_arr],'done');
@@ -133,7 +154,7 @@ class SectionService
     {
 //        $validated = $request->validated();
         try{
-            $section= Section::find($id);
+            $section= $this->SectionModel->find($id);
             if(!$section)
                 return $this->returnError('400', 'not found this Category');
            $allsections= collect($request->section)->all();
@@ -150,23 +171,26 @@ class SectionService
             //         ]);
             // }
 
-           $ncategory=Section::where('id',$id)->update([
+           $ncategory=$this->SectionModel->where('id',$id)->update([
                'slug' => $request['slug'],
                'image' => $request['image'],
                'is_active' => $request['is_active'],
                'categories_id' => $request['categories_id']
             ]);
-            $ss=SectionTranslation::where('section_id',$id);
+            $ss=$this->SectionTranslation->where('section_id',$id);
             $collection1 = collect($allsections);
             $allsectionslength=$collection1->count();
             $collection2 = collect($ss);
 
-              $db_section= array_values(SectionTranslation::where('section_id',$id)->get()->all());
+              $db_section= array_values($this->SectionTranslation->where('section_id',$id)->get()->all());
               $dbdsections = array_values($db_section);
               $request_sections = array_values($request->section);
                 foreach($dbdsections as $dbdsection){
                     foreach($request_sections as $request_section){
-                        $values= SectionTranslation::where('section_id',$id)->where('local',$request_section['local'])->update([
+                        $values= $this->SectionTranslation
+                            ->where('section_id',$id)
+                            ->where('local',$request_section['local'])
+                            ->update([
                             'name' => $request_section['name'],
                             'description' =>$request_section['description'],
                             'local' => $request_section['local'],
@@ -174,11 +198,12 @@ class SectionService
                         ]);
                     }
                 }
-            return $this->returnData('Category', $dbdsections,'done');
             DB::commit();
+            return $this->returnData('Category', $dbdsections,'done');
+
         }
         catch(\Exception $ex){
-            return $ex;
+            Db::rollBack();
             return $this->returnError('400', 'saving failed');
         }
     }
@@ -190,18 +215,21 @@ class SectionService
 
     public function search($name)
     {
+        try{
         $section = DB::table('sections')
                 ->where("name","like","%".$name."%")
                 ->get();
         if (!$section)
         {
             return $this->returnError('400', 'not found this Section');
-
         }
           else
             {
                 return $this->returnData('Category', $section,'done');
             }
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
     /*___________________________________________________________________________*/
 
@@ -209,12 +237,16 @@ class SectionService
 
     public function delete($id)
     {
-        $section=$this->Section::find($id);
+        try{
+        $section=$this->SectionModel->find($id);
         if ($section->is_active=0)
             {
-                $section=Section::destroy($id);
+                $section=$this->SectionModel->destroy($id);
                  return $this->returnData('Section', $section,'This Section Is deleted Now');
             }
+        }catch(\Exception $ex){
+            return $this->returnError('400','faild');
+        }
     }
 
 

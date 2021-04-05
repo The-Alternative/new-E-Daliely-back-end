@@ -2,6 +2,10 @@
 
 namespace App\Models\Stores;
 
+<<<<<<< HEAD
+=======
+use App\Models\Products\Product;
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -21,4 +25,13 @@ class StoreProduct extends Pivot
     protected $fillable = [
         'price','quantity'
     ];
+<<<<<<< HEAD
+=======
+    public function Store(){
+        return $this->belongsTo(Store::class);
+    }
+    public function Product(){
+        return $this->belongsTo(Product::class);
+    }
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
 }

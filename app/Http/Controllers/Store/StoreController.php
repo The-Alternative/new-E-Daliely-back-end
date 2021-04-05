@@ -9,6 +9,7 @@ use App\Http\Requests\Store\StoreRequest;
 use Illuminate\Http\Response;
 use App\Service\Stores\StoreService;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Models\Stores\Store;
 
 class StoreController extends Controller
@@ -76,6 +77,20 @@ class StoreController extends Controller
     */
     public function __construct(StoreService $StoreService,Response  $response)
     {
+=======
+use Illuminate\Http\Response;
+
+class StoreController extends Controller
+{
+    use GeneralTrait;
+    private $StoreService;
+    private $response;
+
+    /* ProductsController constructor.
+    */
+    public function __construct(StoreService $StoreService,Response  $response)
+    {
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
         $this->StoreService=$StoreService;
         $this->response=$response;
     }
@@ -112,11 +127,15 @@ class StoreController extends Controller
     public function update(Request $request,$id)
     {
         $response= $this->StoreService->update( $request,$id);
+<<<<<<< HEAD
 >>>>>>> 11ea1d59df9dda1b901b99c8a10d0b1f7196163d
+=======
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
         return response($response, 200)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     public function restoreTrashed($id)
@@ -127,6 +146,11 @@ class StoreController extends Controller
     {
         $response= $this->StoreService->search($name);
 >>>>>>> 11ea1d59df9dda1b901b99c8a10d0b1f7196163d
+=======
+    public function search($name)
+    {
+        $response= $this->StoreService->search($name);
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
         return response($response, 200)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
@@ -139,11 +163,14 @@ class StoreController extends Controller
             ->header('Access-Control-Allow-Methods', '*');
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     public function search($title)
     {
         $response= $this->StoreService->search($title);
 =======
+=======
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
     public function restoreTrashed($id)
     {
         $response= $this->StoreService->restoreTrashed($id);
@@ -154,14 +181,20 @@ class StoreController extends Controller
     public function delete($id)
     {
         $response= $this->StoreService->delete($id);
+<<<<<<< HEAD
 >>>>>>> 11ea1d59df9dda1b901b99c8a10d0b1f7196163d
+=======
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
         return response($response, 200)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 11ea1d59df9dda1b901b99c8a10d0b1f7196163d
+=======
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
 
 }

@@ -22,64 +22,50 @@ class ProductsController extends Controller
         $this->ProductService=$ProductService;
         $this->response=$response;
     }
-        public function get()
+        public function getAll()
         {
-         $response= $this->ProductService->get();
-         return $response;
+         $response= $this->ProductService->getAll();
+            return response($response, 200);
         }
-        public function getById($id )
+        public function getById($id)
         {
          $response= $this->ProductService->getById($id);
-         return $response;
+            return response($response, 200);
         }
         public function getTrashed()
         {
          $response= $this->ProductService->getTrashed();
-         return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+         return response($response, 200);
         }
         public function create(ProductRequest $request)
         {
             $response= $this->ProductService->create($request);
-            return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+            return response($response, 200);
         }
         public function update(ProductRequest $request,$pro_id)
         {
             $response= $this->ProductService->update($request,$pro_id);
-            return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+            return response($response, 200);
         }
         public function search($title)
         {
             $response= $this->ProductService->search($title);
-            return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+            return response($response, 200);
         }
         public function trash($id)
         {
             $response= $this->ProductService->trash($id);
-            return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+            return response($response, 200);
         }
         public function restoreTrashed($id)
         {
             $response= $this->ProductService->restoreTrashed($id);
-            return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+            return response($response, 200);
         }
         public function delete($id)
         {
             $response= $this->ProductService->delete($id);
-            return response($response, 200)
-                     ->header('Access-Control-Allow-Origin', '*')
-                     ->header('Access-Control-Allow-Methods', '*');
+            return response($response, 200);
         }
 
 }

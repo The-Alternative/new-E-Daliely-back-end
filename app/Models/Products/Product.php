@@ -4,6 +4,10 @@ namespace App\Models\Products;
 
 use App\Models\Products\ProductTranslation;
 use App\Models\Stores\Store;
+<<<<<<< HEAD
+=======
+use App\Models\Stores\StoreProduct;
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
 use App\Scopes\ProductScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +31,8 @@ class Product extends Model
         'created_at', 'updated_at'
     ];
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'is_appear'=>'boolean'
     ];
 
     //________________ scopes begin _________________//
@@ -36,28 +41,11 @@ class Product extends Model
      * @param $query
      * @return
      */
-    public function scopeSelection($query)
-    {
-        return $query->select('trans_lang','trans_of','title',
-        'slug','brand_id','barcode','image',
-        'meta','is_active',
-        'is_appear','short_des','description');
-    }
-    public function scopeSelectionUpdate($query)
-    {
-        return $query->select('trans_lang','trans_of','title',
-        'slug','brand_id','barcode','image',
-        'meta','is_active',
-        'is_appear','short_des','description');
-    }
-
-
     public function scopeSelectActiveValue($query)
     {
-        return $query->select('trans_lang','trans_of','title',
-        'slug','brand_id','barcode','image',
-        'meta','is_active',
-        'is_appear','short_des','description')
+        return $query->select(
+            'title', 'slug','brand_id','barcode','image',
+            'meta','is_active', 'is_appear','short_des','description')
         ->where('is_active',1)
         ->get();
     }
@@ -69,9 +57,11 @@ class Product extends Model
     {
        return $value==1 ? 'Active' : 'Not Active';
     }
-    public function scopeDefaultProduct($query){
-        return  $query->where('trans_of',0);
+    public function getIsAppearAttribute($value)
+    {
+        return $value==1 ? 'Appear' : 'Not Appear';
     }
+<<<<<<< HEAD
 
     protected static function booted()
     {
@@ -79,14 +69,21 @@ class Product extends Model
         static::addGlobalScope(new ProductScope);
     }
     public function scopeWithTrans($query)
+=======
+    protected static function booted()
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
     {
-        return $query=Product::join('product_translations', 'product_translations.product_id', '=', 'products.id')
-            ->where('product_translations.locale','=',get_current_local())
-            ->select('products.*','product_translations.*');
+        parent::booted();
+        static::addGlobalScope(new ProductScope);
     }
+//    public function scopeWithTrans($query)
+//    {
+//        return $query=Product::join('product_translations', 'product_translations.product_id', '=', 'products.id')
+//            ->where('product_translations.locale','=',get_current_local())
+//            ->select('products.*','product_translations.*')->get();
+//    }
 
-
-    //________________ scopes end _________________//
+    //______________________________ scopes end _____________________________//
     public function ProductTranslation()
     {
         return $this->hasMany(ProductTranslation::class,'product_id');
@@ -104,6 +101,12 @@ class Product extends Model
             ->withTimestamps();
 
     }
+<<<<<<< HEAD
+=======
+//    public function StoreProduct(){
+//        return $this->belongsTo(StoreProduct::class,'product_id');
+//    }
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
 //    public function doctors()
 //    {
 //        return $this->hasManyThrough('App\Models\Doctor', 'App\Models\Hospital', 'country_id', 'hospital_id', 'id', 'id');

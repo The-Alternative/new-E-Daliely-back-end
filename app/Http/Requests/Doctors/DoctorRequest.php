@@ -26,19 +26,24 @@ class DoctorRequest extends FormRequest
      */
     public function rules()
     {
-//        return [
+        return [
+            'is_active'=>'required',
+            'doctor'=>'required|array|min:1',
+            'doctor.*.first_name'=>'required|min:3',
+            'doctor.*.last_name'=>'required',
+            'doctor.*.address'=>'required',
 //                'doctor'=>'required|array',
 //                'doctor.*'=>'required|min:5',
 //                'doctor.first_name' =>'required|min:3|max:255|regex:/^([a-zA-Z]+)/|unique:doctor_translation,first_name',
 //                'doctor.last_name' =>'required|min:3|max:255|regex:/^([a-zA-Z]+)/|unique:doctor_translation,last_name',
 //                'doctor.description' =>'required|min:10|max:255:doctor_translation',
 //                'doctor.image' => 'required:doctors',
-//            ];
+            ];
 //
 
     }
-    public function messages()
-    {
+//    public function messages()
+//    {
 //        return [
 //            'first_name.required' => 'Please Enter Your Doctor\'s First Name',
 //            'first_name.min' => 'Your Doctor\'s First Name Is Too Short',
@@ -56,5 +61,5 @@ class DoctorRequest extends FormRequest
 
 //            'image.required' => 'Please Enter Your Doctor\'s Image',
 //        ];
-    }
+//    }
 }

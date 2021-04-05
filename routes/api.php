@@ -181,7 +181,7 @@ Route::group(
         /*_____________ Product routes _____________*/
         Route::group(['prefix'=>'products','namespace'=>'Product'],function()
             {
-                Route::GET('/getAll','ProductsController@get');
+                Route::GET('/getAll','ProductsController@getAll');
                 Route::GET('/getById/{id}','ProductsController@getById');
                 Route::POST('/create','ProductsController@create');
                 Route::PUT('/update/{id}','ProductsController@update');
@@ -196,7 +196,7 @@ Route::group(
         /*_____________Category routes_____________*/
         Route::group(['prefix'=>'categories','namespace'=>'Category'],function()
             {
-                Route::GET('/getAll','CategoriesController@get');
+                Route::GET('/getAll','CategoriesController@getAll');
                 Route::GET('/getById/{id}','CategoriesController@getById');
                 Route::POST('/create','CategoriesController@create');
                 Route::PUT('/update/{id}','CategoriesController@update');
@@ -210,7 +210,7 @@ Route::group(
         /*_____________ Section routes_____________*/
         Route::group(['prefix'=>'sections','namespace'=>'Category'],function()
         {
-            Route::GET('/getAll','SectionsController@get');
+            Route::GET('/getAll','SectionsController@getAll');
             Route::GET('/getById/{id}','SectionsController@getById');
             Route::POST('/create','SectionsController@create');
             Route::PUT('/update/{id}','SectionsController@update');
@@ -234,7 +234,7 @@ Route::group(
         /*_____________ Language routes_____________*/
 
         Route::group(['prefix'=>'languages','namespace'=>'Language'],function(){
-            Route::POST('/getAll','LanguageController@get');
+            Route::POST('/getAll','LanguageController@getAll');
             Route::POST('/getById/{id}','LanguageController@getById');
             Route::POST('/create','LanguageController@create');
             Route::post('/update/{id}','LanguageController@update');
@@ -249,7 +249,11 @@ Route::group(
         /*_____________ Store routes_____________*/
          Route::group(['prefix'=>'stores','namespace'=>'Store'],function ()
             {
+
                 Route::GET('/getAll','StoreController@get');
+
+                Route::GET('/getAll','StoreController@getAll');
+
                 Route::GET('/getById/{id}','StoreController@getById');
                 Route::POST('/create','StoreController@create');
                 Route::PUT('/update/{id}','StoreController@update');
@@ -260,7 +264,17 @@ Route::group(
                 Route::DELETE('/delete/{id}','StoreController@delete');
 
                 Route::POST('/insertProductToStore','StoresProductsController@insertProductToStore');
+
                 Route::GET('/viewStoresHasProduct/{id}','StoresProductsController@viewStoresHasProduct');
+
+
+
+                Route::PUT('/updateProductInStore/{id}','StoresProductsController@updateProductInStore');
+                Route::PUT('/hiddenProductByQuantity/{id}','StoresProductsController@hiddenProductByQuantity');
+                Route::GET('/viewStoresHasProduct/{id}','StoresProductsController@viewStoresHasProduct');
+                Route::GET('/viewProductsInStore/{id}','StoresProductsController@viewProductsInStore');
+                Route::GET('/rangeOfPrice/{id}','StoresProductsController@rangeOfPrice');
+
 
             });
 
@@ -351,6 +365,8 @@ Route::group(['middleware'=>'api','prefix'=>'doctor','namespace'=>'Doctors'],fun
     Route::GET('/doctor-medical-device/{doctor_name}', 'DoctorController@doctormedicaldevice');
     Route::GET('/doctor-details/{doctor_name}', 'DoctorController@getalldetails');
     Route::GET('/hospital-doctor/{doctor_name}', 'DoctorController@hospital');
+    Route::GET('/appointment-doctor/{doctor_name}', 'DoctorController@appointment');
+
 
 });
 /*---------------Doctor Rate Route--------*/
@@ -421,6 +437,7 @@ Route::group(['middleware'=>'api','prefix'=>'clinic','namespace'=>'Clinic'],func
 //    });
 
 
+
 ///*---------------Medical Device Route-------------*/
 Route::group(['middleware'=>'api','prefix'=>'MedicalDevice','namespace'=>'MedicalDevice'],function () {
     Route::get('/get', 'MedicalDeviceController@get');
@@ -479,7 +496,6 @@ Route::group(['middleware'=>'api','prefix'=>'MedicalFile','namespace'=>'MedicalF
     Route::delete('/delete/{id}', 'MedicalFileController@delete');
     Route::PUT('/restoreTrashed/{id}', 'MedicalFileController@restoreTrashed');
 });
-
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();

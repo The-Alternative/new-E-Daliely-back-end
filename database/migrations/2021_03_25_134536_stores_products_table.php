@@ -15,10 +15,18 @@ class StoresProductsTable extends Migration
     {
         Schema::create('stores_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('store_id');
-            $table->unsignedInteger('product_id');
+
+           // $table->unsignedInteger('store_id');
+          //  $table->unsignedInteger('product_id');
+//            $table->unsignedInteger('price');
+//            $table->unsignedInteger('quantity');
+
+            $table->unsignedInteger('store_id')->index();
+            $table->unsignedInteger('product_id')->index();
             $table->unsignedInteger('price');
             $table->unsignedInteger('quantity');
+            $table->boolean('is_active');
+            $table->boolean('is_appear');
             $table->timestamps();
         });
     }

@@ -50,8 +50,9 @@ class LanguageController extends Controller
         $this->response=$response;
     }
 
-    public function get()
+    public function getAll()
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -130,6 +131,9 @@ class LanguageController extends Controller
         $response= $this->LanguagesService->search($title);
 =======
         $response= $this->LanguagesService->get();
+=======
+        $response= $this->LanguagesService->getAll();
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
         return $response;
     }
     public function getById($id )
@@ -140,34 +144,27 @@ class LanguageController extends Controller
     public function getTrashed()
     {
         $response= $this->LanguagesService->getTrashed();
-        return response($response, 200)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', '*');
+        return response($response, 200);
     }
     public function create(LanguageRequest $request)
     {
         $response= $this->LanguagesService->create($request);
-        return response($response, 200)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', '*');
+        return response($response, 200);
     }
     public function update(LanguageRequest $request,$id)
     {
         $response= $this->LanguagesService->update($request,$id);
-        return response($response, 200)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', '*');
+        return response($response, 200);
     }
     public function search($title)
     {
         $response= $this->LanguagesService->search($title);
-        return response($response, 200)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', '*');
+        return response($response, 200);
     }
     public function trash($id)
     {
         $response= $this->LanguagesService->trash($id);
+<<<<<<< HEAD
 >>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
 =======
         $response= $this->LanguagesService->get();
@@ -213,6 +210,9 @@ class LanguageController extends Controller
         return response($response, 200)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
+=======
+        return response($response, 200);
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -224,6 +224,7 @@ class LanguageController extends Controller
     public function restoreTrashed($id)
     {
         $response= $this->LanguagesService->restoreTrashed($id);
+<<<<<<< HEAD
 >>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
 =======
     public function restoreTrashed($id)
@@ -233,6 +234,9 @@ class LanguageController extends Controller
         return response($response, 200)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
+=======
+        return response($response, 200);
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -249,10 +253,14 @@ class LanguageController extends Controller
     public function delete($id)
     {
         $response= $this->LanguagesService->delete($id);
+<<<<<<< HEAD
 >>>>>>> bddb17837c6643f5ec654d88e6b30e45f2cb5c7f
         return response($response, 200)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', '*');
+=======
+        return response($response, 200);
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
     }
 
 <<<<<<< HEAD

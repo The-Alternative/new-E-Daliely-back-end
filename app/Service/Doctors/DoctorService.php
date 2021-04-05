@@ -200,6 +200,15 @@ class DoctorService
             ->get();
     }
 
+    //get doctor's appopintment
+
+
+    public function appointment($doctor_name)
+    {
+        return doctor::with('appointment')
+            ->where("name","like","%".$doctor_name."%")
+            ->get();
+    }
     //get all doctor's details by doctor's name
     public function getalldetails($doctor_name)
     {

@@ -17,8 +17,7 @@ class CreateCategoryTranslationsTable extends Migration
             $table->bigIncrements('id'); // Laravel 5.8+ use bigIncrements() instead of increments()
 //            $table->foreignId('categories_id');
             $table->string('name')->index();
-            $table->string('slug')->index();
-            $table->string('locale')->index();
+            $table->string('local')->index();
 //            $table->unsignedInteger('language_id')->index();
 
             // Foreign key to the main model

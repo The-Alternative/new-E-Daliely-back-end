@@ -124,4 +124,11 @@ class DoctorController extends Controller
 
 
 
+    public function appointment($doctor_name)
+    {
+        $response=$this->DoctorService->appointment($doctor_name);
+        return  response($response,200)
+            ->header('Access-control-Allow-Origin','*')
+            ->header('Access-control-Allow-Methods','*');
+    }
 }

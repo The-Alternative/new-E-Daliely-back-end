@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryTranslation extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'slug','locale','language_id','category_id'];
+    protected $fillable = ['name','local','language_id','category_id'];
     public $timestamps = false;
 
     /////////////////Begin relation here/////////////////////

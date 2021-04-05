@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Brand;
 
 use App\Models\Brands\brands;
@@ -15,13 +14,18 @@ class BrandController extends Controller
 {
     use GeneralTrait;
     private $BrandsService;
+<<<<<<< HEAD
     private $response;
 
     public function __construct(BrandsService $BrandsService,Response $response )
+=======
+    public function __construct(BrandsService $BrandsService)
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
     {
         $this->BrandsService=$BrandsService;
         $this->response=$response;
     }
+<<<<<<< HEAD
 
     public function get()
     {
@@ -89,5 +93,31 @@ class BrandController extends Controller
         return  response($response,200)
             ->header('Access-control-Allow-Origin','*')
             ->header('Access-control-Allow-Methods','*');
+=======
+    public function getAllBrands()
+    {
+        $response=$this->BrandsService->getAllBrands();
+        return  response($response,200);
+    }
+    public function  getBrandsById($id)
+    {
+        $response=$this->BrandsService->getBrandsById($id);
+        return  response($response,200);
+    }
+    public function createNewBrands(Request $request)
+    {
+        $response=$this->BrandsService->createNewBrands($request);
+        return  response($response,200);
+    }
+    public function updateBrand(Request $request,$id)
+    {
+        $response=$this->BrandsService->updateBrand($request,$id);
+        return  response($response,200);
+    }
+    public function deleteBrand(Request $request ,$id)
+    {
+        $response=$this->BrandsService->deleteBrand($request,$id);
+        return  response($response,200);
+>>>>>>> 4f040a2d1fa709b991ab336f8922d6a88477b036
     }
 }
