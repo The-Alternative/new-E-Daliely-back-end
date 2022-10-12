@@ -455,7 +455,4 @@ public function version()
 {
 	return 1.0;
 }
-public function SysName()
-{
-	return badaelonline;
-}
+
