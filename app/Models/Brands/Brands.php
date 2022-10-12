@@ -11,7 +11,7 @@ class Brands extends Model
 {
     use HasFactory;
 
-//    protected $table='brands';
+    protected $table='brands';
 
     protected $fillable=['id','name','slug','description','image','is_active'];
 

@@ -450,3 +450,8 @@ trait GeneralTrait
 
 // 		return $request;
 // 	}
+
+public function version()
+{
+	return 1.0;
+}
